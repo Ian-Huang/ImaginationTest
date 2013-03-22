@@ -1,35 +1,40 @@
 package com.example.imaginationtest;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
 import android.widget.ImageButton;
-import android.widget.Toast;
 
 public class HomePageActivity extends Activity {
+
+	private ImageButton imageButton;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.home_page);
+
+		
+		// Image button 功能
+		this.imageButton = (ImageButton) findViewById(R.id.HomePage_ImageButton);
+		this.imageButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent();
+				intent.setClass(HomePageActivity.this, PersonalInformationPageActivity.class);
+				startActivity(intent);
+				finish();
+			}
+		});
+
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.home_page, menu);
-		
-		//image button 功能
-		ImageButton imageButton = (ImageButton) findViewById(R.id.imageButton1);
-		imageButton.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-
-			}
-		});
 		return true;
-
 	}
-
 }

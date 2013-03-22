@@ -9,9 +9,9 @@
     tools:context=".HomePageActivity" >
 
     <ImageButton
-        android:id="@+id/imageButton1"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:src="@drawable/homepage_picture" />
+        android:id="@+id/HomePage_ImageButton"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/homepage_picture"/>
 
 </LinearLayout>
