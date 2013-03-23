@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -47,7 +48,12 @@ public class Activity1IntroductionPage extends Activity {
 		// Button觸發後的設定
 		DialogInterface.OnClickListener OkClick = new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int which) {
-				// 確定觸發後... (下一頁未完成)
+				// 確定觸發後...
+				Intent intent = new Intent();
+				intent.setClass(Activity1IntroductionPage.this,
+						Activity1Page.class);
+				startActivity(intent);
+				finish();
 			}
 		};
 		DialogInterface.OnClickListener CancelClick = new DialogInterface.OnClickListener() {

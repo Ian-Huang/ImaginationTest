@@ -110,7 +110,7 @@ public class PersonalInformationPage extends Activity {
 				intent.setClass(PersonalInformationPage.this,
 						Activity1IntroductionPage.class);
 				startActivity(intent);
-				// finish();
+				finish();
 			}
 		};
 		DialogInterface.OnClickListener CancelClick = new DialogInterface.OnClickListener() {
