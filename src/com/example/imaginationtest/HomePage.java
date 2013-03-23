@@ -7,7 +7,7 @@ import android.view.Menu;
 import android.view.View;
 import android.widget.ImageButton;
 
-public class HomePageActivity extends Activity {
+public class HomePage extends Activity {
 
 	private ImageButton imageButton;
 
@@ -16,14 +16,13 @@ public class HomePageActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.home_page);
 
-		
 		// Image button е\пр
 		this.imageButton = (ImageButton) findViewById(R.id.HomePage_ImageButton);
 		this.imageButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				Intent intent = new Intent();
-				intent.setClass(HomePageActivity.this, PersonalInformationPageActivity.class);
+				intent.setClass(HomePage.this, PersonalInformationPage.class);
 				startActivity(intent);
 				finish();
 			}

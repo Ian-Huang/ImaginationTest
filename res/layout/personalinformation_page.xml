@@ -53,13 +53,11 @@
             android:orientation="horizontal" >
 
             <RadioButton
-                android:id="@+id/radioButton_man"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:text="男" />
 
             <RadioButton
-                android:id="@+id/radioButton_woman"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:text="女" />
@@ -133,17 +131,19 @@
         android:orientation="horizontal" >
 
         <Button
-            android:id="@+id/Birthday_button"
+            android:id="@+id/SetBirthday_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="設定出生日期：" />
 
         <TextView
+            android:id="@+id/Birthday_testView"
             android:layout_width="wrap_content"
             android:layout_height="37dp"
             android:layout_gravity="bottom"
             android:textSize="@dimen/font_size" />
+
     </LinearLayout>
 
     <LinearLayout
@@ -169,5 +169,11 @@
             android:layout_gravity="bottom"
             android:textSize="@dimen/font_size" />
     </LinearLayout>
+
+    <Button
+        android:id="@+id/StartTest_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="開始測驗" />
 
 </LinearLayout>
