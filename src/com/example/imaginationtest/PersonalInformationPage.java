@@ -41,7 +41,7 @@ public class PersonalInformationPage extends Activity {
 		this.Init();
 	}
 
-	// åˆå§‹åŒ–è¨­å®š
+	// ªì©l¤Æ³]©w
 	void Init() {
 		this.calendar = Calendar.getInstance();
 
@@ -57,7 +57,7 @@ public class PersonalInformationPage extends Activity {
 		this.schoolNameEditText = (EditText) findViewById(R.id.SchoolName_editText);
 		this.gradeYearEditText = (EditText) findViewById(R.id.GradeYear_editText);
 
-		// è¨­å®šæ¸¬é©—æ—¥æœŸ
+		// ³]©w´úÅç¤é´Á
 		this.testDayTextView.setText(Integer.toString(calendar
 				.get(Calendar.YEAR))
 				+ "-"
@@ -65,7 +65,7 @@ public class PersonalInformationPage extends Activity {
 				+ "-"
 				+ Integer.toString(calendar.get(Calendar.DAY_OF_MONTH)));
 
-		// è¨­å®š"ç”Ÿæ—¥"Button Listener
+		// ³]©w"¥Í¤é"Button Listener
 		this.setBirthdayButton.setOnClickListener(new Button.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -86,7 +86,7 @@ public class PersonalInformationPage extends Activity {
 			}
 		});
 
-		// è¨­å®š"é–‹å§‹æ¸¬é©—"Button Listener
+		// ³]©w"¶}©l´úÅç"Button Listener
 		this.startTestButton.setOnClickListener(new Button.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -95,17 +95,17 @@ public class PersonalInformationPage extends Activity {
 		});
 	}
 
-	// å½ˆå‡ºè¨­çª—è¨­å®š:æç¤ºè³‡æ–™æ˜¯å¦è¼¸å…¥å®Œæ•´
+	// ¼u¥X³]µ¡³]©w:´£¥Ü¸ê®Æ¬O§_¿é¤J§¹¾ã
 	private void ShowMsgDialog() {
 		Builder MyAlertDialog = new AlertDialog.Builder(this);
 
-		// è¨­å®šå°è©±æ¡†æ¨™é¡Œ
-		MyAlertDialog.setTitle("å¡«å¯«å€‹äººè³‡æ–™");
+		// ³]©w¹ï¸Ü®Ø¼ĞÃD
+		MyAlertDialog.setTitle("¶ñ¼g­Ó¤H¸ê®Æ");
 
-		// Buttonè§¸ç™¼å¾Œçš„è¨­å®š
+		// ButtonÄ²µo«áªº³]©w
 		DialogInterface.OnClickListener OkClick = new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int which) {
-				// ç¢ºå®šè§¸ç™¼å¾Œ...
+				// ½T©wÄ²µo«á...
 				Intent intent = new Intent();
 				intent.setClass(PersonalInformationPage.this,
 						Activity1IntroductionPage.class);
@@ -115,18 +115,18 @@ public class PersonalInformationPage extends Activity {
 		};
 		DialogInterface.OnClickListener CancelClick = new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int which) {
-				// é—œé–‰å°è©±æ–¹å¡Š
+				// Ãö³¬¹ï¸Ü¤è¶ô
 			}
 		};
 
-		// æª¢æŸ¥è³‡æ–™æ˜¯å¦é½Šå…¨
+		// ÀË¬d¸ê®Æ¬O§_»ô¥ş
 		if (this.CheckInformationComplete()) {
-			MyAlertDialog.setMessage("ç¢ºå®šè¦ä¸‹ä¸€é ï¼Ÿ");
-			MyAlertDialog.setPositiveButton("ç¢ºå®š", OkClick);
-			MyAlertDialog.setNegativeButton("å–æ¶ˆ", CancelClick);
+			MyAlertDialog.setMessage("½T©w­n¤U¤@­¶¡H");
+			MyAlertDialog.setPositiveButton("½T©w", OkClick);
+			MyAlertDialog.setNegativeButton("¨ú®ø", CancelClick);
 		} else {
-			MyAlertDialog.setMessage("æœªå¡«å¯«å®Œæˆ");
-			MyAlertDialog.setNeutralButton("ç¢ºå®š", CancelClick);
+			MyAlertDialog.setMessage("¥¼¶ñ¼g§¹¦¨");
+			MyAlertDialog.setNeutralButton("½T©w", CancelClick);
 		}
 
 		MyAlertDialog.show();
