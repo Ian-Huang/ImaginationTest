@@ -38,12 +38,12 @@ public class Activity1Page extends Activity {
 	void Init() {
 		// 讀所有answer的EditText ID
 		for (int i = 0; i < answerEditText_Collection.length; i++) {
-			this.answerEditText_Collection[i] = (EditText) findViewById(R.id.answer_EditText01
+			this.answerEditText_Collection[i] = (EditText) findViewById(R.id.Act1answer_EditText01
 					+ i);
 		}
 		// -----------------------------------
-		this.timerTextView = (TextView) findViewById(R.id.Timer_textView);
-		this.nextActButton = (Button) findViewById(R.id.act1_NextActivityButton);
+		this.timerTextView = (TextView) findViewById(R.id.Act1Timer_textView);
+		this.nextActButton = (Button) findViewById(R.id.Act1_NextActivityButton);
 
 		// 設定"下一步"Button Listener
 		this.nextActButton.setOnClickListener(new Button.OnClickListener() {

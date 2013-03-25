@@ -11,7 +11,7 @@
         android:layout_height="wrap_content" >
 
         <TextView
-            android:id="@+id/Act1Timer_textView"
+            android:id="@+id/Act2Timer_textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -21,7 +21,7 @@
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <Button
-            android:id="@+id/Act1_NextActivityButton"
+            android:id="@+id/Act2_NextActivityButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right"
@@ -32,7 +32,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="活動一"
+        android:text="活動二"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <TextView
@@ -67,7 +67,7 @@
                     android:text="01." />
 
                 <EditText
-                    android:id="@+id/Act1answer_EditText01"
+                    android:id="@+id/Act2answer_EditText01"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="5dp"
@@ -89,7 +89,7 @@
                     android:text="02." />
 
                 <EditText
-                    android:id="@+id/Act1answer_EditText02"
+                    android:id="@+id/Act2answer_EditText02"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="5dp"
@@ -111,7 +111,7 @@
                     android:text="03." />
 
                 <EditText
-                    android:id="@+id/Act1answer_EditText03"
+                    android:id="@+id/Act2answer_EditText03"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="5dp"
@@ -133,7 +133,7 @@
                     android:text="04." />
 
                 <EditText
-                    android:id="@+id/Act1answer_EditText04"
+                    android:id="@+id/Act2answer_EditText04"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="5dp"
@@ -155,7 +155,7 @@
                     android:text="05." />
 
                 <EditText
-                    android:id="@+id/Act1answer_EditText05"
+                    android:id="@+id/Act2answer_EditText05"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="5dp"
@@ -177,7 +177,7 @@
                     android:text="06." />
 
                 <EditText
-                    android:id="@+id/Act1answer_EditText06"
+                    android:id="@+id/Act2answer_EditText06"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="5dp"
@@ -199,7 +199,7 @@
                     android:text="07." />
 
                 <EditText
-                    android:id="@+id/Act1answer_EditText07"
+                    android:id="@+id/Act2answer_EditText07"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="5dp"
@@ -221,7 +221,7 @@
                     android:text="08." />
 
                 <EditText
-                    android:id="@+id/Act1answer_EditText08"
+                    android:id="@+id/Act2answer_EditText08"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="5dp"
@@ -243,7 +243,7 @@
                     android:text="09." />
 
                 <EditText
-                    android:id="@+id/Act1answer_EditText09"
+                    android:id="@+id/Act2answer_EditText09"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="5dp"
@@ -265,7 +265,7 @@
                     android:text="10." />
 
                 <EditText
-                    android:id="@+id/Act1answer_EditText10"
+                    android:id="@+id/Act2answer_EditText10"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="5dp"
@@ -287,7 +287,7 @@
                     android:text="11." />
 
                 <EditText
-                    android:id="@+id/Act1answer_EditText11"
+                    android:id="@+id/Act2answer_EditText11"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="5dp"
@@ -309,7 +309,7 @@
                     android:text="12." />
 
                 <EditText
-                    android:id="@+id/Act1answer_EditText12"
+                    android:id="@+id/Act2answer_EditText12"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="5dp"
@@ -331,7 +331,7 @@
                     android:text="13." />
 
                 <EditText
-                    android:id="@+id/Act1answer_EditText13"
+                    android:id="@+id/Act2answer_EditText13"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="5dp"
@@ -353,7 +353,7 @@
                     android:text="14." />
 
                 <EditText
-                    android:id="@+id/Act1answer_EditText14"
+                    android:id="@+id/Act2answer_EditText14"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="5dp"
@@ -375,7 +375,7 @@
                     android:text="15." />
 
                 <EditText
-                    android:id="@+id/Act1answer_EditText15"
+                    android:id="@+id/Act2answer_EditText15"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="5dp"
@@ -397,7 +397,7 @@
                     android:text="16." />
 
                 <EditText
-                    android:id="@+id/Act1answer_EditText16"
+                    android:id="@+id/Act2answer_EditText16"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="5dp"
@@ -419,7 +419,7 @@
                     android:text="17." />
 
                 <EditText
-                    android:id="@+id/Act1answer_EditText17"
+                    android:id="@+id/Act2answer_EditText17"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="5dp"
@@ -441,7 +441,7 @@
                     android:text="18." />
 
                 <EditText
-                    android:id="@+id/Act1answer_EditText18"
+                    android:id="@+id/Act2answer_EditText18"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="5dp"
@@ -463,7 +463,7 @@
                     android:text="19." />
 
                 <EditText
-                    android:id="@+id/Act1answer_EditText19"
+                    android:id="@+id/Act2answer_EditText19"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="5dp"
@@ -485,7 +485,7 @@
                     android:text="20." />
 
                 <EditText
-                    android:id="@+id/Act1answer_EditText20"
+                    android:id="@+id/Act2answer_EditText20"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="5dp"
@@ -507,7 +507,7 @@
                     android:text="21." />
 
                 <EditText
-                    android:id="@+id/Act1answer_EditText21"
+                    android:id="@+id/Act2answer_EditText21"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="5dp"
@@ -529,7 +529,7 @@
                     android:text="22." />
 
                 <EditText
-                    android:id="@+id/Act1answer_EditText22"
+                    android:id="@+id/Act2answer_EditText22"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="5dp"
@@ -551,7 +551,7 @@
                     android:text="23." />
 
                 <EditText
-                    android:id="@+id/Act1answer_EditText23"
+                    android:id="@+id/Act2answer_EditText23"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="5dp"
@@ -573,7 +573,7 @@
                     android:text="24." />
 
                 <EditText
-                    android:id="@+id/Act1answer_EditText24"
+                    android:id="@+id/Act2answer_EditText24"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="5dp"
@@ -595,7 +595,7 @@
                     android:text="25." />
 
                 <EditText
-                    android:id="@+id/Act1answer_EditText25"
+                    android:id="@+id/Act2answer_EditText25"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="5dp"
@@ -617,7 +617,7 @@
                     android:text="26." />
 
                 <EditText
-                    android:id="@+id/Act1answer_EditText26"
+                    android:id="@+id/Act2answer_EditText26"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="5dp"
@@ -639,7 +639,7 @@
                     android:text="27." />
 
                 <EditText
-                    android:id="@+id/Act1answer_EditText27"
+                    android:id="@+id/Act2answer_EditText27"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="5dp"
@@ -661,7 +661,7 @@
                     android:text="28." />
 
                 <EditText
-                    android:id="@+id/Act1answer_EditText28"
+                    android:id="@+id/Act2answer_EditText28"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="5dp"
@@ -683,7 +683,7 @@
                     android:text="29." />
 
                 <EditText
-                    android:id="@+id/Act1answer_EditText29"
+                    android:id="@+id/Act2answer_EditText29"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="5dp"
@@ -705,7 +705,7 @@
                     android:text="30." />
 
                 <EditText
-                    android:id="@+id/Act1answer_EditText30"
+                    android:id="@+id/Act2answer_EditText30"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="5dp"
@@ -727,7 +727,7 @@
                     android:text="31." />
 
                 <EditText
-                    android:id="@+id/Act1answer_EditText31"
+                    android:id="@+id/Act2answer_EditText31"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="5dp"
@@ -749,7 +749,7 @@
                     android:text="32." />
 
                 <EditText
-                    android:id="@+id/Act1answer_EditText32"
+                    android:id="@+id/Act2answer_EditText32"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="5dp"
@@ -771,7 +771,7 @@
                     android:text="33." />
 
                 <EditText
-                    android:id="@+id/Act1answer_EditText33"
+                    android:id="@+id/Act2answer_EditText33"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="5dp"
@@ -793,7 +793,7 @@
                     android:text="34." />
 
                 <EditText
-                    android:id="@+id/Act1answer_EditText34"
+                    android:id="@+id/Act2answer_EditText34"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="5dp"
@@ -815,7 +815,7 @@
                     android:text="35." />
 
                 <EditText
-                    android:id="@+id/Act1answer_EditText35"
+                    android:id="@+id/Act2answer_EditText35"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="5dp"
@@ -837,7 +837,7 @@
                     android:text="36." />
 
                 <EditText
-                    android:id="@+id/Act1answer_EditText36"
+                    android:id="@+id/Act2answer_EditText36"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="5dp"
@@ -859,7 +859,7 @@
                     android:text="37." />
 
                 <EditText
-                    android:id="@+id/Act1answer_EditText37"
+                    android:id="@+id/Act2answer_EditText37"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="5dp"
@@ -881,7 +881,7 @@
                     android:text="38." />
 
                 <EditText
-                    android:id="@+id/Act1answer_EditText38"
+                    android:id="@+id/Act2answer_EditText38"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="5dp"
@@ -903,7 +903,7 @@
                     android:text="39." />
 
                 <EditText
-                    android:id="@+id/Act1answer_EditText39"
+                    android:id="@+id/Act2answer_EditText39"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="5dp"
@@ -925,7 +925,7 @@
                     android:text="40." />
 
                 <EditText
-                    android:id="@+id/Act1answer_EditText40"
+                    android:id="@+id/Act2answer_EditText40"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="5dp"
@@ -947,7 +947,7 @@
                     android:text="41." />
 
                 <EditText
-                    android:id="@+id/Act1answer_EditText41"
+                    android:id="@+id/Act2answer_EditText41"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="5dp"
@@ -969,7 +969,7 @@
                     android:text="42." />
 
                 <EditText
-                    android:id="@+id/Act1answer_EditText42"
+                    android:id="@+id/Act2answer_EditText42"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="5dp"
@@ -991,7 +991,7 @@
                     android:text="43." />
 
                 <EditText
-                    android:id="@+id/Act1answer_EditText43"
+                    android:id="@+id/Act2answer_EditText43"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="5dp"
@@ -1013,7 +1013,7 @@
                     android:text="44." />
 
                 <EditText
-                    android:id="@+id/Act1answer_EditText44"
+                    android:id="@+id/Act2answer_EditText44"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="5dp"
@@ -1035,7 +1035,7 @@
                     android:text="45." />
 
                 <EditText
-                    android:id="@+id/Act1answer_EditText45"
+                    android:id="@+id/Act2answer_EditText45"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="5dp"
