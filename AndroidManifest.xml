@@ -39,6 +39,14 @@
             android:name="com.example.imaginationtest.Activity2IntroductionPage"
             android:label="@string/app_name" >
         </activity>
+        <activity
+            android:name="com.example.imaginationtest.Activity2Page"
+            android:label="@string/app_name" >
+        </activity>
+        <activity
+            android:name="com.example.imaginationtest.Activity5Page"
+            android:label="@string/app_name" >
+        </activity>
     </application>
 
 </manifest>

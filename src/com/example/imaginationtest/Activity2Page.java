@@ -12,9 +12,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-public class Activity1Page extends Activity {
+public class Activity2Page extends Activity {
 
-	private EditText[] answerEditText_Collection = new EditText[45];
+	private EditText[] answerEditText_Collection = new EditText[41];
 
 	private Button nextActButton;
 
@@ -25,7 +25,7 @@ public class Activity1Page extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity1_page);
+		setContentView(R.layout.activity2_page);
 
 		this.Init();
 		this.StartCountDownTimer();
@@ -36,12 +36,12 @@ public class Activity1Page extends Activity {
 	void Init() {
 		// 讀所有answer的EditText ID
 		for (int i = 0; i < answerEditText_Collection.length; i++) {
-			this.answerEditText_Collection[i] = (EditText) findViewById(R.id.Act1answer_EditText01
+			this.answerEditText_Collection[i] = (EditText) findViewById(R.id.Act2answer_EditText01
 					+ i);
 		}
 		// -----------------------------------
-		this.timerTextView = (TextView) findViewById(R.id.Act1Timer_textView);
-		this.nextActButton = (Button) findViewById(R.id.Act1_NextActivityButton);
+		this.timerTextView = (TextView) findViewById(R.id.Act2Timer_textView);
+		this.nextActButton = (Button) findViewById(R.id.Act2_NextActivityButton);
 
 		// 設定"下一步"Button Listener
 		this.nextActButton.setOnClickListener(new Button.OnClickListener() {
@@ -80,7 +80,7 @@ public class Activity1Page extends Activity {
 		Builder MyAlertDialog = new AlertDialog.Builder(this);
 
 		// 設定對話框標題
-		MyAlertDialog.setTitle("活動一");
+		MyAlertDialog.setTitle("活動二");
 		// 設定對話框內容
 		MyAlertDialog.setMessage("時間到  停止作答！！\n進入下一活動");
 
@@ -89,8 +89,7 @@ public class Activity1Page extends Activity {
 			public void onClick(DialogInterface dialog, int which) {
 				// 確定觸發後...
 				Intent intent = new Intent();
-				intent.setClass(Activity1Page.this,
-						Activity2IntroductionPage.class);
+				intent.setClass(Activity2Page.this, Activity5Page.class);
 				startActivity(intent);
 				finish();
 			}
