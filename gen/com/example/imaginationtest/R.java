@@ -26,18 +26,19 @@ public final class R {
         public static final int ic_launcher=0x7f020001;
     }
     public static final class id {
-        public static final int Birthday_testView=0x7f080036;
-        public static final int GradeYear_editText=0x7f080034;
-        public static final int HomePage_ImageButton=0x7f080030;
-        public static final int SchoolName_editText=0x7f080033;
-        public static final int SetBirthday_button=0x7f080035;
-        public static final int StartTest_button=0x7f080038;
-        public static final int TestDay_testView=0x7f080037;
+        public static final int Birthday_testView=0x7f080038;
+        public static final int GradeYear_editText=0x7f080036;
+        public static final int HomePage_ImageButton=0x7f080032;
+        public static final int SchoolName_editText=0x7f080035;
+        public static final int SetBirthday_button=0x7f080037;
+        public static final int StartTest_button=0x7f08003a;
+        public static final int TestDay_testView=0x7f080039;
         public static final int Timer_textView=0x7f080000;
-        public static final int UserName_editText=0x7f080031;
-        public static final int act1Introduction_StartTestButton=0x7f08002f;
+        public static final int UserName_editText=0x7f080033;
+        public static final int act1Introduction_StartTestButton=0x7f080030;
         public static final int act1_NextActivityButton=0x7f080001;
-        public static final int action_settings=0x7f080039;
+        public static final int act2Introduction_StartTestButton=0x7f080031;
+        public static final int action_settings=0x7f08003b;
         public static final int answer_EditText01=0x7f080002;
         public static final int answer_EditText02=0x7f080003;
         public static final int answer_EditText03=0x7f080004;
@@ -83,13 +84,15 @@ public final class R {
         public static final int answer_EditText43=0x7f08002c;
         public static final int answer_EditText44=0x7f08002d;
         public static final int answer_EditText45=0x7f08002e;
-        public static final int radioGroup_sex=0x7f080032;
+        public static final int radioGroup_sex=0x7f080034;
+        public static final int scrollView1=0x7f08002f;
     }
     public static final class layout {
         public static final int activity1_page=0x7f030000;
         public static final int activity1introduction_page=0x7f030001;
-        public static final int home_page=0x7f030002;
-        public static final int personalinformation_page=0x7f030003;
+        public static final int activity2introduction_page=0x7f030002;
+        public static final int home_page=0x7f030003;
+        public static final int personalinformation_page=0x7f030004;
     }
     public static final class menu {
         public static final int home_page=0x7f070000;

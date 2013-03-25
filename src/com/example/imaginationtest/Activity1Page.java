@@ -90,11 +90,11 @@ public class Activity1Page extends Activity {
 		DialogInterface.OnClickListener OkClick = new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int which) {
 				// ½T©wÄ²µo«á...
-				// Intent intent = new Intent();
-				// intent.setClass(Activity1IntroductionPage.this,
-				// Activity1Page.class);
-				// startActivity(intent);
-				// finish();
+				Intent intent = new Intent();
+				intent.setClass(Activity1Page.this,
+						Activity2IntroductionPage.class);
+				startActivity(intent);
+				finish();
 			}
 		};
 
