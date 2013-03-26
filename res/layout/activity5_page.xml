@@ -1,176 +1,175 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/radGroup1"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:layout_height="match_parent" >
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:text="伍、想像力特質"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:text="填答說明："
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textStyle="bold" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:text="1.這裡指的想像，指的是你有意或無意在腦海中所聽到、看到或感覺到的畫面、 圖像或影像。"
-        android:textAppearance="?android:attr/textAppearanceSmall" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:text="2.分數為1分到6分，分數越高，代表題目的描述越符您的真實狀況，請您將符合您狀況的答案「圈」出來 。"
-        android:textAppearance="?android:attr/textAppearanceSmall" />
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="10dp"
-        android:background="#33000000" />
-
-    <LinearLayout
+    <TableRow
+        android:id="@+id/tableRow1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="right"
-        android:layout_margin="10dp" >
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:gravity="right" >
 
         <TextView
-            android:layout_width="15dp"
+            android:layout_width="@dimen/font_size_small"
             android:layout_height="wrap_content"
             android:layout_marginRight="3dp"
+            android:maxWidth="@dimen/font_size_small"
             android:text="非常不同意1"
-            android:textAppearance="?android:attr/textAppearanceSmall" />
+            android:textSize="@dimen/font_size_small" />
 
         <TextView
-            android:layout_width="15dp"
+            android:layout_width="@dimen/font_size_small"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             android:layout_marginRight="3dp"
+            android:maxWidth="@dimen/font_size_small"
             android:text="    不同意2"
-            android:textAppearance="?android:attr/textAppearanceSmall" />
+            android:textSize="@dimen/font_size_small" />
 
         <TextView
-            android:layout_width="16dp"
+            android:layout_width="@dimen/font_size_small"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
             android:layout_marginRight="3dp"
+            android:maxWidth="@dimen/font_size_small"
             android:text="有點不同意3"
-            android:textAppearance="?android:attr/textAppearanceSmall" />
+            android:textSize="@dimen/font_size_small" />
 
         <TextView
-            android:layout_width="16dp"
+            android:layout_width="@dimen/font_size_small"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             android:layout_marginRight="3dp"
+            android:maxWidth="@dimen/font_size_small"
             android:text="有點同意4"
-            android:textAppearance="?android:attr/textAppearanceSmall" />
+            android:textSize="@dimen/font_size_small" />
 
         <TextView
-            android:layout_width="16dp"
+            android:layout_width="@dimen/font_size_small"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             android:layout_marginRight="3dp"
+            android:maxWidth="@dimen/font_size_small"
             android:text=" .同意    5"
-            android:textAppearance="?android:attr/textAppearanceSmall" />
+            android:textSize="@dimen/font_size_small" />
 
         <TextView
-            android:layout_width="16dp"
+            android:layout_width="@dimen/font_size_small"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
+            android:maxWidth="@dimen/font_size_small"
             android:text="非常同意6"
-            android:textAppearance="?android:attr/textAppearanceSmall" />
-    </LinearLayout>
+            android:textSize="@dimen/font_size_small" />
+    </TableRow>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="10dp"
-        android:background="#33000000" />
+    <TableRow
+        android:layout_gravity="right"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:gravity="right" >
 
-    <ScrollView
-        android:id="@+id/scrollView1"
-        android:layout_width="match_parent"
-        android:layout_height="73dp"
-        android:layout_weight="0.10" >
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:button="@drawable/radiobutton" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="34dp"
-            android:orientation="horizontal" >
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:button="@drawable/radiobutton" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="36dp"
-                android:orientation="horizontal" >
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:button="@drawable/radiobutton" />
 
-                <RadioGroup
-                    android:id="@+id/radioGroup1"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="top"
-                    android:orientation="horizontal" >
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:button="@drawable/radiobutton" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="10dp"
-                        android:text="1." />
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:button="@drawable/radiobutton" />
 
-                    <TextView
-                        android:id="@+id/textView1"
-                        android:layout_width="59dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="top"
-                        android:text="有時我的想像中會出現一個非常有創意的想法。"
-                        android:textSize="10dp" />
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:button="@drawable/radiobutton" />
+    </TableRow>
 
-                    <RadioButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:button="@drawable/radiobutton" />
+    <TableRow
+        android:layout_gravity="right"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:gravity="right" >
 
-                    <RadioButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:button="@drawable/radiobutton" />
 
-                    <RadioButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:button="@drawable/radiobutton" />
 
-                    <RadioButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:button="@drawable/radiobutton" />
 
-                    <RadioButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-                </RadioGroup>
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:button="@drawable/radiobutton" />
 
-            </LinearLayout>
-        </LinearLayout>
-    </ScrollView>
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:button="@drawable/radiobutton" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="24dp"
-        android:layout_gravity="center"
-        android:layout_margin="10dp"
-        android:layout_weight="0.05"
-        android:text="請按照順序填寫，填寫格可用手指往上拖移，下面還有喔！"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="#FF0000" />
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:button="@drawable/radiobutton" />
+    </TableRow>
 
-</LinearLayout>
+    <TableRow
+        android:layout_gravity="right"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:gravity="right" >
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:button="@drawable/radiobutton" />
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:button="@drawable/radiobutton" />
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:button="@drawable/radiobutton" />
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:button="@drawable/radiobutton" />
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:button="@drawable/radiobutton" />
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:button="@drawable/radiobutton" />
+    </TableRow>
+
+</TableLayout>
