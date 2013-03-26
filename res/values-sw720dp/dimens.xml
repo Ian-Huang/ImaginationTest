@@ -1,0 +1,11 @@
+<resources>
+
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">30dp</dimen>
+    <dimen name="activity_vertical_margin">25dp</dimen>
+    <dimen name="font_size_small">45dp</dimen>
+    <dimen name="font_size">50dp</dimen>
+    <dimen name="font_size_title">55dp</dimen>
+    <color name="RedColor">#FFFF0000</color>
+
+</resources>

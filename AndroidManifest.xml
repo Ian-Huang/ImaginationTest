@@ -7,7 +7,7 @@
     <uses-sdk
         android:minSdkVersion="9"
         android:targetSdkVersion="9" />
-
+ 
     <application
         android:allowBackup="true"
         android:debuggable="true"
