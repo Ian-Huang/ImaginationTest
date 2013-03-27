@@ -1148,6 +1148,7 @@
         android:layout_marginRight="@dimen/activity_horizontal_margin"
         android:text="請按照順序填寫，填寫格可用手指往上拖移，下面還有喔！"
         android:textColor="@color/RedColor"
-        android:textSize="@dimen/font_size" />
+        android:textSize="@dimen/font_size_small"
+        android:textStyle="bold" />
 
 </LinearLayout>
