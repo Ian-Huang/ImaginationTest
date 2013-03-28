@@ -5,7 +5,6 @@
     android:orientation="vertical" >
 
     <TextView
-        android:id="@+id/act5_testI"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/activity_vertical_margin"
@@ -36,7 +35,7 @@
         android:layout_marginBottom="@dimen/activity_vertical_margin"
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
         android:layout_marginRight="@dimen/activity_horizontal_margin"
-        android:text="2.分數為1分到6分，分數越高，代表題目的描述越符您的真實狀況，請您將符合您狀況的答案「圈」出來 。"
+        android:text="2.分數為1分到6分，分數越高，代表題目的描述越符您的真實狀況，請您將符合您狀況的答案「點選」出來 。"
         android:textSize="@dimen/font_size_small" />
 
     <View
@@ -318,43 +317,43 @@
                         android:textSize="@dimen/font_size_small" />
 
                     <RadioButton
-                        android:layout_width="@dimen/font_size_small"
                         android:id="@+id/act5_Radiobtn_answer04_1"
+                        android:layout_width="@dimen/font_size_small"
                         android:layout_height="135sp"
                         android:layout_marginRight="6dp"
                         android:button="@drawable/radiobutton" />
 
                     <RadioButton
-                        android:layout_width="@dimen/font_size_small"
                         android:id="@+id/act5_Radiobtn_answer04_2"
+                        android:layout_width="@dimen/font_size_small"
                         android:layout_height="135sp"
                         android:layout_marginRight="6dp"
                         android:button="@drawable/radiobutton" />
 
                     <RadioButton
-                        android:layout_width="@dimen/font_size_small"
                         android:id="@+id/act5_Radiobtn_answer04_3"
+                        android:layout_width="@dimen/font_size_small"
                         android:layout_height="135sp"
                         android:layout_marginRight="6dp"
                         android:button="@drawable/radiobutton" />
 
                     <RadioButton
-                        android:layout_width="@dimen/font_size_small"
                         android:id="@+id/act5_Radiobtn_answer04_4"
+                        android:layout_width="@dimen/font_size_small"
                         android:layout_height="135sp"
                         android:layout_marginRight="6dp"
                         android:button="@drawable/radiobutton" />
 
                     <RadioButton
-                        android:layout_width="@dimen/font_size_small"
                         android:id="@+id/act5_Radiobtn_answer04_5"
+                        android:layout_width="@dimen/font_size_small"
                         android:layout_height="135sp"
                         android:layout_marginRight="6dp"
                         android:button="@drawable/radiobutton" />
 
                     <RadioButton
-                        android:layout_width="@dimen/font_size_small"
                         android:id="@+id/act5_Radiobtn_answer04_6"
+                        android:layout_width="@dimen/font_size_small"
                         android:layout_height="135sp"
                         android:layout_marginRight="6dp"
                         android:button="@drawable/radiobutton" />
@@ -376,43 +375,43 @@
                         android:textSize="@dimen/font_size_small" />
 
                     <RadioButton
-                        android:layout_width="@dimen/font_size_small"
                         android:id="@+id/act5_Radiobtn_answer05_1"
+                        android:layout_width="@dimen/font_size_small"
                         android:layout_height="135sp"
                         android:layout_marginRight="6dp"
                         android:button="@drawable/radiobutton" />
 
                     <RadioButton
-                        android:layout_width="@dimen/font_size_small"
                         android:id="@+id/act5_Radiobtn_answer05_2"
+                        android:layout_width="@dimen/font_size_small"
                         android:layout_height="135sp"
                         android:layout_marginRight="6dp"
                         android:button="@drawable/radiobutton" />
 
                     <RadioButton
-                        android:layout_width="@dimen/font_size_small"
                         android:id="@+id/act5_Radiobtn_answer05_3"
+                        android:layout_width="@dimen/font_size_small"
                         android:layout_height="135sp"
                         android:layout_marginRight="6dp"
                         android:button="@drawable/radiobutton" />
 
                     <RadioButton
-                        android:layout_width="@dimen/font_size_small"
                         android:id="@+id/act5_Radiobtn_answer05_4"
+                        android:layout_width="@dimen/font_size_small"
                         android:layout_height="135sp"
                         android:layout_marginRight="6dp"
                         android:button="@drawable/radiobutton" />
 
                     <RadioButton
-                        android:layout_width="@dimen/font_size_small"
                         android:id="@+id/act5_Radiobtn_answer05_5"
+                        android:layout_width="@dimen/font_size_small"
                         android:layout_height="135sp"
                         android:layout_marginRight="6dp"
                         android:button="@drawable/radiobutton" />
 
                     <RadioButton
-                        android:layout_width="@dimen/font_size_small"
                         android:id="@+id/act5_Radiobtn_answer05_6"
+                        android:layout_width="@dimen/font_size_small"
                         android:layout_height="135sp"
                         android:layout_marginRight="6dp"
                         android:button="@drawable/radiobutton" />
@@ -434,43 +433,43 @@
                         android:textSize="@dimen/font_size_small" />
 
                     <RadioButton
-                        android:layout_width="@dimen/font_size_small"
                         android:id="@+id/act5_Radiobtn_answer06_1"
+                        android:layout_width="@dimen/font_size_small"
                         android:layout_height="135sp"
                         android:layout_marginRight="6dp"
                         android:button="@drawable/radiobutton" />
 
                     <RadioButton
-                        android:layout_width="@dimen/font_size_small"
                         android:id="@+id/act5_Radiobtn_answer06_2"
+                        android:layout_width="@dimen/font_size_small"
                         android:layout_height="135sp"
                         android:layout_marginRight="6dp"
                         android:button="@drawable/radiobutton" />
 
                     <RadioButton
-                        android:layout_width="@dimen/font_size_small"
                         android:id="@+id/act5_Radiobtn_answer06_3"
+                        android:layout_width="@dimen/font_size_small"
                         android:layout_height="135sp"
                         android:layout_marginRight="6dp"
                         android:button="@drawable/radiobutton" />
 
                     <RadioButton
-                        android:layout_width="@dimen/font_size_small"
                         android:id="@+id/act5_Radiobtn_answer06_4"
+                        android:layout_width="@dimen/font_size_small"
                         android:layout_height="135sp"
                         android:layout_marginRight="6dp"
                         android:button="@drawable/radiobutton" />
 
                     <RadioButton
-                        android:layout_width="@dimen/font_size_small"
                         android:id="@+id/act5_Radiobtn_answer06_5"
+                        android:layout_width="@dimen/font_size_small"
                         android:layout_height="135sp"
                         android:layout_marginRight="6dp"
                         android:button="@drawable/radiobutton" />
 
                     <RadioButton
-                        android:layout_width="@dimen/font_size_small"
                         android:id="@+id/act5_Radiobtn_answer06_6"
+                        android:layout_width="@dimen/font_size_small"
                         android:layout_height="135sp"
                         android:layout_marginRight="6dp"
                         android:button="@drawable/radiobutton" />
@@ -492,43 +491,43 @@
                         android:textSize="@dimen/font_size_small" />
 
                     <RadioButton
-                        android:layout_width="@dimen/font_size_small"
                         android:id="@+id/act5_Radiobtn_answer07_1"
+                        android:layout_width="@dimen/font_size_small"
                         android:layout_height="135sp"
                         android:layout_marginRight="6dp"
                         android:button="@drawable/radiobutton" />
 
                     <RadioButton
-                        android:layout_width="@dimen/font_size_small"
                         android:id="@+id/act5_Radiobtn_answer07_2"
+                        android:layout_width="@dimen/font_size_small"
                         android:layout_height="135sp"
                         android:layout_marginRight="6dp"
                         android:button="@drawable/radiobutton" />
 
                     <RadioButton
-                        android:layout_width="@dimen/font_size_small"
                         android:id="@+id/act5_Radiobtn_answer07_3"
+                        android:layout_width="@dimen/font_size_small"
                         android:layout_height="135sp"
                         android:layout_marginRight="6dp"
                         android:button="@drawable/radiobutton" />
 
                     <RadioButton
-                        android:layout_width="@dimen/font_size_small"
                         android:id="@+id/act5_Radiobtn_answer07_4"
+                        android:layout_width="@dimen/font_size_small"
                         android:layout_height="135sp"
                         android:layout_marginRight="6dp"
                         android:button="@drawable/radiobutton" />
 
                     <RadioButton
-                        android:layout_width="@dimen/font_size_small"
                         android:id="@+id/act5_Radiobtn_answer07_5"
+                        android:layout_width="@dimen/font_size_small"
                         android:layout_height="135sp"
                         android:layout_marginRight="6dp"
                         android:button="@drawable/radiobutton" />
 
                     <RadioButton
-                        android:layout_width="@dimen/font_size_small"
                         android:id="@+id/act5_Radiobtn_answer07_6"
+                        android:layout_width="@dimen/font_size_small"
                         android:layout_height="135sp"
                         android:layout_marginRight="6dp"
                         android:button="@drawable/radiobutton" />
@@ -550,43 +549,43 @@
                         android:textSize="@dimen/font_size_small" />
 
                     <RadioButton
-                        android:layout_width="@dimen/font_size_small"
                         android:id="@+id/act5_Radiobtn_answer08_1"
+                        android:layout_width="@dimen/font_size_small"
                         android:layout_height="135sp"
                         android:layout_marginRight="6dp"
                         android:button="@drawable/radiobutton" />
 
                     <RadioButton
-                        android:layout_width="@dimen/font_size_small"
                         android:id="@+id/act5_Radiobtn_answer08_2"
+                        android:layout_width="@dimen/font_size_small"
                         android:layout_height="135sp"
                         android:layout_marginRight="6dp"
                         android:button="@drawable/radiobutton" />
 
                     <RadioButton
-                        android:layout_width="@dimen/font_size_small"
                         android:id="@+id/act5_Radiobtn_answer08_3"
+                        android:layout_width="@dimen/font_size_small"
                         android:layout_height="135sp"
                         android:layout_marginRight="6dp"
                         android:button="@drawable/radiobutton" />
 
                     <RadioButton
-                        android:layout_width="@dimen/font_size_small"
                         android:id="@+id/act5_Radiobtn_answer08_4"
+                        android:layout_width="@dimen/font_size_small"
                         android:layout_height="135sp"
                         android:layout_marginRight="6dp"
                         android:button="@drawable/radiobutton" />
 
                     <RadioButton
-                        android:layout_width="@dimen/font_size_small"
                         android:id="@+id/act5_Radiobtn_answer08_5"
+                        android:layout_width="@dimen/font_size_small"
                         android:layout_height="135sp"
                         android:layout_marginRight="6dp"
                         android:button="@drawable/radiobutton" />
 
                     <RadioButton
-                        android:layout_width="@dimen/font_size_small"
                         android:id="@+id/act5_Radiobtn_answer08_6"
+                        android:layout_width="@dimen/font_size_small"
                         android:layout_height="135sp"
                         android:layout_marginRight="6dp"
                         android:button="@drawable/radiobutton" />
@@ -608,43 +607,43 @@
                         android:textSize="@dimen/font_size_small" />
 
                     <RadioButton
-                        android:layout_width="@dimen/font_size_small"
                         android:id="@+id/act5_Radiobtn_answer09_1"
+                        android:layout_width="@dimen/font_size_small"
                         android:layout_height="135sp"
                         android:layout_marginRight="6dp"
                         android:button="@drawable/radiobutton" />
 
                     <RadioButton
-                        android:layout_width="@dimen/font_size_small"
                         android:id="@+id/act5_Radiobtn_answer09_2"
+                        android:layout_width="@dimen/font_size_small"
                         android:layout_height="135sp"
                         android:layout_marginRight="6dp"
                         android:button="@drawable/radiobutton" />
 
                     <RadioButton
-                        android:layout_width="@dimen/font_size_small"
                         android:id="@+id/act5_Radiobtn_answer09_3"
+                        android:layout_width="@dimen/font_size_small"
                         android:layout_height="135sp"
                         android:layout_marginRight="6dp"
                         android:button="@drawable/radiobutton" />
 
                     <RadioButton
-                        android:layout_width="@dimen/font_size_small"
                         android:id="@+id/act5_Radiobtn_answer09_4"
+                        android:layout_width="@dimen/font_size_small"
                         android:layout_height="135sp"
                         android:layout_marginRight="6dp"
                         android:button="@drawable/radiobutton" />
 
                     <RadioButton
-                        android:layout_width="@dimen/font_size_small"
                         android:id="@+id/act5_Radiobtn_answer09_5"
+                        android:layout_width="@dimen/font_size_small"
                         android:layout_height="135sp"
                         android:layout_marginRight="6dp"
                         android:button="@drawable/radiobutton" />
 
                     <RadioButton
-                        android:layout_width="@dimen/font_size_small"
                         android:id="@+id/act5_Radiobtn_answer09_6"
+                        android:layout_width="@dimen/font_size_small"
                         android:layout_height="135sp"
                         android:layout_marginRight="6dp"
                         android:button="@drawable/radiobutton" />
@@ -666,43 +665,43 @@
                         android:textSize="@dimen/font_size_small" />
 
                     <RadioButton
-                        android:layout_width="@dimen/font_size_small"
                         android:id="@+id/act5_Radiobtn_answer10_1"
+                        android:layout_width="@dimen/font_size_small"
                         android:layout_height="135sp"
                         android:layout_marginRight="6dp"
                         android:button="@drawable/radiobutton" />
 
                     <RadioButton
-                        android:layout_width="@dimen/font_size_small"
                         android:id="@+id/act5_Radiobtn_answer10_2"
+                        android:layout_width="@dimen/font_size_small"
                         android:layout_height="135sp"
                         android:layout_marginRight="6dp"
                         android:button="@drawable/radiobutton" />
 
                     <RadioButton
-                        android:layout_width="@dimen/font_size_small"
                         android:id="@+id/act5_Radiobtn_answer10_3"
+                        android:layout_width="@dimen/font_size_small"
                         android:layout_height="135sp"
                         android:layout_marginRight="6dp"
                         android:button="@drawable/radiobutton" />
 
                     <RadioButton
-                        android:layout_width="@dimen/font_size_small"
                         android:id="@+id/act5_Radiobtn_answer10_4"
+                        android:layout_width="@dimen/font_size_small"
                         android:layout_height="135sp"
                         android:layout_marginRight="6dp"
                         android:button="@drawable/radiobutton" />
 
                     <RadioButton
-                        android:layout_width="@dimen/font_size_small"
                         android:id="@+id/act5_Radiobtn_answer10_5"
+                        android:layout_width="@dimen/font_size_small"
                         android:layout_height="135sp"
                         android:layout_marginRight="6dp"
                         android:button="@drawable/radiobutton" />
 
                     <RadioButton
-                        android:layout_width="@dimen/font_size_small"
                         android:id="@+id/act5_Radiobtn_answer10_6"
+                        android:layout_width="@dimen/font_size_small"
                         android:layout_height="135sp"
                         android:layout_marginRight="6dp"
                         android:button="@drawable/radiobutton" />
@@ -724,43 +723,43 @@
                         android:textSize="@dimen/font_size_small" />
 
                     <RadioButton
-                        android:layout_width="@dimen/font_size_small"
                         android:id="@+id/act5_Radiobtn_answer11_1"
+                        android:layout_width="@dimen/font_size_small"
                         android:layout_height="135sp"
                         android:layout_marginRight="6dp"
                         android:button="@drawable/radiobutton" />
 
                     <RadioButton
-                        android:layout_width="@dimen/font_size_small"
                         android:id="@+id/act5_Radiobtn_answer11_2"
+                        android:layout_width="@dimen/font_size_small"
                         android:layout_height="135sp"
                         android:layout_marginRight="6dp"
                         android:button="@drawable/radiobutton" />
 
                     <RadioButton
-                        android:layout_width="@dimen/font_size_small"
                         android:id="@+id/act5_Radiobtn_answer11_3"
+                        android:layout_width="@dimen/font_size_small"
                         android:layout_height="135sp"
                         android:layout_marginRight="6dp"
                         android:button="@drawable/radiobutton" />
 
                     <RadioButton
-                        android:layout_width="@dimen/font_size_small"
                         android:id="@+id/act5_Radiobtn_answer11_4"
+                        android:layout_width="@dimen/font_size_small"
                         android:layout_height="135sp"
                         android:layout_marginRight="6dp"
                         android:button="@drawable/radiobutton" />
 
                     <RadioButton
-                        android:layout_width="@dimen/font_size_small"
                         android:id="@+id/act5_Radiobtn_answer11_5"
+                        android:layout_width="@dimen/font_size_small"
                         android:layout_height="135sp"
                         android:layout_marginRight="6dp"
                         android:button="@drawable/radiobutton" />
 
                     <RadioButton
-                        android:layout_width="@dimen/font_size_small"
                         android:id="@+id/act5_Radiobtn_answer11_6"
+                        android:layout_width="@dimen/font_size_small"
                         android:layout_height="135sp"
                         android:layout_marginRight="6dp"
                         android:button="@drawable/radiobutton" />
@@ -782,43 +781,43 @@
                         android:textSize="@dimen/font_size_small" />
 
                     <RadioButton
-                        android:layout_width="@dimen/font_size_small"
                         android:id="@+id/act5_Radiobtn_answer12_1"
+                        android:layout_width="@dimen/font_size_small"
                         android:layout_height="135sp"
                         android:layout_marginRight="6dp"
                         android:button="@drawable/radiobutton" />
 
                     <RadioButton
-                        android:layout_width="@dimen/font_size_small"
                         android:id="@+id/act5_Radiobtn_answer12_2"
+                        android:layout_width="@dimen/font_size_small"
                         android:layout_height="135sp"
                         android:layout_marginRight="6dp"
                         android:button="@drawable/radiobutton" />
 
                     <RadioButton
-                        android:layout_width="@dimen/font_size_small"
                         android:id="@+id/act5_Radiobtn_answer12_3"
+                        android:layout_width="@dimen/font_size_small"
                         android:layout_height="135sp"
                         android:layout_marginRight="6dp"
                         android:button="@drawable/radiobutton" />
 
                     <RadioButton
-                        android:layout_width="@dimen/font_size_small"
                         android:id="@+id/act5_Radiobtn_answer12_4"
+                        android:layout_width="@dimen/font_size_small"
                         android:layout_height="135sp"
                         android:layout_marginRight="6dp"
                         android:button="@drawable/radiobutton" />
 
                     <RadioButton
-                        android:layout_width="@dimen/font_size_small"
                         android:id="@+id/act5_Radiobtn_answer12_5"
+                        android:layout_width="@dimen/font_size_small"
                         android:layout_height="135sp"
                         android:layout_marginRight="6dp"
                         android:button="@drawable/radiobutton" />
 
                     <RadioButton
-                        android:layout_width="@dimen/font_size_small"
                         android:id="@+id/act5_Radiobtn_answer12_6"
+                        android:layout_width="@dimen/font_size_small"
                         android:layout_height="135sp"
                         android:layout_marginRight="6dp"
                         android:button="@drawable/radiobutton" />
@@ -840,43 +839,43 @@
                         android:textSize="@dimen/font_size_small" />
 
                     <RadioButton
-                        android:layout_width="@dimen/font_size_small"
                         android:id="@+id/act5_Radiobtn_answer13_1"
+                        android:layout_width="@dimen/font_size_small"
                         android:layout_height="135sp"
                         android:layout_marginRight="6dp"
                         android:button="@drawable/radiobutton" />
 
                     <RadioButton
-                        android:layout_width="@dimen/font_size_small"
                         android:id="@+id/act5_Radiobtn_answer13_2"
+                        android:layout_width="@dimen/font_size_small"
                         android:layout_height="135sp"
                         android:layout_marginRight="6dp"
                         android:button="@drawable/radiobutton" />
 
                     <RadioButton
-                        android:layout_width="@dimen/font_size_small"
                         android:id="@+id/act5_Radiobtn_answer13_3"
+                        android:layout_width="@dimen/font_size_small"
                         android:layout_height="135sp"
                         android:layout_marginRight="6dp"
                         android:button="@drawable/radiobutton" />
 
                     <RadioButton
-                        android:layout_width="@dimen/font_size_small"
                         android:id="@+id/act5_Radiobtn_answer13_4"
+                        android:layout_width="@dimen/font_size_small"
                         android:layout_height="135sp"
                         android:layout_marginRight="6dp"
                         android:button="@drawable/radiobutton" />
 
                     <RadioButton
-                        android:layout_width="@dimen/font_size_small"
                         android:id="@+id/act5_Radiobtn_answer13_5"
+                        android:layout_width="@dimen/font_size_small"
                         android:layout_height="135sp"
                         android:layout_marginRight="6dp"
                         android:button="@drawable/radiobutton" />
 
                     <RadioButton
-                        android:layout_width="@dimen/font_size_small"
                         android:id="@+id/act5_Radiobtn_answer13_6"
+                        android:layout_width="@dimen/font_size_small"
                         android:layout_height="135sp"
                         android:layout_marginRight="6dp"
                         android:button="@drawable/radiobutton" />
@@ -898,43 +897,43 @@
                         android:textSize="@dimen/font_size_small" />
 
                     <RadioButton
-                        android:layout_width="@dimen/font_size_small"
                         android:id="@+id/act5_Radiobtn_answer14_1"
+                        android:layout_width="@dimen/font_size_small"
                         android:layout_height="135sp"
                         android:layout_marginRight="6dp"
                         android:button="@drawable/radiobutton" />
 
                     <RadioButton
-                        android:layout_width="@dimen/font_size_small"
                         android:id="@+id/act5_Radiobtn_answer14_2"
+                        android:layout_width="@dimen/font_size_small"
                         android:layout_height="135sp"
                         android:layout_marginRight="6dp"
                         android:button="@drawable/radiobutton" />
 
                     <RadioButton
-                        android:layout_width="@dimen/font_size_small"
                         android:id="@+id/act5_Radiobtn_answer14_3"
+                        android:layout_width="@dimen/font_size_small"
                         android:layout_height="135sp"
                         android:layout_marginRight="6dp"
                         android:button="@drawable/radiobutton" />
 
                     <RadioButton
-                        android:layout_width="@dimen/font_size_small"
                         android:id="@+id/act5_Radiobtn_answer14_4"
+                        android:layout_width="@dimen/font_size_small"
                         android:layout_height="135sp"
                         android:layout_marginRight="6dp"
                         android:button="@drawable/radiobutton" />
 
                     <RadioButton
-                        android:layout_width="@dimen/font_size_small"
                         android:id="@+id/act5_Radiobtn_answer14_5"
+                        android:layout_width="@dimen/font_size_small"
                         android:layout_height="135sp"
                         android:layout_marginRight="6dp"
                         android:button="@drawable/radiobutton" />
 
                     <RadioButton
-                        android:layout_width="@dimen/font_size_small"
                         android:id="@+id/act5_Radiobtn_answer14_6"
+                        android:layout_width="@dimen/font_size_small"
                         android:layout_height="135sp"
                         android:layout_marginRight="6dp"
                         android:button="@drawable/radiobutton" />
@@ -956,43 +955,43 @@
                         android:textSize="@dimen/font_size_small" />
 
                     <RadioButton
-                        android:layout_width="@dimen/font_size_small"
                         android:id="@+id/act5_Radiobtn_answer15_1"
+                        android:layout_width="@dimen/font_size_small"
                         android:layout_height="135sp"
                         android:layout_marginRight="6dp"
                         android:button="@drawable/radiobutton" />
 
                     <RadioButton
-                        android:layout_width="@dimen/font_size_small"
                         android:id="@+id/act5_Radiobtn_answer15_2"
+                        android:layout_width="@dimen/font_size_small"
                         android:layout_height="135sp"
                         android:layout_marginRight="6dp"
                         android:button="@drawable/radiobutton" />
 
                     <RadioButton
-                        android:layout_width="@dimen/font_size_small"
                         android:id="@+id/act5_Radiobtn_answer15_3"
+                        android:layout_width="@dimen/font_size_small"
                         android:layout_height="135sp"
                         android:layout_marginRight="6dp"
                         android:button="@drawable/radiobutton" />
 
                     <RadioButton
-                        android:layout_width="@dimen/font_size_small"
                         android:id="@+id/act5_Radiobtn_answer15_4"
+                        android:layout_width="@dimen/font_size_small"
                         android:layout_height="135sp"
                         android:layout_marginRight="6dp"
                         android:button="@drawable/radiobutton" />
 
                     <RadioButton
-                        android:layout_width="@dimen/font_size_small"
                         android:id="@+id/act5_Radiobtn_answer15_5"
+                        android:layout_width="@dimen/font_size_small"
                         android:layout_height="135sp"
                         android:layout_marginRight="6dp"
                         android:button="@drawable/radiobutton" />
 
                     <RadioButton
-                        android:layout_width="@dimen/font_size_small"
                         android:id="@+id/act5_Radiobtn_answer15_6"
+                        android:layout_width="@dimen/font_size_small"
                         android:layout_height="135sp"
                         android:layout_marginRight="6dp"
                         android:button="@drawable/radiobutton" />
@@ -1006,14 +1005,28 @@
         android:layout_height="25dp"
         android:background="@color/GrayColor" />
 
-    <TextView
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/activity_horizontal_margin"
-        android:layout_marginRight="@dimen/activity_horizontal_margin"
-        android:text="請用手指向上拖移，下面還有喔！"
-        android:textColor="@color/RedColor"
-        android:textSize="@dimen/font_size_small"
-        android:textStyle="bold" />
+        android:layout_marginLeft="@dimen/activity_vertical_margin"
+        android:layout_marginRight="@dimen/activity_vertical_margin" >
+
+        <Button
+            android:id="@+id/act5_finish_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="填寫完成"
+            android:textSize="@dimen/font_size_small" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="請用手指向上拖移，下面還有喔！"
+            android:textColor="@color/RedColor"
+            android:textSize="@dimen/font_size_small"
+            android:textStyle="bold" />
+    </LinearLayout>
 
 </LinearLayout>

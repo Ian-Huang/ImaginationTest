@@ -1,18 +1,24 @@
 package com.example.imaginationtest;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.RadioButton;
-import android.widget.TextView;
 
 public class Activity5Page extends Activity {
 
-	private RadioButton[][] radioButtonCollection = new RadioButton[15][6];
-	public static int currentGroup = 0;
-	public static int currentIndex = 0;
+	private Button finishButton;
 
-	TextView testViewxstr;
+	public RadioButton[][] radioButtonCollection = new RadioButton[15][6];
+
+	public boolean[] checkAnswer;
+	public int currentGroup = 0;
+	public int currentIndex = 0;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -24,39 +30,93 @@ public class Activity5Page extends Activity {
 	}
 
 	void Init() {
-		testViewxstr = (TextView) findViewById(R.id.act5_testI);
+		finishButton = (Button) findViewById(R.id.act5_finish_button);
+		checkAnswer = new boolean[radioButtonCollection.length];
+
 		int count = 0;
-		for (RadioButton[] element : radioButtonCollection) {
-			currentIndex = 0;
-			for (RadioButton radioButton : element) {
-				radioButton = (RadioButton) findViewById(R.id.act5_Radiobtn_answer01_1
+		for (currentGroup = 0; currentGroup < radioButtonCollection.length; currentGroup++) {
+			for (currentIndex = 0; currentIndex < radioButtonCollection[currentGroup].length; currentIndex++) {
+
+				// get 每一個RadioButton ID
+				radioButtonCollection[currentGroup][currentIndex] = (RadioButton) findViewById(R.id.act5_Radiobtn_answer01_1
 						+ count);
 
-				radioButton
+				// set 每一個RadioButton Listener
+				radioButtonCollection[currentGroup][currentIndex]
 						.setOnClickListener(new RadioButton.OnClickListener() {
 
-							public int group = Activity5Page.currentGroup;
-							public int index = Activity5Page.currentIndex;
+							// 分別記下每一個RadioButton的Index
+							public int group = currentGroup;
+							public int index = currentIndex;
 
 							@Override
 							public void onClick(View v) {
-								 testViewxstr.setText(Integer
-								 .toString(radioButtonCollection[group][index].getId()));
-//								for (RadioButton radioButton : radioButtonCollection[group]) {
-//									radioButton.setChecked(false);
-//								}
-//
-//								radioButtonCollection[group][index]
-//										.setChecked(false);
+								// 因為是單選題，所以必須將每一個Group的RadioButton設值
+								for (int i = 0; i < radioButtonCollection[group].length; i++) {
+									radioButtonCollection[group][i]
+											.setChecked(false);
+								}
+								radioButtonCollection[group][index] // 當前被選的RadioButton
+										.setChecked(true);
+
+								// 分別記錄每一個Group被選擇的情況
+								checkAnswer[group] = true;
 							}
 						});
-
 				count++;
-				currentIndex++;
 			}
-			currentGroup++;
 		}
 
+		// 設定"填寫完成"Button Listener
+		this.finishButton.setOnClickListener(new Button.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				ShowMsgDialog();
+			}
+		});
 	}
 
+	// 彈出設窗設定:提示資料是否輸入完整
+	private void ShowMsgDialog() {
+		Builder MyAlertDialog = new AlertDialog.Builder(this);
+
+		// 設定對話框標題
+		MyAlertDialog.setTitle("活動五");
+
+		// Button觸發後的設定
+		DialogInterface.OnClickListener OkClick = new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int which) {
+				// 確定觸發後...
+				Intent intent = new Intent();
+				intent.setClass(Activity5Page.this, HomePage.class);
+				startActivity(intent);
+				finish();
+			}
+		};
+		DialogInterface.OnClickListener CancelClick = new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int which) {
+				// 關閉對話方塊
+			}
+		};
+
+		// 檢查資料是否齊全
+		if (this.CheckInformationComplete()) {
+			MyAlertDialog.setMessage("確定完成，不再修改？");
+			MyAlertDialog.setPositiveButton("確定", OkClick);
+			MyAlertDialog.setNegativeButton("取消", CancelClick);
+		} else {
+			MyAlertDialog.setMessage("未填寫完成");
+			MyAlertDialog.setNeutralButton("確定", CancelClick);
+		}
+
+		MyAlertDialog.show();
+	}
+
+	boolean CheckInformationComplete() {
+		for (int i = 0; i < checkAnswer.length; i++) {
+			if (!checkAnswer[i])
+				return false;
+		}
+		return true;
+	}
 }
