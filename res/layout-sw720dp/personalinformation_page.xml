@@ -155,7 +155,7 @@
                     android:id="@+id/Birthday_testView"
                     android:layout_width="wrap_content"
                     android:layout_height="37dp"
-                    android:layout_gravity="bottom"
+                    android:layout_gravity="center"
                     android:textSize="@dimen/font_size" />
             </LinearLayout>
 
