@@ -91,7 +91,7 @@ public class Activity2Page extends Activity {
 				Intent intent = new Intent();
 				intent.setClass(Activity2Page.this, Activity5Page.class);
 				startActivity(intent);
-				finish();
+				System.exit(0);
 			}
 		};
 

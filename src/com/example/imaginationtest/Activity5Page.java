@@ -90,7 +90,7 @@ public class Activity5Page extends Activity {
 				Intent intent = new Intent();
 				intent.setClass(Activity5Page.this, HomePage.class);
 				startActivity(intent);
-				finish();
+				System.exit(0);
 			}
 		};
 		DialogInterface.OnClickListener CancelClick = new DialogInterface.OnClickListener() {
