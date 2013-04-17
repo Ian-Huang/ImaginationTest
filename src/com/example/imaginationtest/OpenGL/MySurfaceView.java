@@ -56,7 +56,9 @@ public class MySurfaceView extends GLSurfaceView implements Renderer {
 	@Override
 	public void onDrawFrame(GL10 gl) {
 		// TODO Auto-generated method stub
-
+		gl.glEnable(GL10.GL_CULL_FACE);
+		gl.glShadeModel(GL10.GL_SMOOTH);
+		gl.glFrontFace(GL10.GL_CCW);
 	}
 
 	@Override
