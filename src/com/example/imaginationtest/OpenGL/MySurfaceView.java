@@ -1,24 +1,21 @@
 package com.example.imaginationtest.OpenGL;
 
-import java.nio.ByteBuffer;
-
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
-
-import com.example.imaginationtest.Activity3Page;
-import com.example.imaginationtest.R;
 
 import android.content.Context;
 import android.opengl.GLSurfaceView;
 import android.opengl.GLSurfaceView.Renderer;
 import android.view.MotionEvent;
-import android.widget.LinearLayout;
-import android.widget.TextView;
+
+import com.example.imaginationtest.Activity3Page;
 
 public class MySurfaceView extends GLSurfaceView implements Renderer {
 
 	private float myPreviousY;
 	private float myPreviousX;
+
+	private glPoint point = new glPoint();
 
 	public MySurfaceView(Context context) {
 		super(context);
@@ -40,6 +37,8 @@ public class MySurfaceView extends GLSurfaceView implements Renderer {
 			float deltaX = x - this.myPreviousX;
 			Activity3Page.TestPosX.setText(String.valueOf(deltaX));
 			Activity3Page.TestPosY.setText(String.valueOf(deltaY));
+			point.yAngle += deltaX;
+			point.zAngle += deltaY;
 			break;
 
 		default:
@@ -61,7 +60,8 @@ public class MySurfaceView extends GLSurfaceView implements Renderer {
 		gl.glMatrixMode(GL10.GL_MODELVIEW); // 當前矩陣:模式矩陣(操作物體時使用模型矩陣，如平移、旋轉、縮放等。)
 		gl.glLoadIdentity(); // 當前矩陣為單位矩陣
 
-		gl.glTranslatef(0, 0, -2.0f); // 位移
+		// gl.glTranslatef(0, 0, -2.0f); // 位移
+		point.drawSelf(gl);
 	}
 
 	@Override
