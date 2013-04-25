@@ -2,8 +2,6 @@ package com.example.imaginationtest;
 
 import java.util.ArrayList;
 
-import com.threed.jpct.Logger;
-
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Canvas;
@@ -11,8 +9,8 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.PixelFormat;
-import android.graphics.PorterDuffXfermode;
 import android.graphics.PorterDuff.Mode;
+import android.graphics.PorterDuffXfermode;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.view.MotionEvent;
@@ -22,15 +20,44 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
 
+import com.threed.jpct.Logger;
+
 public class Activity3Page extends Activity {
 
 	enum EditStatus {
 		Mode2D, Mode3D
 	}
 
-	private EditStatus editStatus = EditStatus.Mode2D;// 確認目前編輯狀態是在2D或3D
+	enum PaintType {
+		Eraser, White, Black
+	}
+
+	class PaintData {
+		private Path paintPath;
+		private PaintType paintType;
+
+		PaintData(Path path, PaintType type) {
+			this.paintPath = path;
+			this.paintType = type;
+		}
+	}
+
+	private EditStatus currentEditStatus = EditStatus.Mode2D;// 確認目前編輯狀態是在2D或3D
+	private PaintType currentPaintType = PaintType.Black;// 確認目前畫筆的顏色(黑筆、白筆、橡皮擦)
+
 	private Button editChangeButton;
-	private Button reducePaintButton;
+	private Button undoPaintButton;
+	private Button redoPaintButton;
+	private Button eraserButton;
+	private Button whitePaintButton;
+	private Button blackPaintButton;
+	private Button clearCanvasButton;
+
+	// ----畫筆初始化----
+	private Paint BlackPaint;
+	private Paint WhitePaint;
+	private Paint EraserPaint;
+	// -------------
 
 	private GLSurfaceView mGLView;
 	private MyRenderer renderer = null;
@@ -39,41 +66,130 @@ public class Activity3Page extends Activity {
 	private float ypos = -1;
 
 	DrawPanel dp;
-	private ArrayList<Path> pointsToDraw = new ArrayList<Path>();
-	private Paint mPaint;
-	Path path;
+	private ArrayList<PaintData> drawPaintDataList = new ArrayList<PaintData>();
+	private Path currentPath;
 
-	private void Init() {
+	private void ButtonInit() {
 
 		// 設定"編輯切換"Button
 		this.editChangeButton = (Button) findViewById(R.id.Act3_EditChangeButton);
 		this.editChangeButton.setOnClickListener(new Button.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				if (editStatus == EditStatus.Mode2D)
-					editStatus = EditStatus.Mode3D;
+				if (currentEditStatus == EditStatus.Mode2D)
+					currentEditStatus = EditStatus.Mode3D;
 				else
-					editStatus = EditStatus.Mode2D;
+					currentEditStatus = EditStatus.Mode2D;
 			}
 		});
-
 		// ----------------------
 
 		// 設定"還原"Button
-		this.reducePaintButton = (Button) findViewById(R.id.Act3_ReducePaintButton);
-		this.reducePaintButton.setOnClickListener(new Button.OnClickListener() {
+		this.undoPaintButton = (Button) findViewById(R.id.Act3_UndoPaintButton);
+		this.undoPaintButton.setOnClickListener(new Button.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				synchronized (pointsToDraw) {
-					if (pointsToDraw.size() > 0) {
-						pointsToDraw.remove(pointsToDraw.size() - 1);
+				synchronized (drawPaintDataList) {
+					if (drawPaintDataList.size() > 0) {
+						drawPaintDataList.remove(drawPaintDataList.size() - 1);
 						Logger.log("Remove:"
-								+ String.valueOf(pointsToDraw.size()));
+								+ String.valueOf(drawPaintDataList.size()));
 					}
 				}
 			}
 		});
+		// ----------------------
 
+		// 設定"重畫"Button
+		this.redoPaintButton = (Button) findViewById(R.id.Act3_RedoPaintButton);
+		this.redoPaintButton.setOnClickListener(new Button.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				// synchronized (drawPaintDataList) {
+				// if (drawPaintDataList.size() > 0) {
+				// drawPaintDataList.remove(drawPaintDataList.size() - 1);
+				// Logger.log("Remove:"
+				// + String.valueOf(drawPaintDataList.size()));
+				// }
+				// }
+			}
+		});
+		// ----------------------
+
+		// 設定"黑色"Button (切換為黑筆)
+		this.blackPaintButton = (Button) findViewById(R.id.Act3_BlackPaintButton);
+		this.blackPaintButton.setOnClickListener(new Button.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				currentPaintType = PaintType.Black;
+			}
+		});
+		// ----------------------
+
+		// 設定"白色"Button (切換為白筆)
+		this.whitePaintButton = (Button) findViewById(R.id.Act3_WhitePaintButton);
+		this.whitePaintButton.setOnClickListener(new Button.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				currentPaintType = PaintType.White;
+			}
+		});
+		// ----------------------
+
+		// 設定"橡皮擦"Button (切換為橡皮擦模式，擦除畫筆)
+		this.eraserButton = (Button) findViewById(R.id.Act3_EraserButton);
+		this.eraserButton.setOnClickListener(new Button.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				currentPaintType = PaintType.Eraser;
+			}
+		});
+		// ----------------------
+
+		// 設定"清除"Button (Canvas 所有的Paint全部清除)
+		this.clearCanvasButton = (Button) findViewById(R.id.Act3_ClearCanvasButton);
+		this.clearCanvasButton.setOnClickListener(new Button.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				synchronized (drawPaintDataList) {
+					drawPaintDataList.clear();
+				}
+			}
+		});
+		// ----------------------
+
+	}
+
+	private void paintInit() {
+
+		// 黑色筆初始化
+		BlackPaint = new Paint();
+		BlackPaint.setDither(true);
+		BlackPaint.setColor(Color.BLACK);
+		BlackPaint.setStyle(Paint.Style.STROKE);
+		BlackPaint.setStrokeJoin(Paint.Join.ROUND);
+		BlackPaint.setStrokeCap(Paint.Cap.ROUND);
+		BlackPaint.setStrokeWidth(30);
+
+		// 白色筆初始化
+		WhitePaint = new Paint();
+		WhitePaint.setDither(true);
+		WhitePaint.setColor(Color.WHITE);
+		WhitePaint.setStyle(Paint.Style.STROKE);
+		WhitePaint.setStrokeJoin(Paint.Join.ROUND);
+		WhitePaint.setStrokeCap(Paint.Cap.ROUND);
+		WhitePaint.setStrokeWidth(30);
+
+		// 橡皮擦初始化
+		EraserPaint = new Paint();
+		EraserPaint.setDither(true);
+		EraserPaint.setMaskFilter(null);
+		EraserPaint.setXfermode(new PorterDuffXfermode(Mode.CLEAR));
+		EraserPaint.setARGB(1, 0, 0, 0);
+		EraserPaint.setStyle(Paint.Style.STROKE);
+		EraserPaint.setStrokeJoin(Paint.Join.ROUND);
+		EraserPaint.setStrokeCap(Paint.Cap.ROUND);
+		EraserPaint.setStrokeWidth(30);
 	}
 
 	protected void onCreate(Bundle savedInstanceState) {
@@ -86,7 +202,8 @@ public class Activity3Page extends Activity {
 
 		setContentView(R.layout.activity3_page);
 
-		Init();
+		ButtonInit();
+		paintInit();
 
 		FrameLayout frameLayout = (FrameLayout) this
 				.findViewById(R.id.activity3_framelayout);
@@ -94,13 +211,6 @@ public class Activity3Page extends Activity {
 		frameLayout.addView(this.mGLView);
 
 		dp = new DrawPanel(this);
-		mPaint = new Paint();
-		mPaint.setDither(true);
-		mPaint.setColor(Color.BLACK);
-		mPaint.setStyle(Paint.Style.STROKE);
-		mPaint.setStrokeJoin(Paint.Join.ROUND);
-		mPaint.setStrokeCap(Paint.Cap.ROUND);
-		mPaint.setStrokeWidth(30);
 
 		frameLayout.addView(dp);
 
@@ -127,7 +237,7 @@ public class Activity3Page extends Activity {
 
 	public boolean onTouchEvent(MotionEvent event) {
 
-		if (editStatus == EditStatus.Mode3D) {
+		if (currentEditStatus == EditStatus.Mode3D) {
 			switch (event.getAction()) {
 			case MotionEvent.ACTION_DOWN:
 				xpos = event.getX();
@@ -204,11 +314,20 @@ public class Activity3Page extends Activity {
 		protected void onDraw(Canvas canvas) {
 			// TODO Auto-generated method stub
 			super.onDraw(canvas);
-			synchronized (pointsToDraw) {
-				for (Path path : pointsToDraw) {
-					canvas.drawPath(path, mPaint);
-					Logger.log("Canvas===Draw:"
-							+ String.valueOf(pointsToDraw.size()));
+			synchronized (drawPaintDataList) {
+				for (PaintData data : drawPaintDataList) {
+					switch (data.paintType) {
+					case Black:
+						canvas.drawPath(data.paintPath, BlackPaint);
+						break;
+					case White:
+						canvas.drawPath(data.paintPath, WhitePaint);
+						break;
+					case Eraser:
+						canvas.drawPath(data.paintPath, EraserPaint);
+						break;
+					}
+
 				}
 			}
 		}
@@ -237,16 +356,19 @@ public class Activity3Page extends Activity {
 		public boolean onTouchEvent(MotionEvent me) {
 			// TODO Auto-generated method stub
 
-			if (editStatus == EditStatus.Mode2D) {
-				synchronized (pointsToDraw) {
+			if (currentEditStatus == EditStatus.Mode2D) {
+				synchronized (drawPaintDataList) {
 					if (me.getAction() == MotionEvent.ACTION_DOWN) {
 
-						path = new Path();
-						path.moveTo(me.getX(), me.getY());
-						// path.lineTo(me.getX(), me.getY());
-						pointsToDraw.add(path);
+						currentPath = new Path();
+						currentPath.moveTo(me.getX(), me.getY());
+
+						PaintData pData = new PaintData(currentPath,
+								currentPaintType);
+						drawPaintDataList.add(pData);
+
 						Logger.log("Draw:"
-								+ String.valueOf(pointsToDraw.size()));
+								+ String.valueOf(drawPaintDataList.size()));
 						return true;
 					}
 
@@ -257,7 +379,7 @@ public class Activity3Page extends Activity {
 
 					if (me.getAction() == MotionEvent.ACTION_MOVE) {
 
-						path.lineTo(me.getX(), me.getY());
+						currentPath.lineTo(me.getX(), me.getY());
 						return true;
 					}
 				}
