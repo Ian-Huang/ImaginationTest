@@ -96,12 +96,12 @@ public class MyRenderer implements Renderer {
 		world.draw(fb);
 		fb.display();
 
-		if (System.currentTimeMillis() - time >= 1000) {
-			Logger.log(fps + "fps");
-			fps = 0;
-			time = System.currentTimeMillis();
-		}
-		fps++;
+//		if (System.currentTimeMillis() - time >= 1000) {
+//			Logger.log(fps + "fps");
+//			fps = 0;
+//			time = System.currentTimeMillis();
+//		}
+//		fps++;
 	}
 
 	public Object3D loadModel(String filename, float scale) {
