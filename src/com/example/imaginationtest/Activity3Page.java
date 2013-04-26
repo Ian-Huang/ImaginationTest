@@ -67,6 +67,7 @@ public class Activity3Page extends Activity {
 
 	DrawPanel dp;
 	private ArrayList<PaintData> drawPaintDataList = new ArrayList<PaintData>();
+	private ArrayList<PaintData> rePaintDataList = new ArrayList<PaintData>();
 	private Path currentPath;
 
 	private void ButtonInit() {
@@ -90,10 +91,16 @@ public class Activity3Page extends Activity {
 			@Override
 			public void onClick(View v) {
 				synchronized (drawPaintDataList) {
-					if (drawPaintDataList.size() > 0) {
-						drawPaintDataList.remove(drawPaintDataList.size() - 1);
-						Logger.log("Remove:"
-								+ String.valueOf(drawPaintDataList.size()));
+					synchronized (rePaintDataList) {
+						if (drawPaintDataList.size() > 0) {
+							rePaintDataList.add(drawPaintDataList
+									.get(drawPaintDataList.size() - 1));
+							drawPaintDataList.remove(drawPaintDataList.size() - 1);
+							Logger.log("Action Undo: current size = "
+									+ String.valueOf(drawPaintDataList.size())
+									+ " redoSize = "
+									+ String.valueOf(rePaintDataList.size()));
+						}
 					}
 				}
 			}
@@ -105,13 +112,19 @@ public class Activity3Page extends Activity {
 		this.redoPaintButton.setOnClickListener(new Button.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				// synchronized (drawPaintDataList) {
-				// if (drawPaintDataList.size() > 0) {
-				// drawPaintDataList.remove(drawPaintDataList.size() - 1);
-				// Logger.log("Remove:"
-				// + String.valueOf(drawPaintDataList.size()));
-				// }
-				// }
+				synchronized (drawPaintDataList) {
+					synchronized (rePaintDataList) {
+						if (rePaintDataList.size() > 0) {
+							drawPaintDataList.add(rePaintDataList
+									.get(rePaintDataList.size() - 1));
+							rePaintDataList.remove(rePaintDataList.size() - 1);
+							Logger.log("Action Redo: current size = "
+									+ String.valueOf(drawPaintDataList.size())
+									+ " redoSize = "
+									+ String.valueOf(rePaintDataList.size()));
+						}
+					}
+				}
 			}
 		});
 		// ----------------------
@@ -152,7 +165,10 @@ public class Activity3Page extends Activity {
 			@Override
 			public void onClick(View v) {
 				synchronized (drawPaintDataList) {
-					drawPaintDataList.clear();
+					synchronized (rePaintDataList) {
+						drawPaintDataList.clear();
+						rePaintDataList.clear();
+					}
 				}
 			}
 		});
@@ -353,34 +369,36 @@ public class Activity3Page extends Activity {
 		}
 
 		@Override
-		public boolean onTouchEvent(MotionEvent me) {
+		public boolean onTouchEvent(MotionEvent event) {
 			// TODO Auto-generated method stub
 
 			if (currentEditStatus == EditStatus.Mode2D) {
 				synchronized (drawPaintDataList) {
-					if (me.getAction() == MotionEvent.ACTION_DOWN) {
+					synchronized (rePaintDataList) {
+						switch (event.getAction()) {
 
-						currentPath = new Path();
-						currentPath.moveTo(me.getX(), me.getY());
+						case MotionEvent.ACTION_DOWN:
 
-						PaintData pData = new PaintData(currentPath,
-								currentPaintType);
-						drawPaintDataList.add(pData);
+							rePaintDataList.clear();// 清除重做(Redo)的所有紀錄
 
-						Logger.log("Draw:"
-								+ String.valueOf(drawPaintDataList.size()));
-						return true;
-					}
+							currentPath = new Path();
+							currentPath.moveTo(event.getX(), event.getY());
 
-					if (me.getAction() == MotionEvent.ACTION_UP) {
+							PaintData pData = new PaintData(currentPath,
+									currentPaintType);
+							drawPaintDataList.add(pData);
 
-						return true;
-					}
+							Logger.log("Action Draw: cuttentSize = "
+									+ String.valueOf(drawPaintDataList.size()));
+							return true;
 
-					if (me.getAction() == MotionEvent.ACTION_MOVE) {
+						case MotionEvent.ACTION_MOVE:
+							currentPath.lineTo(event.getX(), event.getY());
+							return true;
 
-						currentPath.lineTo(me.getX(), me.getY());
-						return true;
+						default:
+							break;
+						}
 					}
 				}
 
@@ -392,7 +410,7 @@ public class Activity3Page extends Activity {
 
 			}
 
-			return super.onTouchEvent(me);
+			return super.onTouchEvent(event);
 		}
 	}
 }
