@@ -1,92 +1,109 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:orientation="vertical" >
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
 
         <Button
             android:id="@+id/Act4_UndoButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="還原" />
+            android:text="還原"
+            android:textSize="@dimen/font_size_small" />
 
         <Button
             android:id="@+id/Act4_RedoButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="重畫" />
+            android:text="重畫"
+            android:textSize="@dimen/font_size_small" />
 
         <Button
             android:id="@+id/Act4_ClearButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="清除" />
+            android:text="清除"
+            android:textSize="@dimen/font_size_small" />
 
         <Button
             android:id="@+id/Act4_EraserButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="橡皮擦" />
+            android:text="橡皮擦"
+            android:textSize="@dimen/font_size_small" />
 
         <Button
             android:id="@+id/Act4_PreviousPageButton"
-            android:layout_width="45dp"
-            android:layout_height="75dp"
-            android:text="上一頁" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="上一頁"
+            android:textSize="@dimen/font_size_small" />
 
         <Button
             android:id="@+id/Act4_NextPageButton"
-            android:layout_width="45dp"
-            android:layout_height="75dp"
-            android:text="下一頁" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="下一頁"
+            android:textSize="@dimen/font_size_small" />
+
     </LinearLayout>
 
-    <TableLayout
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <Button
+            android:id="@+id/Act4_SaveFileButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="存檔"
+            android:textSize="@dimen/font_size_small" />
+
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
 
-        <TableRow
-            android:id="@+id/tableRow1"
+        <ImageView
+            android:id="@+id/imageView1"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" >
+            android:layout_height="wrap_content"
+            android:src="@android:drawable/btn_dialog" />
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical" >
+        <EditText
+            android:id="@+id/editText1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10" >
 
-                <ImageView
-                    android:id="@+id/imageView1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_launcher" />
+            <requestFocus />
+        </EditText>
+    </LinearLayout>
 
-                <EditText
-                    android:id="@+id/editText1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:ems="10" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
 
-            </LinearLayout>
-
-        </TableRow>
-
-        <TableRow
-            android:id="@+id/tableRow2"
+        <ImageView
+            android:id="@+id/ImageView01"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" >
+            android:layout_height="wrap_content"
+            android:src="@android:drawable/btn_dialog" />
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical" >
-            </LinearLayout>
-
-        </TableRow>
-    </TableLayout>
+        <EditText
+            android:id="@+id/EditText01"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10" />
+    </LinearLayout>
 
 </LinearLayout>
