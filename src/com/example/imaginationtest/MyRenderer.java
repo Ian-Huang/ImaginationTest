@@ -54,15 +54,15 @@ public class MyRenderer implements Renderer {
 		world = new World();
 		world.setAmbientLight(75, 75, 75);
 
-		// arch = loadModel("Arch.3DS", 10);
-		// arch.compile();
-		// box = loadModel("Box.3DS", 10);
-		// box.compile();
+		arch = loadModel("Arch.3DS", 10);
+		arch.compile();
+		box = loadModel("Box.3DS", 10);
+		box.compile();
 		cylinder = loadModel("Cylinder.3DS", 10);
 		cylinder.compile();
 
-		// world.addObject(arch);
-		// world.addObject(box);
+		world.addObject(arch);
+		world.addObject(box);
 		world.addObject(cylinder);
 
 		Camera cam = world.getCamera();
@@ -96,12 +96,12 @@ public class MyRenderer implements Renderer {
 		world.draw(fb);
 		fb.display();
 
-//		if (System.currentTimeMillis() - time >= 1000) {
-//			Logger.log(fps + "fps");
-//			fps = 0;
-//			time = System.currentTimeMillis();
-//		}
-//		fps++;
+		// if (System.currentTimeMillis() - time >= 1000) {
+		// Logger.log(fps + "fps");
+		// fps = 0;
+		// time = System.currentTimeMillis();
+		// }
+		// fps++;
 	}
 
 	public Object3D loadModel(String filename, float scale) {

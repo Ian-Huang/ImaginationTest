@@ -28,6 +28,10 @@ public class Activity3Page extends Activity {
 		Mode2D, Mode3D
 	}
 
+	enum ActionType {
+		Move, Rotate, Scale
+	}
+
 	enum PaintType {
 		Eraser, White, Black
 	}
@@ -44,6 +48,7 @@ public class Activity3Page extends Activity {
 
 	private EditStatus currentEditStatus = EditStatus.Mode2D;// 確認目前編輯狀態是在2D或3D
 	private PaintType currentPaintType = PaintType.Black;// 確認目前畫筆的顏色(黑筆、白筆、橡皮擦)
+	private ActionType currentActionType = ActionType.Move;// 確認目前3D模式的動作
 
 	// ----------Button----------
 	private Button undoPaintButton;
@@ -60,7 +65,7 @@ public class Activity3Page extends Activity {
 	// -----------------------------
 
 	// --------2D Canvas繪圖相關-------
-	private DrawPanel dp;
+	private DrawPanel drawPanel;
 
 	// ----畫筆初始化----
 	private Paint BlackPaint;
@@ -99,7 +104,7 @@ public class Activity3Page extends Activity {
 								eraserButton.setEnabled(false);
 								undoPaintButton.setEnabled(false);
 								clearCanvasButton.setEnabled(false);
-								if(currentPaintType == PaintType.Eraser)
+								if (currentPaintType == PaintType.Eraser)
 									currentPaintType = PaintType.Black;
 							}
 							Logger.log("Action Undo: current size = "
@@ -187,7 +192,7 @@ public class Activity3Page extends Activity {
 						eraserButton.setEnabled(false);
 						undoPaintButton.setEnabled(false);
 						clearCanvasButton.setEnabled(false);
-						if(currentPaintType == PaintType.Eraser)
+						if (currentPaintType == PaintType.Eraser)
 							currentPaintType = PaintType.Black;
 					}
 				}
@@ -201,7 +206,7 @@ public class Activity3Page extends Activity {
 		moveButton.setOnClickListener(new Button.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-
+				currentActionType = ActionType.Move;
 			}
 		});
 		// ----------------------
@@ -212,7 +217,7 @@ public class Activity3Page extends Activity {
 		rotateButton.setOnClickListener(new Button.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-
+				currentActionType = ActionType.Rotate;
 			}
 		});
 		// ----------------------
@@ -223,7 +228,7 @@ public class Activity3Page extends Activity {
 		scaleButton.setOnClickListener(new Button.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-
+				currentActionType = ActionType.Scale;
 			}
 		});
 		// ----------------------
@@ -262,7 +267,7 @@ public class Activity3Page extends Activity {
 							}
 							if (rePaintDataList.size() != 0)
 								redoPaintButton.setEnabled(true);
-							if(currentPaintType == PaintType.Eraser)
+							if (currentPaintType == PaintType.Eraser)
 								currentPaintType = PaintType.Black;
 							currentEditStatus = EditStatus.Mode2D;
 						}
@@ -321,8 +326,8 @@ public class Activity3Page extends Activity {
 		mGLView.setRenderer(renderer);
 		frameLayout.addView(mGLView);
 
-		dp = new DrawPanel(this);
-		frameLayout.addView(dp);
+		drawPanel = new DrawPanel(this);
+		frameLayout.addView(drawPanel);
 	}
 
 	public boolean onTouchEvent(MotionEvent event) {
@@ -333,23 +338,23 @@ public class Activity3Page extends Activity {
 				xpos = event.getX();
 				ypos = event.getY();
 				return true;
+				
+			case MotionEvent.ACTION_MOVE:
+				float x_delta = event.getX() - xpos;
+				float y_delta = event.getY() - ypos;
 
+				xpos = event.getX();
+				ypos = event.getY();
+
+				renderer.touchTurn = x_delta / -100f;
+				renderer.touchTurnUp = y_delta / -100f;
+				return true;
+				
 			case MotionEvent.ACTION_UP:
 				xpos = -1;
 				ypos = -1;
 				renderer.touchTurn = 0;
 				renderer.touchTurnUp = 0;
-				return true;
-
-			case MotionEvent.ACTION_MOVE:
-				float xd = event.getX() - xpos;
-				float yd = event.getY() - ypos;
-
-				xpos = event.getX();
-				ypos = event.getY();
-
-				renderer.touchTurn = xd / -100f;
-				renderer.touchTurnUp = yd / -100f;
 				return true;
 
 			default:
@@ -491,13 +496,13 @@ public class Activity3Page extends Activity {
 	protected void onPause() {
 		super.onPause();
 		mGLView.onPause();
-		dp.pause();
+		drawPanel.pause();
 	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
 		mGLView.onResume();
-		dp.resume();
+		drawPanel.resume();
 	}
 }
