@@ -45,7 +45,7 @@ public class Activity3Page extends Activity {
 	private EditStatus currentEditStatus = EditStatus.Mode2D;// 確認目前編輯狀態是在2D或3D
 	private PaintType currentPaintType = PaintType.Black;// 確認目前畫筆的顏色(黑筆、白筆、橡皮擦)
 
-	private Button editChangeButton;
+	// ----------Button----------
 	private Button undoPaintButton;
 	private Button redoPaintButton;
 	private Button eraserButton;
@@ -53,11 +53,25 @@ public class Activity3Page extends Activity {
 	private Button blackPaintButton;
 	private Button clearCanvasButton;
 
+	private Button editChangeButton;
+	private Button moveButton;
+	private Button rotateButton;
+	private Button scaleButton;
+	// -----------------------------
+
+	// --------2D Canvas繪圖相關-------
+	private DrawPanel dp;
+
 	// ----畫筆初始化----
 	private Paint BlackPaint;
 	private Paint WhitePaint;
 	private Paint EraserPaint;
-	// -------------
+
+	// ----路徑資訊----
+	private ArrayList<PaintData> drawPaintDataList = new ArrayList<PaintData>();
+	private ArrayList<PaintData> rePaintDataList = new ArrayList<PaintData>();
+	private Path currentPath;
+	// ------------------------------------
 
 	private GLSurfaceView mGLView;
 	private MyRenderer renderer = null;
@@ -65,29 +79,12 @@ public class Activity3Page extends Activity {
 	private float xpos = -1;
 	private float ypos = -1;
 
-	DrawPanel dp;
-	private ArrayList<PaintData> drawPaintDataList = new ArrayList<PaintData>();
-	private ArrayList<PaintData> rePaintDataList = new ArrayList<PaintData>();
-	private Path currentPath;
-
 	private void ButtonInit() {
 
-		// 設定"編輯切換"Button
-		this.editChangeButton = (Button) findViewById(R.id.Act3_EditChangeButton);
-		this.editChangeButton.setOnClickListener(new Button.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				if (currentEditStatus == EditStatus.Mode2D)
-					currentEditStatus = EditStatus.Mode3D;
-				else
-					currentEditStatus = EditStatus.Mode2D;
-			}
-		});
-		// ----------------------
-
 		// 設定"還原"Button
-		this.undoPaintButton = (Button) findViewById(R.id.Act3_UndoPaintButton);
-		this.undoPaintButton.setOnClickListener(new Button.OnClickListener() {
+		undoPaintButton = (Button) findViewById(R.id.Act3_UndoPaintButton);
+		undoPaintButton.setEnabled(false);
+		undoPaintButton.setOnClickListener(new Button.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				synchronized (drawPaintDataList) {
@@ -95,7 +92,14 @@ public class Activity3Page extends Activity {
 						if (drawPaintDataList.size() > 0) {
 							rePaintDataList.add(drawPaintDataList
 									.get(drawPaintDataList.size() - 1));
+							redoPaintButton.setEnabled(true);
+
 							drawPaintDataList.remove(drawPaintDataList.size() - 1);
+							if (drawPaintDataList.size() == 0) {
+								eraserButton.setEnabled(false);
+								undoPaintButton.setEnabled(false);
+								clearCanvasButton.setEnabled(false);
+							}
 							Logger.log("Action Undo: current size = "
 									+ String.valueOf(drawPaintDataList.size())
 									+ " redoSize = "
@@ -108,8 +112,9 @@ public class Activity3Page extends Activity {
 		// ----------------------
 
 		// 設定"重畫"Button
-		this.redoPaintButton = (Button) findViewById(R.id.Act3_RedoPaintButton);
-		this.redoPaintButton.setOnClickListener(new Button.OnClickListener() {
+		redoPaintButton = (Button) findViewById(R.id.Act3_RedoPaintButton);
+		redoPaintButton.setEnabled(false);
+		redoPaintButton.setOnClickListener(new Button.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				synchronized (drawPaintDataList) {
@@ -117,7 +122,13 @@ public class Activity3Page extends Activity {
 						if (rePaintDataList.size() > 0) {
 							drawPaintDataList.add(rePaintDataList
 									.get(rePaintDataList.size() - 1));
+							undoPaintButton.setEnabled(true);
+							clearCanvasButton.setEnabled(true);
+
 							rePaintDataList.remove(rePaintDataList.size() - 1);
+							if (rePaintDataList.size() == 0)
+								redoPaintButton.setEnabled(false);
+
 							Logger.log("Action Redo: current size = "
 									+ String.valueOf(drawPaintDataList.size())
 									+ " redoSize = "
@@ -130,8 +141,8 @@ public class Activity3Page extends Activity {
 		// ----------------------
 
 		// 設定"黑色"Button (切換為黑筆)
-		this.blackPaintButton = (Button) findViewById(R.id.Act3_BlackPaintButton);
-		this.blackPaintButton.setOnClickListener(new Button.OnClickListener() {
+		blackPaintButton = (Button) findViewById(R.id.Act3_BlackPaintButton);
+		blackPaintButton.setOnClickListener(new Button.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				currentPaintType = PaintType.Black;
@@ -140,8 +151,8 @@ public class Activity3Page extends Activity {
 		// ----------------------
 
 		// 設定"白色"Button (切換為白筆)
-		this.whitePaintButton = (Button) findViewById(R.id.Act3_WhitePaintButton);
-		this.whitePaintButton.setOnClickListener(new Button.OnClickListener() {
+		whitePaintButton = (Button) findViewById(R.id.Act3_WhitePaintButton);
+		whitePaintButton.setOnClickListener(new Button.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				currentPaintType = PaintType.White;
@@ -150,8 +161,9 @@ public class Activity3Page extends Activity {
 		// ----------------------
 
 		// 設定"橡皮擦"Button (切換為橡皮擦模式，擦除畫筆)
-		this.eraserButton = (Button) findViewById(R.id.Act3_EraserButton);
-		this.eraserButton.setOnClickListener(new Button.OnClickListener() {
+		eraserButton = (Button) findViewById(R.id.Act3_EraserButton);
+		eraserButton.setEnabled(false);
+		eraserButton.setOnClickListener(new Button.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				currentPaintType = PaintType.Eraser;
@@ -160,20 +172,100 @@ public class Activity3Page extends Activity {
 		// ----------------------
 
 		// 設定"清除"Button (Canvas 所有的Paint全部清除)
-		this.clearCanvasButton = (Button) findViewById(R.id.Act3_ClearCanvasButton);
-		this.clearCanvasButton.setOnClickListener(new Button.OnClickListener() {
+		clearCanvasButton = (Button) findViewById(R.id.Act3_ClearCanvasButton);
+		clearCanvasButton.setEnabled(false);
+		clearCanvasButton.setOnClickListener(new Button.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				synchronized (drawPaintDataList) {
 					synchronized (rePaintDataList) {
 						drawPaintDataList.clear();
 						rePaintDataList.clear();
+						redoPaintButton.setEnabled(false);
+						eraserButton.setEnabled(false);
+						undoPaintButton.setEnabled(false);
+						clearCanvasButton.setEnabled(false);
 					}
 				}
 			}
 		});
 		// ----------------------
 
+		// 設定"移動"Button (3D物件控制)
+		moveButton = (Button) findViewById(R.id.Act3_MoveButton);
+		moveButton.setEnabled(false);
+		moveButton.setOnClickListener(new Button.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+
+			}
+		});
+		// ----------------------
+
+		// 設定"旋轉"Button (3D物件控制)
+		rotateButton = (Button) findViewById(R.id.Act3_RotateButton);
+		rotateButton.setEnabled(false);
+		rotateButton.setOnClickListener(new Button.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+
+			}
+		});
+		// ----------------------
+
+		// 設定"縮放"Button (3D物件控制)
+		scaleButton = (Button) findViewById(R.id.Act3_ScaleButton);
+		scaleButton.setEnabled(false);
+		scaleButton.setOnClickListener(new Button.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+
+			}
+		});
+		// ----------------------
+
+		// 設定"編輯切換"Button
+		editChangeButton = (Button) findViewById(R.id.Act3_EditChangeButton);
+		editChangeButton.setOnClickListener(new Button.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				synchronized (drawPaintDataList) {
+					synchronized (rePaintDataList) {
+						if (currentEditStatus == EditStatus.Mode2D) {
+							undoPaintButton.setEnabled(false);
+							redoPaintButton.setEnabled(false);
+							eraserButton.setEnabled(false);
+							whitePaintButton.setEnabled(false);
+							blackPaintButton.setEnabled(false);
+							clearCanvasButton.setEnabled(false);
+
+							moveButton.setEnabled(true);
+							rotateButton.setEnabled(true);
+							scaleButton.setEnabled(true);
+
+							currentEditStatus = EditStatus.Mode3D;
+						} else {
+							moveButton.setEnabled(false);
+							rotateButton.setEnabled(false);
+							scaleButton.setEnabled(false);
+
+							whitePaintButton.setEnabled(true);
+							blackPaintButton.setEnabled(true);
+							if (drawPaintDataList.size() != 0) {
+								undoPaintButton.setEnabled(true);
+								eraserButton.setEnabled(true);
+								clearCanvasButton.setEnabled(true);
+							}
+							if (rePaintDataList.size() != 0)
+								redoPaintButton.setEnabled(true);
+
+							currentEditStatus = EditStatus.Mode2D;
+						}
+					}
+				}
+			}
+		});
+		// ----------------------
 	}
 
 	private void paintInit() {
@@ -211,11 +303,6 @@ public class Activity3Page extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 
 		super.onCreate(savedInstanceState);
-		mGLView = new GLSurfaceView(getApplication());
-
-		renderer = new MyRenderer(getResources());
-		mGLView.setRenderer(renderer);
-
 		setContentView(R.layout.activity3_page);
 
 		ButtonInit();
@@ -224,31 +311,13 @@ public class Activity3Page extends Activity {
 		FrameLayout frameLayout = (FrameLayout) this
 				.findViewById(R.id.activity3_framelayout);
 
-		frameLayout.addView(this.mGLView);
+		mGLView = new GLSurfaceView(getApplication());
+		renderer = new MyRenderer(getResources());
+		mGLView.setRenderer(renderer);
+		frameLayout.addView(mGLView);
 
 		dp = new DrawPanel(this);
-
 		frameLayout.addView(dp);
-
-	}
-
-	@Override
-	protected void onPause() {
-		super.onPause();
-		mGLView.onPause();
-		dp.pause();
-	}
-
-	@Override
-	protected void onResume() {
-		super.onResume();
-		mGLView.onResume();
-		dp.resume();
-	}
-
-	@Override
-	protected void onStop() {
-		super.onStop();
 	}
 
 	public boolean onTouchEvent(MotionEvent event) {
@@ -287,12 +356,7 @@ public class Activity3Page extends Activity {
 		} catch (Exception e) {
 			// No need for this...
 		}
-
 		return super.onTouchEvent(event);
-	}
-
-	protected boolean isFullscreenOpaque() {
-		return true;
 	}
 
 	public class DrawPanel extends SurfaceView implements Runnable {
@@ -380,6 +444,10 @@ public class Activity3Page extends Activity {
 						case MotionEvent.ACTION_DOWN:
 
 							rePaintDataList.clear();// 清除重做(Redo)的所有紀錄
+							redoPaintButton.setEnabled(false);
+							eraserButton.setEnabled(true);
+							undoPaintButton.setEnabled(true);
+							clearCanvasButton.setEnabled(true);
 
 							currentPath = new Path();
 							currentPath.moveTo(event.getX(), event.getY());
@@ -412,5 +480,19 @@ public class Activity3Page extends Activity {
 
 			return super.onTouchEvent(event);
 		}
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		mGLView.onPause();
+		dp.pause();
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		mGLView.onResume();
+		dp.resume();
 	}
 }

@@ -14,12 +14,11 @@
         android:layout_gravity="center"
         android:orientation="horizontal" >
 
-
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginLeft="@dimen/activity_vertical_margin"
             android:layout_weight="0.15"
             android:text="活動三操作說明"
             android:textSize="@dimen/font_size_title" />
@@ -28,14 +27,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right"
-            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_vertical_margin"
             android:text="開始測驗"
             android:textSize="@dimen/font_size_small" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="147dp"
         android:orientation="vertical" >
 
         <LinearLayout
@@ -43,17 +42,10 @@
             android:layout_height="wrap_content" >
 
             <Button
-                android:id="@+id/Act3_EraserButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                android:text="橡皮擦"
-                android:textSize="@dimen/font_size_small" />
-
-            <Button
                 android:id="@+id/Act3_BlackPaintButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/activity_vertical_margin"
                 android:text="黑色"
                 android:textSize="@dimen/font_size_small" />
 
@@ -65,10 +57,16 @@
                 android:textSize="@dimen/font_size_small" />
 
             <Button
+                android:id="@+id/Act3_EraserButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="橡皮擦"
+                android:textSize="@dimen/font_size_small" />
+
+            <Button
                 android:id="@+id/Act3_UndoPaintButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/activity_horizontal_margin"
                 android:text="還原"
                 android:textSize="@dimen/font_size_small" />
 
@@ -85,16 +83,44 @@
                 android:layout_height="wrap_content"
                 android:text="清除"
                 android:textSize="@dimen/font_size_small" />
-
         </LinearLayout>
 
-        <Button
-            android:id="@+id/Act3_EditChangeButton"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/activity_horizontal_margin"
-            android:text="編輯切換"
-            android:textSize="@dimen/font_size_small" />
+            android:orientation="horizontal" >
+
+            <Button
+                android:id="@+id/Act3_EditChangeButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/activity_vertical_margin"
+                android:layout_marginRight="@dimen/activity_vertical_margin"
+                android:text="編輯切換"
+                android:textSize="@dimen/font_size_small" />
+
+            <Button
+                android:id="@+id/Act3_MoveButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="移動"
+                android:textSize="@dimen/font_size_small" />
+
+            <Button
+                android:id="@+id/Act3_RotateButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="旋轉"
+                android:textSize="@dimen/font_size_small" />
+
+            <Button
+                android:id="@+id/Act3_ScaleButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="縮放"
+                android:textSize="@dimen/font_size_small" />
+
+        </LinearLayout>
 
     </LinearLayout>
 
