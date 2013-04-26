@@ -99,6 +99,8 @@ public class Activity3Page extends Activity {
 								eraserButton.setEnabled(false);
 								undoPaintButton.setEnabled(false);
 								clearCanvasButton.setEnabled(false);
+								if(currentPaintType == PaintType.Eraser)
+									currentPaintType = PaintType.Black;
 							}
 							Logger.log("Action Undo: current size = "
 									+ String.valueOf(drawPaintDataList.size())
@@ -185,6 +187,8 @@ public class Activity3Page extends Activity {
 						eraserButton.setEnabled(false);
 						undoPaintButton.setEnabled(false);
 						clearCanvasButton.setEnabled(false);
+						if(currentPaintType == PaintType.Eraser)
+							currentPaintType = PaintType.Black;
 					}
 				}
 			}
@@ -258,7 +262,8 @@ public class Activity3Page extends Activity {
 							}
 							if (rePaintDataList.size() != 0)
 								redoPaintButton.setEnabled(true);
-
+							if(currentPaintType == PaintType.Eraser)
+								currentPaintType = PaintType.Black;
 							currentEditStatus = EditStatus.Mode2D;
 						}
 					}
