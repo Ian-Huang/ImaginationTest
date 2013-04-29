@@ -13,7 +13,6 @@ import com.threed.jpct.Camera;
 import com.threed.jpct.FrameBuffer;
 import com.threed.jpct.Light;
 import com.threed.jpct.Loader;
-import com.threed.jpct.Logger;
 import com.threed.jpct.Matrix;
 import com.threed.jpct.Object3D;
 import com.threed.jpct.RGBColor;
@@ -25,14 +24,14 @@ public class MyRenderer implements Renderer {
 
 	private Resources resource;
 
-	public float touchTurn = 0;
-	public float touchTurnUp = 0;
+	public float touchTurnX = 0;
+	public float touchTurnY = 0;
 
 	private long time = System.currentTimeMillis();
 
-	private FrameBuffer fb = null;
+	private FrameBuffer frameBuffer = null;
 	private World world = null;
-	private RGBColor back = new RGBColor(255, 255, 255);
+	private RGBColor backgroundColor = new RGBColor(255, 255, 255);
 
 	private Object3D arch = null;
 	private Object3D box = null;
@@ -46,32 +45,39 @@ public class MyRenderer implements Renderer {
 	}
 
 	public void onSurfaceChanged(GL10 gl, int w, int h) {
-		if (fb != null)
-			fb.dispose();
+		if (frameBuffer != null)
+			frameBuffer.dispose();
 
-		fb = new FrameBuffer(gl, w, h);
+		frameBuffer = new FrameBuffer(gl, w, h);
 
-		world = new World();
-		world.setAmbientLight(75, 75, 75);
-
-		arch = loadModel("Arch.3DS", 10);
+		// 載入模型
+		arch = loadModel("Arch.3DS", 15);
 		arch.compile();
-		box = loadModel("Box.3DS", 10);
+		box = loadModel("Box.3DS", 8);
 		box.compile();
-		cylinder = loadModel("Cylinder.3DS", 10);
+		cylinder = loadModel("Cylinder.3DS", 7);
 		cylinder.compile();
 
+		// 設定世界場景(加入3個模型)
+		world = new World();
+		world.setAmbientLight(75, 75, 75);
 		world.addObject(arch);
 		world.addObject(box);
 		world.addObject(cylinder);
 
-		Camera cam = world.getCamera();
-		cam.moveCamera(Camera.CAMERA_MOVEOUT, 50);
-		cam.lookAt(SimpleVector.ORIGIN);
+		box.translate(new SimpleVector(-15, -20, 5));
+		arch.translate(new SimpleVector(-15, 5, -5));
 
+		// 設定Camera
+		Camera camera = world.getCamera();
+		camera.moveCamera(Camera.CAMERA_MOVEOUT, 50);// 向後移50
+		camera.lookAt(SimpleVector.ORIGIN); // 看向(0,0,0)
+
+		// 設定Light
 		sun = new Light(world);
 		sun.setIntensity(175, 175, 175);
-		sun.setPosition(cam.getPosition());
+		sun.setPosition(camera.getPosition());
+
 		MemoryHelper.compact();
 	}
 
@@ -81,20 +87,22 @@ public class MyRenderer implements Renderer {
 	public void onDrawFrame(GL10 gl) {
 		gl.glShadeModel(GL10.GL_SMOOTH);
 
-		if (touchTurn != 0) {
-			cylinder.rotateY(touchTurn);
-			touchTurn = 0;
+		// ---處理旋轉---begin
+		if (touchTurnX != 0) {
+			cylinder.rotateY(touchTurnX);
+			touchTurnX = 0;
 		}
 
-		if (touchTurnUp != 0) {
-			cylinder.rotateX(touchTurnUp);
-			touchTurnUp = 0;
+		if (touchTurnY != 0) {
+			cylinder.rotateX(touchTurnY);
+			touchTurnY = 0;
 		}
+		// ---處理旋轉---end
 
-		fb.clear(back);
-		world.renderScene(fb);
-		world.draw(fb);
-		fb.display();
+		frameBuffer.clear(backgroundColor);
+		world.renderScene(frameBuffer);
+		world.draw(frameBuffer);
+		frameBuffer.display();
 
 		// if (System.currentTimeMillis() - time >= 1000) {
 		// Logger.log(fps + "fps");
@@ -104,6 +112,7 @@ public class MyRenderer implements Renderer {
 		// fps++;
 	}
 
+	// 處理讀取Asset資料夾內的模型
 	public Object3D loadModel(String filename, float scale) {
 		Resources res = this.resource;
 		AssetManager asManager = res.getAssets();

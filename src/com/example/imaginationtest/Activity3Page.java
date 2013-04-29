@@ -13,6 +13,7 @@ import android.graphics.PorterDuff.Mode;
 import android.graphics.PorterDuffXfermode;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -81,8 +82,8 @@ public class Activity3Page extends Activity {
 	private GLSurfaceView mGLView;
 	private MyRenderer renderer = null;
 
-	private float xpos = -1;
-	private float ypos = -1;
+	private float tempTouchPosX = -1;
+	private float tempTouchPosY = -1;
 
 	private void ButtonInit() {
 
@@ -331,30 +332,58 @@ public class Activity3Page extends Activity {
 	}
 
 	public boolean onTouchEvent(MotionEvent event) {
+		int pointerCount = event.getPointerCount(); // ´X­ÓÄ²±±ÂI
 
 		if (currentEditStatus == EditStatus.Mode3D) {
+
 			switch (event.getAction()) {
 			case MotionEvent.ACTION_DOWN:
-				xpos = event.getX();
-				ypos = event.getY();
+
+				tempTouchPosX = event.getX();
+				tempTouchPosY = event.getY();
 				return true;
-				
+
 			case MotionEvent.ACTION_MOVE:
-				float x_delta = event.getX() - xpos;
-				float y_delta = event.getY() - ypos;
-
-				xpos = event.getX();
-				ypos = event.getY();
-
-				renderer.touchTurn = x_delta / -100f;
-				renderer.touchTurnUp = y_delta / -100f;
-				return true;
 				
+				// if (pointerCount == 1) {
+				//
+				// } else if (pointerCount == 2) {
+				// float touchX1 = event.getX(0);
+				// float touchY1 = event.getY(0);
+				// float touchX2 = event.getX(1);
+				// float touchY2 = event.getY(1);
+				//
+				// float CenterX = (touchX1 + touchX2) / 2;
+				// float CenterY = (touchY1 + touchY2) / 2;
+				//
+				// float lenX = Math.abs(touchX1 - touchX2);
+				// float lenY = Math.abs(touchY1 - touchY2);
+				//
+				// float x_delta = lenX - tempTouchPosX;
+				// float y_delta = lenY - tempTouchPosY;
+				//
+				// Log.i("Test Value",
+				// "x_delta = "+String.valueOf(x_delta)+" y_delta = "+String.valueOf(y_delta));
+				//
+				// tempTouchPosX = lenX;
+				// tempTouchPosY = lenY;
+				// }
+
+				float x_delta = event.getX() - tempTouchPosX;
+				float y_delta = event.getY() - tempTouchPosY;
+
+				tempTouchPosX = event.getX();
+				tempTouchPosY = event.getY();
+
+				renderer.touchTurnX = x_delta / -100f;
+				renderer.touchTurnY = y_delta / -100f;
+				return true;
+
 			case MotionEvent.ACTION_UP:
-				xpos = -1;
-				ypos = -1;
-				renderer.touchTurn = 0;
-				renderer.touchTurnUp = 0;
+				tempTouchPosX = -1;
+				tempTouchPosY = -1;
+				renderer.touchTurnX = 0;
+				renderer.touchTurnY = 0;
 				return true;
 
 			default:
