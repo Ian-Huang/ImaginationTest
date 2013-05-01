@@ -8,6 +8,7 @@ import javax.microedition.khronos.opengles.GL10;
 import android.content.res.AssetManager;
 import android.content.res.Resources;
 import android.opengl.GLSurfaceView.Renderer;
+import android.util.Log;
 
 import com.threed.jpct.Camera;
 import com.threed.jpct.FrameBuffer;
@@ -26,6 +27,7 @@ public class MyRenderer implements Renderer {
 
 	public float touchTurnX = 0;
 	public float touchTurnY = 0;
+	public float deltaScale = 0;
 
 	private long time = System.currentTimeMillis();
 
@@ -86,7 +88,11 @@ public class MyRenderer implements Renderer {
 
 	public void onDrawFrame(GL10 gl) {
 		gl.glShadeModel(GL10.GL_SMOOTH);
-
+		if (cylinder.getScale() < 1.5f && cylinder.getScale() > 0.5f) {
+			
+			cylinder.setScale(cylinder.getScale() + deltaScale);
+			Log.i("Render", String.valueOf(cylinder.getScale()));
+		}
 		// ---³B²z±ÛÂà---begin
 		if (touchTurnX != 0) {
 			cylinder.rotateY(touchTurnX);

@@ -13,6 +13,7 @@ import android.graphics.PorterDuff.Mode;
 import android.graphics.PorterDuffXfermode;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
+import android.util.FloatMath;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
@@ -84,6 +85,8 @@ public class Activity3Page extends Activity {
 
 	private float tempTouchPosX = -1;
 	private float tempTouchPosY = -1;
+	private float oldDistance = -1;
+	private float newDistance = -1;
 
 	private void ButtonInit() {
 
@@ -336,38 +339,46 @@ public class Activity3Page extends Activity {
 
 		if (currentEditStatus == EditStatus.Mode3D) {
 
-			switch (event.getAction()) {
+			switch (event.getAction() & MotionEvent.ACTION_MASK) {
 			case MotionEvent.ACTION_DOWN:
 
 				tempTouchPosX = event.getX();
 				tempTouchPosY = event.getY();
+
+				return true;
+
+			case MotionEvent.ACTION_POINTER_DOWN:
+				oldDistance = (float) Math.sqrt(Math.pow(
+						(event.getX(0) - event.getX(1)), 2)
+						+ Math.pow((event.getY(0) - event.getY(1)), 2));
 				return true;
 
 			case MotionEvent.ACTION_MOVE:
-				
-				// if (pointerCount == 1) {
-				//
-				// } else if (pointerCount == 2) {
-				// float touchX1 = event.getX(0);
-				// float touchY1 = event.getY(0);
-				// float touchX2 = event.getX(1);
-				// float touchY2 = event.getY(1);
-				//
-				// float CenterX = (touchX1 + touchX2) / 2;
-				// float CenterY = (touchY1 + touchY2) / 2;
-				//
-				// float lenX = Math.abs(touchX1 - touchX2);
-				// float lenY = Math.abs(touchY1 - touchY2);
-				//
-				// float x_delta = lenX - tempTouchPosX;
-				// float y_delta = lenY - tempTouchPosY;
-				//
-				// Log.i("Test Value",
-				// "x_delta = "+String.valueOf(x_delta)+" y_delta = "+String.valueOf(y_delta));
-				//
-				// tempTouchPosX = lenX;
-				// tempTouchPosY = lenY;
-				// }
+				if (pointerCount == 1) {
+
+				} else if (pointerCount == 2) {
+					float touchX1 = event.getX(0);
+					float touchY1 = event.getY(0);
+					float touchX2 = event.getX(1);
+					float touchY2 = event.getY(1);
+
+					float CenterX = (touchX1 + touchX2) / 2;
+					float CenterY = (touchY1 + touchY2) / 2;
+
+					float lenX = touchX1 - touchX2;
+					float lenY = touchY1 - touchY2;
+					
+					newDistance = (float) Math.sqrt(Math.pow(
+							(event.getX(0) - event.getX(1)), 2)
+							+ Math.pow((event.getY(0) - event.getY(1)), 2));
+
+					float delta = newDistance - oldDistance;
+
+					 //Log.i("delta", "delta" + String.valueOf(delta));
+					 renderer.deltaScale = delta/-1000.0f;
+					oldDistance = newDistance;
+
+				}
 
 				float x_delta = event.getX() - tempTouchPosX;
 				float y_delta = event.getY() - tempTouchPosY;
@@ -377,6 +388,10 @@ public class Activity3Page extends Activity {
 
 				renderer.touchTurnX = x_delta / -100f;
 				renderer.touchTurnY = y_delta / -100f;
+				return true;
+
+			case MotionEvent.ACTION_POINTER_UP:
+				renderer.deltaScale = 0;
 				return true;
 
 			case MotionEvent.ACTION_UP:
