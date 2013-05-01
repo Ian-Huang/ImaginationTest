@@ -114,10 +114,10 @@
                 android:textSize="@dimen/font_size_small" />
 
             <Button
-                android:id="@+id/Act3_ScaleButton"
+                android:id="@+id/Act3_DepthButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="縮放"
+                android:text="深度"
                 android:textSize="@dimen/font_size_small" />
 
         </LinearLayout>

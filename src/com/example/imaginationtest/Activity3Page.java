@@ -31,7 +31,7 @@ public class Activity3Page extends Activity {
 	}
 
 	enum ActionType {
-		Move, Rotate, Scale
+		Move, Rotate, Depth
 	}
 
 	enum PaintType {
@@ -50,7 +50,7 @@ public class Activity3Page extends Activity {
 
 	private EditStatus currentEditStatus = EditStatus.Mode2D;// 確認目前編輯狀態是在2D或3D
 	private PaintType currentPaintType = PaintType.Black;// 確認目前畫筆的顏色(黑筆、白筆、橡皮擦)
-	private ActionType currentActionType = ActionType.Move;// 確認目前3D模式的動作
+	public static ActionType currentActionType = ActionType.Move;// 確認目前3D模式的動作
 
 	// ----------Button----------
 	private Button undoPaintButton;
@@ -63,7 +63,7 @@ public class Activity3Page extends Activity {
 	private Button editChangeButton;
 	private Button moveButton;
 	private Button rotateButton;
-	private Button scaleButton;
+	private Button depthButton;
 	// -----------------------------
 
 	// --------2D Canvas繪圖相關-------
@@ -226,13 +226,13 @@ public class Activity3Page extends Activity {
 		});
 		// ----------------------
 
-		// 設定"縮放"Button (3D物件控制)
-		scaleButton = (Button) findViewById(R.id.Act3_ScaleButton);
-		scaleButton.setEnabled(false);
-		scaleButton.setOnClickListener(new Button.OnClickListener() {
+		// 設定"深度"Button (3D物件控制)
+		depthButton = (Button) findViewById(R.id.Act3_DepthButton);
+		depthButton.setEnabled(false);
+		depthButton.setOnClickListener(new Button.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				currentActionType = ActionType.Scale;
+				currentActionType = ActionType.Depth;
 			}
 		});
 		// ----------------------
@@ -254,13 +254,13 @@ public class Activity3Page extends Activity {
 
 							moveButton.setEnabled(true);
 							rotateButton.setEnabled(true);
-							scaleButton.setEnabled(true);
+							depthButton.setEnabled(true);
 
 							currentEditStatus = EditStatus.Mode3D;
 						} else {
 							moveButton.setEnabled(false);
 							rotateButton.setEnabled(false);
-							scaleButton.setEnabled(false);
+							depthButton.setEnabled(false);
 
 							whitePaintButton.setEnabled(true);
 							blackPaintButton.setEnabled(true);
@@ -334,84 +334,59 @@ public class Activity3Page extends Activity {
 		frameLayout.addView(drawPanel);
 	}
 
-	public boolean onTouchEvent(MotionEvent event) {
-		int pointerCount = event.getPointerCount(); // 幾個觸控點
-
-		if (currentEditStatus == EditStatus.Mode3D) {
-
-			switch (event.getAction() & MotionEvent.ACTION_MASK) {
-			case MotionEvent.ACTION_DOWN:
-
-				tempTouchPosX = event.getX();
-				tempTouchPosY = event.getY();
-
-				return true;
-
-			case MotionEvent.ACTION_POINTER_DOWN:
-				oldDistance = (float) Math.sqrt(Math.pow(
-						(event.getX(0) - event.getX(1)), 2)
-						+ Math.pow((event.getY(0) - event.getY(1)), 2));
-				return true;
-
-			case MotionEvent.ACTION_MOVE:
-				if (pointerCount == 1) {
-
-				} else if (pointerCount == 2) {
-					float touchX1 = event.getX(0);
-					float touchY1 = event.getY(0);
-					float touchX2 = event.getX(1);
-					float touchY2 = event.getY(1);
-
-					float CenterX = (touchX1 + touchX2) / 2;
-					float CenterY = (touchY1 + touchY2) / 2;
-
-					float lenX = touchX1 - touchX2;
-					float lenY = touchY1 - touchY2;
-					
-					newDistance = (float) Math.sqrt(Math.pow(
-							(event.getX(0) - event.getX(1)), 2)
-							+ Math.pow((event.getY(0) - event.getY(1)), 2));
-
-					float delta = newDistance - oldDistance;
-
-					 //Log.i("delta", "delta" + String.valueOf(delta));
-					 renderer.deltaScale = delta/-1000.0f;
-					oldDistance = newDistance;
-
-				}
-
-				float x_delta = event.getX() - tempTouchPosX;
-				float y_delta = event.getY() - tempTouchPosY;
-
-				tempTouchPosX = event.getX();
-				tempTouchPosY = event.getY();
-
-				renderer.touchTurnX = x_delta / -100f;
-				renderer.touchTurnY = y_delta / -100f;
-				return true;
-
-			case MotionEvent.ACTION_POINTER_UP:
-				renderer.deltaScale = 0;
-				return true;
-
-			case MotionEvent.ACTION_UP:
-				tempTouchPosX = -1;
-				tempTouchPosY = -1;
-				renderer.touchTurnX = 0;
-				renderer.touchTurnY = 0;
-				return true;
-
-			default:
-				break;
-			}
-		}
-		try {
-			Thread.sleep(15);
-		} catch (Exception e) {
-			// No need for this...
-		}
-		return super.onTouchEvent(event);
-	}
+	/*
+	 * public boolean onTouchEvent(MotionEvent event) {
+	 * 
+	 * if (currentEditStatus == EditStatus.Mode3D) { int pointerCount =
+	 * event.getPointerCount(); // 幾個觸控點 switch (event.getAction() &
+	 * MotionEvent.ACTION_MASK) {
+	 * 
+	 * case MotionEvent.ACTION_DOWN: tempTouchPosX = event.getX(); tempTouchPosY
+	 * = event.getY(); return true;
+	 * 
+	 * case MotionEvent.ACTION_POINTER_DOWN: // 當兩個點以上觸碰時觸發的動作 // 記錄兩點間距離
+	 * oldDistance = (float) Math.sqrt(Math.pow( (event.getX(0) -
+	 * event.getX(1)), 2) + Math.pow((event.getY(0) - event.getY(1)), 2));
+	 * return true;
+	 * 
+	 * case MotionEvent.ACTION_MOVE: if (pointerCount == 1) {// 觸碰一點時的控制
+	 * 
+	 * float x_delta = event.getX() - tempTouchPosX; float y_delta =
+	 * event.getY() - tempTouchPosY; tempTouchPosX = event.getX(); tempTouchPosY
+	 * = event.getY();
+	 * 
+	 * // Log.i("Position", // " event.getX: " + String.valueOf(event.getX()) //
+	 * + " event.getY: " // + String.valueOf(event.getY()));
+	 * 
+	 * renderer.deltaTranslatePositionX = x_delta / 100.0f;
+	 * renderer.deltaTranslatePositionY = y_delta / 100.0f;
+	 * 
+	 * renderer.deltaRotateAngleX = x_delta / -100f; renderer.deltaRotateAngleY
+	 * = y_delta / -100f;
+	 * 
+	 * } else if (pointerCount == 2) {// 觸碰兩點時的控制
+	 * 
+	 * // 記錄兩點間距離 newDistance = (float) Math.sqrt(Math.pow( (event.getX(0) -
+	 * event.getX(1)), 2) + Math.pow((event.getY(0) - event.getY(1)), 2));
+	 * 
+	 * float delta = newDistance - oldDistance;// 計算上次與這次兩點間距離的差值 //
+	 * Log.i("delta", "delta" + String.valueOf(delta)); oldDistance =
+	 * newDistance;
+	 * 
+	 * renderer.deltaScale = delta / 1000.0f; } return true;
+	 * 
+	 * case MotionEvent.ACTION_POINTER_UP: // 當兩個點以上離開時觸發的動作 renderer.deltaScale
+	 * = 0; return true;
+	 * 
+	 * case MotionEvent.ACTION_UP: renderer.deltaTranslatePositionX = 0;
+	 * renderer.deltaTranslatePositionY = 0;
+	 * 
+	 * renderer.deltaRotateAngleX = 0; renderer.deltaRotateAngleY = 0; return
+	 * true;
+	 * 
+	 * default: break; } } try { Thread.sleep(15); } catch (Exception e) { // No
+	 * need for this... } return super.onTouchEvent(event); }
+	 */
 
 	public class DrawPanel extends SurfaceView implements Runnable {
 
@@ -491,6 +466,7 @@ public class Activity3Page extends Activity {
 			// TODO Auto-generated method stub
 
 			if (currentEditStatus == EditStatus.Mode2D) {
+
 				synchronized (drawPaintDataList) {
 					synchronized (rePaintDataList) {
 						switch (event.getAction()) {
@@ -516,6 +492,11 @@ public class Activity3Page extends Activity {
 
 						case MotionEvent.ACTION_MOVE:
 							currentPath.lineTo(event.getX(), event.getY());
+							Log.i("Position",
+									" event.getX: "
+											+ String.valueOf(event.getX())
+											+ " event.getY: "
+											+ String.valueOf(event.getY()));
 							return true;
 
 						default:
@@ -523,13 +504,93 @@ public class Activity3Page extends Activity {
 						}
 					}
 				}
+			} else if (currentEditStatus == EditStatus.Mode3D) {
 
-				try {
-					Thread.sleep(15);
-				} catch (Exception e) {
-					// No need for this...
+				int pointerCount = event.getPointerCount(); // 幾個觸控點
+				switch (event.getAction() & MotionEvent.ACTION_MASK) {
+
+				case MotionEvent.ACTION_DOWN:
+					tempTouchPosX = event.getX();
+					tempTouchPosY = event.getY();
+					return true;
+
+				case MotionEvent.ACTION_POINTER_DOWN: // 當兩個點以上觸碰時觸發的動作
+					// 記錄兩點間距離
+					oldDistance = (float) Math.sqrt(Math.pow(
+							(event.getX(0) - event.getX(1)), 2)
+							+ Math.pow((event.getY(0) - event.getY(1)), 2));
+
+					renderer.deltaTranslatePositionX = 0;
+					renderer.deltaTranslatePositionY = 0;
+					renderer.deltaTranslatePositionZ = 0;
+
+					renderer.deltaRotateAngleX = 0;
+					renderer.deltaRotateAngleY = 0;
+					return true;
+
+				case MotionEvent.ACTION_MOVE:
+					if (pointerCount == 1) {// 觸碰一點時的控制
+
+						float x_delta = event.getX() - tempTouchPosX;
+						float y_delta = event.getY() - tempTouchPosY;
+						tempTouchPosX = event.getX();
+						tempTouchPosY = event.getY();
+
+						// 深度
+						renderer.deltaTranslatePositionZ = y_delta / -100.0f;
+
+						// 移動
+						renderer.deltaTranslatePositionX = x_delta / 10.0f;
+						renderer.deltaTranslatePositionY = y_delta / 10.0f;
+
+						// 旋轉
+						renderer.deltaRotateAngleX = x_delta / -100f;
+						renderer.deltaRotateAngleY = y_delta / -100f;
+
+					} else if (pointerCount == 2) {// 觸碰兩點時的控制
+
+						// 記錄兩點間距離
+						newDistance = (float) Math.sqrt(Math.pow(
+								(event.getX(0) - event.getX(1)), 2)
+								+ Math.pow((event.getY(0) - event.getY(1)), 2));
+
+						float delta = newDistance - oldDistance;// 計算上次與這次兩點間距離的差值
+						oldDistance = newDistance;
+
+						// 縮放
+						renderer.deltaScale = delta / 1000.0f;
+					}
+					return true;
+
+				case MotionEvent.ACTION_POINTER_UP: // 當兩個點以上離開時觸發的動作
+					if (event.getActionIndex() == 0) {
+						tempTouchPosX = event.getX(1);
+						tempTouchPosY = event.getY(1);
+					} else if (event.getActionIndex() == 1) {
+						tempTouchPosX = event.getX(0);
+						tempTouchPosY = event.getY(0);
+					}
+				case MotionEvent.ACTION_UP:
+
+					renderer.deltaTranslatePositionX = 0;
+					renderer.deltaTranslatePositionY = 0;
+					renderer.deltaTranslatePositionZ = 0;
+
+					renderer.deltaRotateAngleX = 0;
+					renderer.deltaRotateAngleY = 0;
+
+					renderer.deltaScale = 0;
+					return true;
+
+				default:
+					break;
 				}
+			}
 
+			try {
+				Thread.sleep(15);
+			} catch (Exception e) {
+				// No need for this...
 			}
 
 			return super.onTouchEvent(event);

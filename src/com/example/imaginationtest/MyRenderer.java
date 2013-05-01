@@ -12,6 +12,7 @@ import android.util.Log;
 
 import com.threed.jpct.Camera;
 import com.threed.jpct.FrameBuffer;
+import com.threed.jpct.Interact2D;
 import com.threed.jpct.Light;
 import com.threed.jpct.Loader;
 import com.threed.jpct.Matrix;
@@ -25,8 +26,11 @@ public class MyRenderer implements Renderer {
 
 	private Resources resource;
 
-	public float touchTurnX = 0;
-	public float touchTurnY = 0;
+	public float deltaTranslatePositionX = 0;
+	public float deltaTranslatePositionY = 0;
+	public float deltaTranslatePositionZ = 0;
+	public float deltaRotateAngleX = 0;
+	public float deltaRotateAngleY = 0;
 	public float deltaScale = 0;
 
 	private long time = System.currentTimeMillis();
@@ -38,6 +42,11 @@ public class MyRenderer implements Renderer {
 	private Object3D arch = null;
 	private Object3D box = null;
 	private Object3D cylinder = null;
+	private SimpleVector archOriginPosition;
+	private SimpleVector boxOriginPosition;
+	private SimpleVector cylinderOriginPosition;
+	private float ZaxisCanMoveDistance = 10;
+
 	private int fps = 0;
 
 	private Light sun = null;
@@ -70,6 +79,11 @@ public class MyRenderer implements Renderer {
 		box.translate(new SimpleVector(-15, -20, 5));
 		arch.translate(new SimpleVector(-15, 5, -5));
 
+		// 記錄原始位置
+		archOriginPosition = arch.getTranslation();
+		boxOriginPosition = box.getTranslation();
+		cylinderOriginPosition = cylinder.getTranslation();
+
 		// 設定Camera
 		Camera camera = world.getCamera();
 		camera.moveCamera(Camera.CAMERA_MOVEOUT, 50);// 向後移50
@@ -88,22 +102,8 @@ public class MyRenderer implements Renderer {
 
 	public void onDrawFrame(GL10 gl) {
 		gl.glShadeModel(GL10.GL_SMOOTH);
-		if (cylinder.getScale() < 1.5f && cylinder.getScale() > 0.5f) {
-			
-			cylinder.setScale(cylinder.getScale() + deltaScale);
-			Log.i("Render", String.valueOf(cylinder.getScale()));
-		}
-		// ---處理旋轉---begin
-		if (touchTurnX != 0) {
-			cylinder.rotateY(touchTurnX);
-			touchTurnX = 0;
-		}
 
-		if (touchTurnY != 0) {
-			cylinder.rotateX(touchTurnY);
-			touchTurnY = 0;
-		}
-		// ---處理旋轉---end
+		Handle3DControl(arch, archOriginPosition.z);
 
 		frameBuffer.clear(backgroundColor);
 		world.renderScene(frameBuffer);
@@ -118,8 +118,72 @@ public class MyRenderer implements Renderer {
 		// fps++;
 	}
 
+	private void Handle3DControl(Object3D obj, float originZ) {
+		switch (Activity3Page.currentActionType) {
+		case Move:
+			// ---處理移動(Translate Position: X,Y)---begin
+			SimpleVector transPos = new SimpleVector(obj.getTranslation().x
+					+ deltaTranslatePositionX, obj.getTranslation().y
+					+ deltaTranslatePositionY, obj.getTranslation().z);
+
+			SimpleVector projectScreenV3 = Interact2D.project3D2D(
+					world.getCamera(), frameBuffer, transPos); // (重要!!!)這可以知道3D物件在2D畫面的投影
+
+			if (projectScreenV3.x >= 0 && projectScreenV3.y >= 0
+					&& projectScreenV3.x <= frameBuffer.getWidth()
+					&& projectScreenV3.y <= frameBuffer.getHeight()) {
+				obj.translate(deltaTranslatePositionX, deltaTranslatePositionY,
+						0);
+			}
+			// Log.i("simple", " simple-X: " +
+			// String.valueOf(obj.getTranslation().x)
+			// + " simple-Y: " + String.valueOf(obj.getTranslation().y)
+			// + " simple-Z: " + String.valueOf(obj.getTranslation().z));
+
+			// ---處理移動(Translate Position: X,Y)---end
+			break;
+
+		case Rotate:
+			// ---處理旋轉(Rotate)---begin
+			if (deltaRotateAngleX != 0) {
+				obj.rotateY(deltaRotateAngleX);
+				deltaRotateAngleX = 0;
+			}
+			if (deltaRotateAngleY != 0) {
+				obj.rotateX(deltaRotateAngleY);
+				deltaRotateAngleY = 0;
+			}
+			// ---處理旋轉(Rotate)---end
+			break;
+
+		case Depth:
+			// ---處理深度(Translate Depth: Z軸)---begin
+			float currentPosZ = obj.getTranslation().z
+					+ deltaTranslatePositionZ;
+			if (currentPosZ > originZ - ZaxisCanMoveDistance
+					&& currentPosZ < originZ + ZaxisCanMoveDistance) {
+				obj.translate(0, 0, deltaTranslatePositionZ);
+			}
+			// ---處理深度(Translate Depth: Z軸)---end
+			break;
+		}
+
+		// ---處理放大縮小(Scale)---begin
+		if (deltaScale != 0) {
+			float currentScale = obj.getScale() + deltaScale;
+			if (currentScale <= 0.5f) {
+				obj.setScale(0.5f);
+			} else if (currentScale >= 1.5f) {
+				obj.setScale(1.5f);
+			} else {
+				obj.setScale(currentScale);
+			}
+		}
+		// ---處理放大縮小(Scale)---end
+	}
+
 	// 處理讀取Asset資料夾內的模型
-	public Object3D loadModel(String filename, float scale) {
+	private Object3D loadModel(String filename, float scale) {
 		Resources res = this.resource;
 		AssetManager asManager = res.getAssets();
 		Object3D obj3D = new Object3D(0);
