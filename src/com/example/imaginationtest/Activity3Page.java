@@ -11,6 +11,7 @@ import android.graphics.Path;
 import android.graphics.PixelFormat;
 import android.graphics.PorterDuff.Mode;
 import android.graphics.PorterDuffXfermode;
+import android.graphics.drawable.Drawable;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.util.FloatMath;
@@ -211,6 +212,9 @@ public class Activity3Page extends Activity {
 			@Override
 			public void onClick(View v) {
 				currentActionType = ActionType.Move;
+				moveButton.setEnabled(false);
+				rotateButton.setEnabled(true);
+				depthButton.setEnabled(true);
 			}
 		});
 		// ----------------------
@@ -222,6 +226,9 @@ public class Activity3Page extends Activity {
 			@Override
 			public void onClick(View v) {
 				currentActionType = ActionType.Rotate;
+				moveButton.setEnabled(true);
+				rotateButton.setEnabled(false);
+				depthButton.setEnabled(true);
 			}
 		});
 		// ----------------------
@@ -233,6 +240,9 @@ public class Activity3Page extends Activity {
 			@Override
 			public void onClick(View v) {
 				currentActionType = ActionType.Depth;
+				moveButton.setEnabled(true);
+				rotateButton.setEnabled(true);
+				depthButton.setEnabled(false);
 			}
 		});
 		// ----------------------
@@ -252,9 +262,23 @@ public class Activity3Page extends Activity {
 							blackPaintButton.setEnabled(false);
 							clearCanvasButton.setEnabled(false);
 
-							moveButton.setEnabled(true);
-							rotateButton.setEnabled(true);
-							depthButton.setEnabled(true);
+							switch (currentActionType) {
+							case Move:
+								moveButton.setEnabled(false);
+								rotateButton.setEnabled(true);
+								depthButton.setEnabled(true);
+								break;
+							case Rotate:
+								moveButton.setEnabled(true);
+								rotateButton.setEnabled(false);
+								depthButton.setEnabled(true);
+								break;
+							case Depth:
+								moveButton.setEnabled(true);
+								rotateButton.setEnabled(true);
+								depthButton.setEnabled(false);
+								break;
+							}
 
 							currentEditStatus = EditStatus.Mode3D;
 						} else {

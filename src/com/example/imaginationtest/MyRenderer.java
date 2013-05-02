@@ -7,6 +7,7 @@ import javax.microedition.khronos.opengles.GL10;
 
 import android.content.res.AssetManager;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.opengl.GLSurfaceView.Renderer;
 import android.util.Log;
 
@@ -33,7 +34,7 @@ public class MyRenderer implements Renderer {
 	public float deltaRotateAngleY = 0;
 	public float deltaScale = 0;
 
-	private long time = System.currentTimeMillis();
+	private long currentSystemTime = System.currentTimeMillis();
 
 	private FrameBuffer frameBuffer = null;
 	private World world = null;
@@ -47,7 +48,9 @@ public class MyRenderer implements Renderer {
 	private SimpleVector cylinderOriginPosition;
 	private float ZaxisCanMoveDistance = 10;
 
-	private int fps = 0;
+	private float addValue = 0;
+	private float colorValue = 0;
+	private float colorChangeSpeed = 255;
 
 	private Light sun = null;
 
@@ -101,7 +104,25 @@ public class MyRenderer implements Renderer {
 	}
 
 	public void onDrawFrame(GL10 gl) {
+
+		float deltaTime = (System.currentTimeMillis() - currentSystemTime) / 1000.0f;
+		currentSystemTime = System.currentTimeMillis();
+
 		gl.glShadeModel(GL10.GL_SMOOTH);
+
+		if (colorValue >= 255) {
+			colorValue = 255;
+			colorChangeSpeed = -colorChangeSpeed;
+		} else if (colorValue <= 0) {
+			colorValue = 0;
+			colorChangeSpeed = -colorChangeSpeed;
+		}
+		colorValue += (deltaTime * colorChangeSpeed);
+
+		Log.i("GGG", String.valueOf(colorValue));
+
+		arch.setAdditionalColor(new RGBColor((int) colorValue, 0, 0, 255));// 提示色
+		// arch.setAdditionalColor(new RGBColor(0,0,0,0));//原色
 
 		Handle3DControl(arch, archOriginPosition.z);
 
@@ -110,12 +131,6 @@ public class MyRenderer implements Renderer {
 		world.draw(frameBuffer);
 		frameBuffer.display();
 
-		// if (System.currentTimeMillis() - time >= 1000) {
-		// Logger.log(fps + "fps");
-		// fps = 0;
-		// time = System.currentTimeMillis();
-		// }
-		// fps++;
 	}
 
 	private void Handle3DControl(Object3D obj, float originZ) {
@@ -135,11 +150,8 @@ public class MyRenderer implements Renderer {
 				obj.translate(deltaTranslatePositionX, deltaTranslatePositionY,
 						0);
 			}
-			// Log.i("simple", " simple-X: " +
-			// String.valueOf(obj.getTranslation().x)
-			// + " simple-Y: " + String.valueOf(obj.getTranslation().y)
-			// + " simple-Z: " + String.valueOf(obj.getTranslation().z));
-
+			deltaTranslatePositionX = 0;
+			deltaTranslatePositionY = 0;
 			// ---處理移動(Translate Position: X,Y)---end
 			break;
 
@@ -164,6 +176,7 @@ public class MyRenderer implements Renderer {
 					&& currentPosZ < originZ + ZaxisCanMoveDistance) {
 				obj.translate(0, 0, deltaTranslatePositionZ);
 			}
+			deltaTranslatePositionZ = 0;
 			// ---處理深度(Translate Depth: Z軸)---end
 			break;
 		}
@@ -178,6 +191,7 @@ public class MyRenderer implements Renderer {
 			} else {
 				obj.setScale(currentScale);
 			}
+			deltaScale = 0;
 		}
 		// ---處理放大縮小(Scale)---end
 	}
