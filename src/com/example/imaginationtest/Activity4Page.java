@@ -5,8 +5,13 @@ import java.io.FileOutputStream;
 import java.io.OutputStream;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Environment;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -14,274 +19,260 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-
+import android.widget.TextView;
 
 public class Activity4Page extends Activity {
 
 	private Button Act4_ClearButton;
 	private Button Act4_EraserButton;
+	private Button Act4_RedoButton;
+	private Button Act4_UndoButton;
 	private Button Act4_NextPageButton;
 	private Button Act4_PreviousPageButton;
-	private Button Act4_RedoButton;
 	private Button Act4_SaveFileButton;
-	private Button Act4_LoadFileButton;
-	private Button Act4_UndoButton;
+	private Button Act4_NextActivity;
 	
+	private TextView Act4_Timer;
 	private EditText Act4_EditText01;
 	private EditText Act4_EditText02;
 	private ImageView Act4_ImageView01;
 	private ImageView Act4_ImageView02;
+	
+	private long Countdown_Time = 600; // ­Ë¼Æ­p®ÉÁ`®É¶¡ ( ³æ¦ì:¬í)
 
-	//ç¸½é æ•¸
-	private static int pageMaxCount = 14;
-	//æ¯é çš„æ–‡å­—è³‡è¨Š
-	private String[] EditText_Collection = new String[2*pageMaxCount];
-	//æ¯é çš„åœ–ç‰‡è³‡è¨Š
+	// Á`­¶¼Æ
+	private static int pageMaxCount = 28;
+	// ¨C­¶ªº¤å¦r¸ê°T
+	private String[] EditText_Collection = new String[2 * pageMaxCount];
+	// ¨C­¶ªº¹Ï¤ù¸ê°T
 	public static Bitmap[] Bitmap_Collection = new Bitmap[pageMaxCount];
-	
-	
-	//å„²å­˜ç•«é¢çš„Layout
+
+	// Àx¦sµe­±ªºLayout
 	private View Layout;
-	//å„²å­˜ç•«é¢çš„Bitmap
+	// Àx¦sµe­±ªºBitmap
 	private Bitmap bitmapLayout;
-	//ç•¶å‰é é¢ç·¨è™Ÿ
+	// ·í«e­¶­±½s¸¹
 	private int CurrentPage = 1;
-    
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		this.setContentView(R.layout.activity4_page);
-		
+
 		this.Layout = (View) findViewById(R.id.Act4_Layout);
-		
-		this.Act4_EditText01 =  (EditText) findViewById(R.id.Act4_editText01);
-		this.Act4_EditText02 =  (EditText) findViewById(R.id.Act4_editText02);
-		this.Act4_ImageView01 = (ImageView)findViewById(R.id.Act4_ImageView01);
-		this.Act4_ImageView02 = (ImageView)findViewById(R.id.Act4_ImageView02);
-		
+
+		this.Act4_Timer = (TextView) findViewById(R.id.Act4_Timer);
+		this.Act4_EditText01 = (EditText) findViewById(R.id.Act4_editText01);
+		this.Act4_EditText02 = (EditText) findViewById(R.id.Act4_editText02);
+		this.Act4_ImageView01 = (ImageView) findViewById(R.id.Act4_ImageView01);
+		this.Act4_ImageView02 = (ImageView) findViewById(R.id.Act4_ImageView02);
+
 		Init();
 		Act4_PageUpdate();
+		this.StartCountDownTimer();
 	}
-	
-	
-	void Init()
-	{
-		// è¨­å®šå­˜æª”Buttonå›žé¥‹
-		this.Act4_SaveFileButton = (Button) findViewById(R.id.Act4_SaveFileButton);
-		this.Act4_SaveFileButton.setOnClickListener(new Button.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-	               Layout.setDrawingCacheEnabled(true);
-	               bitmapLayout = Layout.getDrawingCache();
-	               saveImage(bitmapLayout);
-			}
-		});
-		/////////////////////////////////////////////////////////////////////////////
-		
-		// è¨­å®šè®€æª”Buttonå›žé¥‹
-		this.Act4_LoadFileButton = (Button) findViewById(R.id.Act4_StartButton);
-		this.Act4_LoadFileButton.setOnClickListener(new Button.OnClickListener() {
-			@Override
-			public void onClick(View v) {
 
-			}
-		});
-		/////////////////////////////////////////////////////////////////////////////
-		
-		// è¨­å®šä¸Šä¸€é Buttonå›žé¥‹
+	void Init() {
+		// ³]©w¦sÀÉButton¦^õX
+		this.Act4_SaveFileButton = (Button) findViewById(R.id.Act4_SaveFileButton);
+		this.Act4_SaveFileButton
+				.setOnClickListener(new Button.OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						Layout.setDrawingCacheEnabled(true);
+						bitmapLayout = Layout.getDrawingCache();
+						saveImage(bitmapLayout);
+					}
+				});
+		// ///////////////////////////////////////////////////////////////////////////
+
+		// ³]©w¤W¤@­¶Button¦^õX
 		this.Act4_PreviousPageButton = (Button) findViewById(R.id.Act4_PreviousPageButton);
-		this.Act4_PreviousPageButton.setOnClickListener(new Button.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-					Act4_SaveEditText();
-					if(CurrentPage>1)
-						CurrentPage--;
-					Act4_PageUpdate();
-			}
-		});
-		/////////////////////////////////////////////////////////////////////////////
-		
-		// è¨­å®šä¸‹ä¸€é Buttonå›žé¥‹
+		this.Act4_PreviousPageButton
+				.setOnClickListener(new Button.OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						Act4_SaveEditText();
+						if (CurrentPage > 1)
+							CurrentPage--;
+						Act4_PageUpdate();
+					}
+				});
+		// ///////////////////////////////////////////////////////////////////////////
+
+		// ³]©w¤U¤@­¶Button¦^õX
 		this.Act4_NextPageButton = (Button) findViewById(R.id.Act4_NextPageButton);
-		this.Act4_NextPageButton.setOnClickListener(new Button.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				Act4_SaveEditText();
-				if(CurrentPage<pageMaxCount)
-					CurrentPage++;
-				Act4_PageUpdate();
-			}
-		});
-		/////////////////////////////////////////////////////////////////////////////
+		this.Act4_NextPageButton
+				.setOnClickListener(new Button.OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						Act4_SaveEditText();
+						if (CurrentPage < pageMaxCount)
+							CurrentPage++;
+						Act4_PageUpdate();
+					}
+				});
+		// ///////////////////////////////////////////////////////////////////////////
 		
-		/*
-		// è¨­å®šEditText01çš„å›žé¥‹
-		this.Act4_EditText01 = (EditText) findViewById(R.id.Act4_editText01);
-		this.Act4_EditText01.addTextChangedListener(new  TextWatcher(){
-
-			@Override
-			public void afterTextChanged(Editable s) {
-				// TODO Auto-generated method stub
-				//ç•¶æ–‡å­—æ”¹è®Šå¾Œå„²å­˜æ–‡å­—å­—ä¸²
-			
-				//EditText_Collection[(CurrentPage-1)*2 + 0] += Act4_EditText01.getText().toString();
-			}
-
-			@Override
-			public void beforeTextChanged(CharSequence s, int start, int count,
-					int after) {
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			public void onTextChanged(CharSequence s, int start, int before,
-					int count) {
-				// TODO Auto-generated method stub
-				
-			}
-
-		});
-		/////////////////////////////////////////////////////////////////////////////
+		// ³]©w¤U¤@¨BButton¦^õX
+		this.Act4_NextActivity = (Button) findViewById(R.id.Act4_NextActivity);
+		this.Act4_NextActivity
+				.setOnClickListener(new Button.OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						ShowMsgDialog();
+					}
+				});
+		// ///////////////////////////////////////////////////////////////////////////
 		
-		// è¨­å®šEditText02çš„å›žé¥‹
-		this.Act4_EditText02 = (EditText) findViewById(R.id.Act4_editText02);
-		this.Act4_EditText02.addTextChangedListener(new  TextWatcher(){
+		// ³]©w²M°£Button¦^õX
+		this.Act4_ClearButton = (Button) findViewById(R.id.Act4_ClearButton);
+		this.Act4_ClearButton
+				.setOnClickListener(new Button.OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						//DO SOMETHING
+					}
+				});
+		// ///////////////////////////////////////////////////////////////////////////
+		
+		// ³]©w¾ó¥ÖÀ¿Button¦^õX
+		this.Act4_EraserButton = (Button) findViewById(R.id.Act4_EraserButton);
+		this.Act4_EraserButton
+				.setOnClickListener(new Button.OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						//DO SOMETHING
+					}
+				});
+		// ///////////////////////////////////////////////////////////////////////////
+		
+		// ³]©w­«°µButton¦^õX
+		this.Act4_RedoButton = (Button) findViewById(R.id.Act4_RedoButton);
+		this.Act4_RedoButton
+				.setOnClickListener(new Button.OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						//DO SOMETHING
+					}
+				});
+		// ///////////////////////////////////////////////////////////////////////////
+		
+		// ³]©wÁÙ­ìButton¦^õX
+		this.Act4_UndoButton = (Button) findViewById(R.id.Act4_UndoButton);
+		this.Act4_UndoButton
+				.setOnClickListener(new Button.OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						//DO SOMETHING
+					}
+				});
+		// ///////////////////////////////////////////////////////////////////////////
 
-			@Override
-			public void afterTextChanged(Editable s) {
-				// TODO Auto-generated method stub
-				//ç•¶æ–‡å­—æ”¹è®Šå¾Œå„²å­˜æ–‡å­—å­—ä¸²
-
-			}
-
-			@Override
-			public void beforeTextChanged(CharSequence s, int start, int count,
-					int after) {
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			public void onTextChanged(CharSequence s, int start, int before,
-					int count) {
-				// TODO Auto-generated method stub
-				
-			}
-
-		});
-		/////////////////////////////////////////////////////////////////////////////
-		 */
-		 
 	}
-	
-	
-	//å„²å­˜åœ–ç‰‡
+
+	// Àx¦s¹Ï¤ù
 	protected void saveImage(Bitmap bmScreen2) {
-        // TODO Auto-generated method stub
-		
-		//è¨­å®šå¤–éƒ¨å„²å­˜ä½ç½®
-        File publicFolder = Environment.getExternalStoragePublicDirectory("ImaginationTest");
-        if(!publicFolder.exists())
-        	publicFolder.mkdir();
-        //ä»¥ä½¿ç”¨è€…äººåç•¶ä½œè³‡æ–™å¤¾åå­
-        File userNameFolder = new File(publicFolder, "ç¥ž");
-        if(!userNameFolder.exists())
-        	userNameFolder.mkdir();
-        //è¨­å®šæª”æ¡ˆåå­
-        File fileName = new File(userNameFolder, "DemoPicture.jpg");
+		// TODO Auto-generated method stub
 
-        try {
-        	OutputStream os = new FileOutputStream(fileName);
-            bmScreen2.compress(Bitmap.CompressFormat.PNG,80, os);
-            os.flush();
-            os.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+		// ³]©w¥~³¡Àx¦s¦ì¸m
+		File publicFolder = Environment
+				.getExternalStoragePublicDirectory("ImaginationTest");
+		if (!publicFolder.exists())
+			publicFolder.mkdir();
+		// ¥H¨Ï¥ÎªÌ¤H¦W·í§@¸ê®Æ§¨¦W¤l
+		File userNameFolder = new File(publicFolder, "users");
+		if (!userNameFolder.exists())
+			userNameFolder.mkdir();
+		// ³]©wÀÉ®×¦W¤l
 
-    }
+		File fileName = new File(userNameFolder, "Act4_Page" + CurrentPage
+				+ ".jpg");
 
-	
-	private void Act4_SaveEditText()
-	{
-		EditText_Collection[(CurrentPage-1)*2 + 0] = Act4_EditText01.getText().toString();
-		EditText_Collection[(CurrentPage-1)*2 + 1] = Act4_EditText02.getText().toString();
+		try {
+			OutputStream os = new FileOutputStream(fileName);
+			bmScreen2.compress(Bitmap.CompressFormat.PNG, 80, os);
+			os.flush();
+			os.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 	}
-	
-	private void Act4_PageUpdate()
-	{
-		Act4_EditText01.setText(EditText_Collection[(CurrentPage-1)*2 + 0]);
-		Act4_EditText02.setText(EditText_Collection[(CurrentPage-1)*2 + 1]);
-		Act4_ImageView01.setImageResource(R.drawable.action401 +(CurrentPage-1) *2 + 0);
-		Act4_ImageView02.setImageResource(R.drawable.action401 +(CurrentPage-1) *2 + 1);
+
+	private void Act4_SaveEditText() {
+		EditText_Collection[(CurrentPage - 1) * 2 + 0] = Act4_EditText01
+				.getText().toString();
+		EditText_Collection[(CurrentPage - 1) * 2 + 1] = Act4_EditText02
+				.getText().toString();
 	}
-	
-	
+
+	private void Act4_PageUpdate() {
+		Act4_EditText01.setText(EditText_Collection[(CurrentPage - 1) * 2 + 0]);
+		Act4_EditText02.setText(EditText_Collection[(CurrentPage - 1) * 2 + 1]);
+		Act4_ImageView01.setImageResource(R.drawable.action01
+				+ (CurrentPage - 1) * 2 + 0);
+		Act4_ImageView02.setImageResource(R.drawable.action01
+				+ (CurrentPage - 1) * 2 + 1);
+		
+		if(CurrentPage == 1)
+			this.Act4_PreviousPageButton.setEnabled(false);
+		else
+			this.Act4_PreviousPageButton.setEnabled(true);
+		if(CurrentPage == 28)
+			this.Act4_NextPageButton.setEnabled(false);
+		else
+			this.Act4_NextPageButton.setEnabled(true);
+	}
 
 	
-	/*
-	//ç¶²å€:http://stackoverflow.com/questions/10296711/androidtake-screenshot-and-share-it/10296881#10296881
-	void Init()
-	{
-		act4 = this;
-		
-		// è¨­å®šå­˜æª”è·¯å¾‘
-		//_filePath = Environment.getExternalStorageDirectory() + "/images/make_machine_example.jpg";
-		_filePath = Environment.getDataDirectory().toString();
-		
-		//_filePath = Environment.getExternalStorageDirectory().toString() + "/" + ACCUWX.IMAGE_APPEND; 
-		// å­˜æª”Button
-		this.Act4_SaveFileButton = (Button) findViewById(R.id.Act4_SaveFileButton);
-		this.Act4_SaveFileButton.setOnClickListener(new Button.OnClickListener() {
+	// ­p®É¾¹³]©w
+	void StartCountDownTimer() {
+
+		new CountDownTimer(Countdown_Time * 1000, 500) {
+
 			@Override
-			public void onClick(View v) {
-				savePic(takeScreenShot(act4),_filePath);
-				
+			public void onFinish() {
+				// ®É¶¡¨ì«á´£¥Ü¶i¤J¤U¤@­¶
+				Act4_Timer.setText("³Ñ¾l®É¶¡    00¡G00");
+				ShowMsgDialog();
 			}
-		});
-	}
-	
-	
-	private static Bitmap takeScreenShot(Activity activity)
-	{
-	    View view = activity.getWindow().getDecorView();
-	    view.setDrawingCacheEnabled(true);
-	    view.buildDrawingCache();
-	    Bitmap b1 = view.getDrawingCache();
-	    Rect frame = new Rect();
-	    activity.getWindow().getDecorView().getWindowVisibleDisplayFrame(frame);
-	    int statusBarHeight = frame.top;
-	    int width = activity.getWindowManager().getDefaultDisplay().getWidth();
-	    int height = activity.getWindowManager().getDefaultDisplay().getHeight();
 
-	    Bitmap b = Bitmap.createBitmap(b1, 0, statusBarHeight, width, height  - statusBarHeight);
-	    view.destroyDrawingCache();
-	    return b;
-	}
-	private static void savePic(Bitmap b, String strFileName)
-	{
-	    FileOutputStream fos = null;
-	    try
-	    {
-	        fos = new FileOutputStream(strFileName);
-	        if (null != fos)
-	        {
-	            b.compress(Bitmap.CompressFormat.PNG, 90, fos);
-	            fos.flush();
-	            fos.close();
-	        }
-	    }
-	    catch (FileNotFoundException e)
-	    {
-	        e.printStackTrace();
-	    }
-	    catch (IOException e)
-	    {
-	        e.printStackTrace();
-	    }
+			@Override
+			public void onTick(long millisUntilFinished) {
+
+				long totalSec = millisUntilFinished / 1000;
+				Act4_Timer.setText("³Ñ¾l®É¶¡    "
+						+ String.format("%02d", totalSec / 60) + "¡G"
+						+ String.format("%02d", totalSec % 60));
+			}
+		}.start();
 	}
 	
-*/
+	// ¼u¥X³]µ¡³]©w:´£¥Ü¬O§_¶i¤J¤U¤@­¶
+	private void ShowMsgDialog() {
+		Builder MyAlertDialog = new AlertDialog.Builder(this);
+
+		// ³]©w¹ï¸Ü®Ø¼ÐÃD
+		MyAlertDialog.setTitle("¬¡°Ê¥|");
+		// ³]©w¹ï¸Ü®Ø¤º®e
+		MyAlertDialog.setMessage("®É¶¡¨ì  °±¤î§@µª¡I¡I");
+
+		// ButtonÄ²µo«áªº³]©w
+		DialogInterface.OnClickListener OkClick = new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int which) {
+				// ½T©wÄ²µo«á...
+				Intent intent = new Intent();
+				intent.setClass(Activity4Page.this,
+						Activity5Page.class);
+				startActivity(intent);
+				System.exit(0);
+			}
+		};
+
+		MyAlertDialog.setNeutralButton("½T©w", OkClick);
+
+		MyAlertDialog.show();
+	}
 }

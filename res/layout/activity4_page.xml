@@ -65,25 +65,29 @@
         android:layout_height="wrap_content" >
 
         <Button
-            android:id="@+id/Act4_LoadFileButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="讀取"
-            android:textSize="@dimen/font_size_small" />
-
-        <Button
             android:id="@+id/Act4_SaveFileButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="儲存"
             android:textSize="@dimen/font_size_small" />
 
-        <Button
-            android:id="@+id/Act4_StartButton"
+        <TextView
+            android:id="@+id/Act4_Timer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="開始測驗"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_weight="1"
+            android:text="剩餘時間：10：00"
+            android:textSize="@dimen/font_size" />
+
+        <Button
+            android:id="@+id/Act4_NextActivity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
+            android:text="下一步"
             android:textSize="@dimen/font_size_small" />
+
     </LinearLayout>
 
     <LinearLayout
@@ -91,12 +95,19 @@
         android:layout_height="match_parent"
         android:orientation="vertical" >
 
-        <ImageView
-            android:id="@+id/Act4_ImageView01"
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:src="@android:drawable/sym_def_app_icon" />
+            android:layout_weight="1" >
+
+            <ImageView
+                android:id="@+id/Act4_ImageView01"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:src="@android:drawable/sym_def_app_icon" />
+
+        </FrameLayout>
 
         <EditText
             android:id="@+id/Act4_editText01"
@@ -107,12 +118,18 @@
             <requestFocus />
         </EditText>
 
-        <ImageView
-            android:id="@+id/Act4_ImageView02"
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:src="@android:drawable/sym_def_app_icon" />
+            android:layout_weight="1" >
+
+            <ImageView
+                android:id="@+id/Act4_ImageView02"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:src="@android:drawable/sym_def_app_icon" />
+        </FrameLayout>
 
         <EditText
             android:id="@+id/Act4_editText02"
