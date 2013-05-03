@@ -96,6 +96,7 @@
         android:orientation="vertical" >
 
         <FrameLayout
+            android:id="@+id/activity4_Upframelayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1" >
@@ -119,6 +120,7 @@
         </EditText>
 
         <FrameLayout
+            android:id="@+id/activity4_Downframelayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1" >

@@ -3,25 +3,69 @@ package com.example.imaginationtest;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
 
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Path;
+import android.graphics.PixelFormat;
+import android.graphics.PorterDuff.Mode;
+import android.graphics.PorterDuffXfermode;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Environment;
-import android.text.Editable;
-import android.text.TextWatcher;
+import android.util.Log;
+import android.view.MotionEvent;
+import android.view.SurfaceHolder;
+import android.view.SurfaceView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.threed.jpct.Logger;
+
 public class Activity4Page extends Activity {
+
+	enum PaintType {
+		Eraser, Black
+	}
+
+	class PaintData {
+		private Path paintPath;
+		private PaintType paintType;
+
+		PaintData(Path path, PaintType type) {
+			this.paintPath = path;
+			this.paintType = type;
+		}
+	}
+
+	private PaintType currentPaintType = PaintType.Black;// 確認目前畫筆的顏色(黑筆、白筆、橡皮擦)
+
+	// ----路徑資訊----
+	private ArrayList<PaintData> drawPaintDataList = new ArrayList<PaintData>();
+	private ArrayList<PaintData> rePaintDataList = new ArrayList<PaintData>();
+	private Path currentPath;
+	// ------------------------------------
+
+	// ----畫筆初始化----
+	private Paint BlackPaint;
+	private Paint EraserPaint;
+	// ------------------------------------
+
+	// --------2D Canvas繪圖相關-------
+	private DrawPanel drawPanel;
 
 	private Button Act4_ClearButton;
 	private Button Act4_EraserButton;
@@ -31,13 +75,13 @@ public class Activity4Page extends Activity {
 	private Button Act4_PreviousPageButton;
 	private Button Act4_SaveFileButton;
 	private Button Act4_NextActivity;
-	
+
 	private TextView Act4_Timer;
 	private EditText Act4_EditText01;
 	private EditText Act4_EditText02;
 	private ImageView Act4_ImageView01;
 	private ImageView Act4_ImageView02;
-	
+
 	private long Countdown_Time = 600; // 倒數計時總時間 ( 單位:秒)
 
 	// 總頁數
@@ -54,6 +98,29 @@ public class Activity4Page extends Activity {
 	// 當前頁面編號
 	private int CurrentPage = 1;
 
+	private void paintInit() {
+
+		// 黑色筆初始化
+		BlackPaint = new Paint();
+		BlackPaint.setDither(true);
+		BlackPaint.setColor(Color.BLACK);
+		BlackPaint.setStyle(Paint.Style.STROKE);
+		BlackPaint.setStrokeJoin(Paint.Join.ROUND);
+		BlackPaint.setStrokeCap(Paint.Cap.ROUND);
+		BlackPaint.setStrokeWidth(30);
+
+		// 橡皮擦初始化
+		EraserPaint = new Paint();
+		EraserPaint.setDither(true);
+		EraserPaint.setMaskFilter(null);
+		EraserPaint.setXfermode(new PorterDuffXfermode(Mode.CLEAR));
+		EraserPaint.setARGB(1, 0, 0, 0);
+		EraserPaint.setStyle(Paint.Style.STROKE);
+		EraserPaint.setStrokeJoin(Paint.Join.ROUND);
+		EraserPaint.setStrokeCap(Paint.Cap.ROUND);
+		EraserPaint.setStrokeWidth(30);
+	}
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -69,8 +136,15 @@ public class Activity4Page extends Activity {
 		this.Act4_ImageView02 = (ImageView) findViewById(R.id.Act4_ImageView02);
 
 		Init();
+		paintInit();
+
 		Act4_PageUpdate();
 		this.StartCountDownTimer();
+
+		FrameLayout upframeLayout = (FrameLayout) this
+				.findViewById(R.id.activity4_Upframelayout);
+		drawPanel = new DrawPanel(this);
+		upframeLayout.addView(drawPanel);
 	}
 
 	void Init() {
@@ -114,60 +188,55 @@ public class Activity4Page extends Activity {
 					}
 				});
 		// ///////////////////////////////////////////////////////////////////////////
-		
+
 		// 設定下一步Button回饋
 		this.Act4_NextActivity = (Button) findViewById(R.id.Act4_NextActivity);
-		this.Act4_NextActivity
-				.setOnClickListener(new Button.OnClickListener() {
-					@Override
-					public void onClick(View v) {
-						ShowMsgDialog();
-					}
-				});
+		this.Act4_NextActivity.setOnClickListener(new Button.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				ShowMsgDialog();
+			}
+		});
 		// ///////////////////////////////////////////////////////////////////////////
-		
+
 		// 設定清除Button回饋
 		this.Act4_ClearButton = (Button) findViewById(R.id.Act4_ClearButton);
-		this.Act4_ClearButton
-				.setOnClickListener(new Button.OnClickListener() {
-					@Override
-					public void onClick(View v) {
-						//DO SOMETHING
-					}
-				});
+		this.Act4_ClearButton.setOnClickListener(new Button.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				// DO SOMETHING
+			}
+		});
 		// ///////////////////////////////////////////////////////////////////////////
-		
+
 		// 設定橡皮擦Button回饋
 		this.Act4_EraserButton = (Button) findViewById(R.id.Act4_EraserButton);
-		this.Act4_EraserButton
-				.setOnClickListener(new Button.OnClickListener() {
-					@Override
-					public void onClick(View v) {
-						//DO SOMETHING
-					}
-				});
+		this.Act4_EraserButton.setOnClickListener(new Button.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				// DO SOMETHING
+			}
+		});
 		// ///////////////////////////////////////////////////////////////////////////
-		
+
 		// 設定重做Button回饋
 		this.Act4_RedoButton = (Button) findViewById(R.id.Act4_RedoButton);
-		this.Act4_RedoButton
-				.setOnClickListener(new Button.OnClickListener() {
-					@Override
-					public void onClick(View v) {
-						//DO SOMETHING
-					}
-				});
+		this.Act4_RedoButton.setOnClickListener(new Button.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				// DO SOMETHING
+			}
+		});
 		// ///////////////////////////////////////////////////////////////////////////
-		
+
 		// 設定還原Button回饋
 		this.Act4_UndoButton = (Button) findViewById(R.id.Act4_UndoButton);
-		this.Act4_UndoButton
-				.setOnClickListener(new Button.OnClickListener() {
-					@Override
-					public void onClick(View v) {
-						//DO SOMETHING
-					}
-				});
+		this.Act4_UndoButton.setOnClickListener(new Button.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				// DO SOMETHING
+			}
+		});
 		// ///////////////////////////////////////////////////////////////////////////
 
 	}
@@ -215,18 +284,17 @@ public class Activity4Page extends Activity {
 				+ (CurrentPage - 1) * 2 + 0);
 		Act4_ImageView02.setImageResource(R.drawable.action01
 				+ (CurrentPage - 1) * 2 + 1);
-		
-		if(CurrentPage == 1)
+
+		if (CurrentPage == 1)
 			this.Act4_PreviousPageButton.setEnabled(false);
 		else
 			this.Act4_PreviousPageButton.setEnabled(true);
-		if(CurrentPage == 28)
+		if (CurrentPage == 28)
 			this.Act4_NextPageButton.setEnabled(false);
 		else
 			this.Act4_NextPageButton.setEnabled(true);
 	}
 
-	
 	// 計時器設定
 	void StartCountDownTimer() {
 
@@ -249,7 +317,7 @@ public class Activity4Page extends Activity {
 			}
 		}.start();
 	}
-	
+
 	// 彈出設窗設定:提示是否進入下一頁
 	private void ShowMsgDialog() {
 		Builder MyAlertDialog = new AlertDialog.Builder(this);
@@ -264,8 +332,7 @@ public class Activity4Page extends Activity {
 			public void onClick(DialogInterface dialog, int which) {
 				// 確定觸發後...
 				Intent intent = new Intent();
-				intent.setClass(Activity4Page.this,
-						Activity5Page.class);
+				intent.setClass(Activity4Page.this, Activity5Page.class);
 				startActivity(intent);
 				System.exit(0);
 			}
@@ -274,5 +341,126 @@ public class Activity4Page extends Activity {
 		MyAlertDialog.setNeutralButton("確定", OkClick);
 
 		MyAlertDialog.show();
+	}
+
+	public class DrawPanel extends SurfaceView implements Runnable {
+
+		Thread t = null;
+		SurfaceHolder holder;
+		boolean isItOk = false;
+
+		public DrawPanel(Context context) {
+			super(context);
+			// TODO Auto-generated constructor stub
+			holder = getHolder();
+			setZOrderOnTop(true);
+			holder.setFormat(PixelFormat.TRANSLUCENT);
+		}
+
+		public void run() {
+			// TODO Auto-generated method stub
+			while (isItOk == true) {
+
+				if (!holder.getSurface().isValid()) {
+					continue;
+				}
+
+				Canvas c = holder.lockCanvas();
+
+				c.drawColor(0x00AAAAAA, Mode.CLEAR);
+				// c.drawARGB(255, 0, 0, 0);
+				onDraw(c);
+				holder.unlockCanvasAndPost(c);
+			}
+		}
+
+		@Override
+		protected void onDraw(Canvas canvas) {
+			// TODO Auto-generated method stub
+			super.onDraw(canvas);
+			synchronized (drawPaintDataList) {
+				for (PaintData data : drawPaintDataList) {
+					switch (data.paintType) {
+					case Black:
+						canvas.drawPath(data.paintPath, BlackPaint);
+						break;
+					case Eraser:
+						canvas.drawPath(data.paintPath, EraserPaint);
+						break;
+					}
+
+				}
+			}
+		}
+
+		public void pause() {
+			isItOk = false;
+			while (true) {
+				try {
+					t.join();
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				break;
+			}
+			t = null;
+		}
+
+		public void resume() {
+			isItOk = true;
+			t = new Thread(this);
+			t.start();
+
+		}
+
+		@Override
+		public boolean onTouchEvent(MotionEvent event) {
+			// TODO Auto-generated method stub
+
+			synchronized (drawPaintDataList) {
+				synchronized (rePaintDataList) {
+					switch (event.getAction()) {
+
+					case MotionEvent.ACTION_DOWN:
+
+						rePaintDataList.clear();// 清除重做(Redo)的所有紀錄
+						// redoPaintButton.setEnabled(false);
+						// eraserButton.setEnabled(true);
+						// undoPaintButton.setEnabled(true);
+						// clearCanvasButton.setEnabled(true);
+
+						currentPath = new Path();
+						currentPath.moveTo(event.getX(), event.getY());
+
+						PaintData pData = new PaintData(currentPath,
+								currentPaintType);
+						drawPaintDataList.add(pData);
+
+						Logger.log("Action Draw: cuttentSize = "
+								+ String.valueOf(drawPaintDataList.size()));
+						return true;
+
+					case MotionEvent.ACTION_MOVE:
+						currentPath.lineTo(event.getX(), event.getY());
+						Log.i("Position",
+								" event.getX: " + String.valueOf(event.getX())
+										+ " event.getY: "
+										+ String.valueOf(event.getY()));
+						return true;
+
+					default:
+						break;
+					}
+				}
+			}
+
+			try {
+				Thread.sleep(15);
+			} catch (Exception e) {
+				// No need for this...
+			}
+
+			return super.onTouchEvent(event);
+		}
 	}
 }
