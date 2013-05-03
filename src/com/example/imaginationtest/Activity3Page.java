@@ -3,7 +3,11 @@ package com.example.imaginationtest;
 import java.util.ArrayList;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -11,10 +15,8 @@ import android.graphics.Path;
 import android.graphics.PixelFormat;
 import android.graphics.PorterDuff.Mode;
 import android.graphics.PorterDuffXfermode;
-import android.graphics.drawable.Drawable;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
-import android.util.FloatMath;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
@@ -35,6 +37,10 @@ public class Activity3Page extends Activity {
 		Move, Rotate, Depth
 	}
 
+	enum Action3DObject {
+		Arch, Box, Cylinder
+	}
+
 	enum PaintType {
 		Eraser, White, Black
 	}
@@ -49,9 +55,10 @@ public class Activity3Page extends Activity {
 		}
 	}
 
-	private EditStatus currentEditStatus = EditStatus.Mode2D;// 確認目前編輯狀態是在2D或3D
 	private PaintType currentPaintType = PaintType.Black;// 確認目前畫筆的顏色(黑筆、白筆、橡皮擦)
+	public static EditStatus currentEditStatus = EditStatus.Mode2D;// 確認目前編輯狀態是在2D或3D
 	public static ActionType currentActionType = ActionType.Move;// 確認目前3D模式的動作
+	public static Action3DObject currentAction3DObject = Action3DObject.Arch;// 確認目前3D模式的動作
 
 	// ----------Button----------
 	private Button undoPaintButton;
@@ -65,6 +72,11 @@ public class Activity3Page extends Activity {
 	private Button moveButton;
 	private Button rotateButton;
 	private Button depthButton;
+	private Button archButton;
+	private Button boxButton;
+	private Button cylinderButton;
+	
+	private Button startTestButton;
 	// -----------------------------
 
 	// --------2D Canvas繪圖相關-------
@@ -247,6 +259,48 @@ public class Activity3Page extends Activity {
 		});
 		// ----------------------
 
+		// 設定"Arch"Button (3D物件)
+		archButton = (Button) findViewById(R.id.Act3_ArchButton);
+		archButton.setEnabled(false);
+		archButton.setOnClickListener(new Button.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				currentAction3DObject = Action3DObject.Arch;
+				archButton.setEnabled(false);
+				boxButton.setEnabled(true);
+				cylinderButton.setEnabled(true);
+			}
+		});
+		// ----------------------
+
+		// 設定"Box"Button (3D物件)
+		boxButton = (Button) findViewById(R.id.Act3_BoxButton);
+		boxButton.setEnabled(false);
+		boxButton.setOnClickListener(new Button.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				currentAction3DObject = Action3DObject.Box;
+				archButton.setEnabled(true);
+				boxButton.setEnabled(false);
+				cylinderButton.setEnabled(true);
+			}
+		});
+		// ----------------------
+
+		// 設定"Cylinder"Button (3D物件)
+		cylinderButton = (Button) findViewById(R.id.Act3_CylinderButton);
+		cylinderButton.setEnabled(false);
+		cylinderButton.setOnClickListener(new Button.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				currentAction3DObject = Action3DObject.Cylinder;
+				archButton.setEnabled(true);
+				boxButton.setEnabled(true);
+				cylinderButton.setEnabled(false);
+			}
+		});
+		// ----------------------
+
 		// 設定"編輯切換"Button
 		editChangeButton = (Button) findViewById(R.id.Act3_EditChangeButton);
 		editChangeButton.setOnClickListener(new Button.OnClickListener() {
@@ -280,11 +334,33 @@ public class Activity3Page extends Activity {
 								break;
 							}
 
+							switch (currentAction3DObject) {
+							case Arch:
+								archButton.setEnabled(false);
+								boxButton.setEnabled(true);
+								cylinderButton.setEnabled(true);
+								break;
+							case Box:
+								archButton.setEnabled(true);
+								boxButton.setEnabled(false);
+								cylinderButton.setEnabled(true);
+								break;
+							case Cylinder:
+								archButton.setEnabled(true);
+								boxButton.setEnabled(true);
+								cylinderButton.setEnabled(false);
+								break;
+							}
+
 							currentEditStatus = EditStatus.Mode3D;
 						} else {
 							moveButton.setEnabled(false);
 							rotateButton.setEnabled(false);
 							depthButton.setEnabled(false);
+
+							archButton.setEnabled(false);
+							boxButton.setEnabled(false);
+							cylinderButton.setEnabled(false);
 
 							whitePaintButton.setEnabled(true);
 							blackPaintButton.setEnabled(true);
@@ -304,7 +380,44 @@ public class Activity3Page extends Activity {
 			}
 		});
 		// ----------------------
+		
+		// 設定"開始測驗"Button
+		this.startTestButton = (Button) findViewById(R.id.Act3_StartTest);
+
+		// 設定"下一步"Button Listener
+		this.startTestButton.setOnClickListener(new Button.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				ShowMsgDialog();
+			}
+		});
+		// ----------------------
 	}
+	
+	// 彈出設窗設定:提示是否進入下一頁
+		private void ShowMsgDialog() {
+			Builder MyAlertDialog = new AlertDialog.Builder(this);
+
+			// 設定對話框標題
+			MyAlertDialog.setTitle("活動三");
+			// 設定對話框內容
+			MyAlertDialog.setMessage("時間到  停止作答！！\n進入下一活動");
+
+			// Button觸發後的設定
+			DialogInterface.OnClickListener OkClick = new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int which) {
+					// 確定觸發後...
+					Intent intent = new Intent();
+					intent.setClass(Activity3Page.this, Activity4Page.class);
+					startActivity(intent);
+					System.exit(0);
+				}
+			};
+
+			MyAlertDialog.setNeutralButton("確定", OkClick);
+
+			MyAlertDialog.show();
+		}
 
 	private void paintInit() {
 

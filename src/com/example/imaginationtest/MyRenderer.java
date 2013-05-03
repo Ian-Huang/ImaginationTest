@@ -7,10 +7,9 @@ import javax.microedition.khronos.opengles.GL10;
 
 import android.content.res.AssetManager;
 import android.content.res.Resources;
-import android.graphics.Color;
 import android.opengl.GLSurfaceView.Renderer;
-import android.util.Log;
 
+import com.example.imaginationtest.Activity3Page.EditStatus;
 import com.threed.jpct.Camera;
 import com.threed.jpct.FrameBuffer;
 import com.threed.jpct.Interact2D;
@@ -48,7 +47,6 @@ public class MyRenderer implements Renderer {
 	private SimpleVector cylinderOriginPosition;
 	private float ZaxisCanMoveDistance = 10;
 
-	private float addValue = 0;
 	private float colorValue = 0;
 	private float colorChangeSpeed = 255;
 
@@ -104,33 +102,55 @@ public class MyRenderer implements Renderer {
 	}
 
 	public void onDrawFrame(GL10 gl) {
+		if (Activity3Page.currentEditStatus == EditStatus.Mode3D) {
 
-		float deltaTime = (System.currentTimeMillis() - currentSystemTime) / 1000.0f;
-		currentSystemTime = System.currentTimeMillis();
+			gl.glShadeModel(GL10.GL_SMOOTH);
 
-		gl.glShadeModel(GL10.GL_SMOOTH);
+			float deltaTime = (System.currentTimeMillis() - currentSystemTime) / 1000.0f;
+			currentSystemTime = System.currentTimeMillis();
+			if (colorValue >= 255) {
+				colorValue = 255;
+				colorChangeSpeed = -colorChangeSpeed;
+			} else if (colorValue <= 0) {
+				colorValue = 0;
+				colorChangeSpeed = -colorChangeSpeed;
+			}
+			colorValue += (deltaTime * colorChangeSpeed);
 
-		if (colorValue >= 255) {
-			colorValue = 255;
-			colorChangeSpeed = -colorChangeSpeed;
-		} else if (colorValue <= 0) {
-			colorValue = 0;
-			colorChangeSpeed = -colorChangeSpeed;
+			switch (Activity3Page.currentAction3DObject) {
+			case Arch:
+				arch.setAdditionalColor(new RGBColor((int) colorValue, 0, 0,
+						255));// 提示色
+				box.setAdditionalColor(new RGBColor(0, 0, 0, 0));// 原色
+				cylinder.setAdditionalColor(new RGBColor(0, 0, 0, 0));// 原色
+				Handle3DControl(arch, archOriginPosition.z);
+				break;
+
+			case Box:
+				arch.setAdditionalColor(new RGBColor(0, 0, 0, 0));// 原色
+				box.setAdditionalColor(new RGBColor((int) colorValue, 0, 0, 255));// 提示色
+				cylinder.setAdditionalColor(new RGBColor(0, 0, 0, 0));// 原色
+				Handle3DControl(box, boxOriginPosition.z);
+				break;
+
+			case Cylinder:
+				arch.setAdditionalColor(new RGBColor(0, 0, 0, 0));// 原色
+				box.setAdditionalColor(new RGBColor(0, 0, 0, 0));// 原色
+				cylinder.setAdditionalColor(new RGBColor((int) colorValue, 0,
+						0, 255));// 提示色
+				Handle3DControl(cylinder, cylinderOriginPosition.z);
+				break;
+			}
+		} else {
+			arch.setAdditionalColor(new RGBColor(0, 0, 0, 0));// 原色
+			box.setAdditionalColor(new RGBColor(0, 0, 0, 0));// 原色
+			cylinder.setAdditionalColor(new RGBColor(0, 0, 0, 0));// 原色
 		}
-		colorValue += (deltaTime * colorChangeSpeed);
-
-		Log.i("GGG", String.valueOf(colorValue));
-
-		arch.setAdditionalColor(new RGBColor((int) colorValue, 0, 0, 255));// 提示色
-		// arch.setAdditionalColor(new RGBColor(0,0,0,0));//原色
-
-		Handle3DControl(arch, archOriginPosition.z);
 
 		frameBuffer.clear(backgroundColor);
 		world.renderScene(frameBuffer);
 		world.draw(frameBuffer);
 		frameBuffer.display();
-
 	}
 
 	private void Handle3DControl(Object3D obj, float originZ) {
