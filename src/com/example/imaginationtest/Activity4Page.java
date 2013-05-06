@@ -33,6 +33,8 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.imaginationtest.Activity3Page.DrawPanel;
+import com.example.imaginationtest.Activity3Page.PaintType;
 import com.threed.jpct.Logger;
 
 public class Activity4Page extends Activity {
@@ -51,7 +53,7 @@ public class Activity4Page extends Activity {
 		}
 	}
 
-	private PaintType currentPaintType = PaintType.Black;// 確認目前畫筆的顏色(黑筆、白筆、橡皮擦)
+	private PaintType currentPaintType = PaintType.Black;// 活動四僅有黑筆
 
 	// ----路徑資訊----
 	private ArrayList<PaintData> drawPaintDataList = new ArrayList<PaintData>();
@@ -65,8 +67,10 @@ public class Activity4Page extends Activity {
 	// ------------------------------------
 
 	// --------2D Canvas繪圖相關-------
-	private DrawPanel drawPanel;
+	private DrawPanel[] drawPanel = new DrawPanel[2 * pageMaxCount];
+	// ------------------------------------
 
+	// --------按鈕相關--------------------
 	private Button Act4_ClearButton;
 	private Button Act4_EraserButton;
 	private Button Act4_RedoButton;
@@ -75,13 +79,18 @@ public class Activity4Page extends Activity {
 	private Button Act4_PreviousPageButton;
 	private Button Act4_SaveFileButton;
 	private Button Act4_NextActivity;
-
+	// ------------------------------------
+	// --------時間訊息-------------------
 	private TextView Act4_Timer;
+	// ------------------------------------
+	// --------輸入字串-------------------
 	private EditText Act4_EditText01;
 	private EditText Act4_EditText02;
+	// ---------------------------------------
+	// --------顯示圖片訊息-------------------
 	private ImageView Act4_ImageView01;
 	private ImageView Act4_ImageView02;
-
+	// ---------------------------------------
 	private long Countdown_Time = 600; // 倒數計時總時間 ( 單位:秒)
 
 	// 總頁數
@@ -98,6 +107,7 @@ public class Activity4Page extends Activity {
 	// 當前頁面編號
 	private int CurrentPage = 1;
 
+	private Context[] con = new Context[28];
 	private void paintInit() {
 
 		// 黑色筆初始化
@@ -140,11 +150,14 @@ public class Activity4Page extends Activity {
 
 		Act4_PageUpdate();
 		this.StartCountDownTimer();
-
-		FrameLayout upframeLayout = (FrameLayout) this
-				.findViewById(R.id.activity4_Upframelayout);
-		drawPanel = new DrawPanel(this);
-		upframeLayout.addView(drawPanel);
+		
+		FrameLayout upframeLayout = (FrameLayout) findViewById(R.id.activity4_Upframelayout);
+		FrameLayout downframeLayout = (FrameLayout) findViewById(R.id.activity4_Downframelayout);
+		//drawPanel = new DrawPanel(this);
+		drawPanel[0] = new DrawPanel(this);
+		drawPanel[1] = new DrawPanel(this);
+		upframeLayout.addView(drawPanel[0]);
+		downframeLayout.addView(drawPanel[1]);
 	}
 
 	void Init() {
@@ -204,7 +217,18 @@ public class Activity4Page extends Activity {
 		this.Act4_ClearButton.setOnClickListener(new Button.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				// DO SOMETHING
+				synchronized (drawPaintDataList) {
+					synchronized (rePaintDataList) {
+						drawPaintDataList.clear();
+						rePaintDataList.clear();
+						Act4_RedoButton.setEnabled(false);
+						Act4_EraserButton.setEnabled(false);
+						Act4_UndoButton.setEnabled(false);
+						Act4_ClearButton.setEnabled(false);
+						if (currentPaintType == PaintType.Eraser)
+							currentPaintType = PaintType.Black;
+					}
+				}
 			}
 		});
 		// ///////////////////////////////////////////////////////////////////////////
@@ -214,7 +238,7 @@ public class Activity4Page extends Activity {
 		this.Act4_EraserButton.setOnClickListener(new Button.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				// DO SOMETHING
+				currentPaintType = PaintType.Eraser;
 			}
 		});
 		// ///////////////////////////////////////////////////////////////////////////
@@ -224,7 +248,25 @@ public class Activity4Page extends Activity {
 		this.Act4_RedoButton.setOnClickListener(new Button.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				// DO SOMETHING
+				synchronized (drawPaintDataList) {
+					synchronized (rePaintDataList) {
+						if (rePaintDataList.size() > 0) {
+							drawPaintDataList.add(rePaintDataList
+									.get(rePaintDataList.size() - 1));
+							Act4_RedoButton.setEnabled(true);
+							Act4_ClearButton.setEnabled(true);
+
+							rePaintDataList.remove(rePaintDataList.size() - 1);
+							if (rePaintDataList.size() == 0)
+								Act4_RedoButton.setEnabled(false);
+
+							Logger.log("Action Redo: current size = "
+									+ String.valueOf(drawPaintDataList.size())
+									+ " redoSize = "
+									+ String.valueOf(rePaintDataList.size()));
+						}
+					}
+				}
 			}
 		});
 		// ///////////////////////////////////////////////////////////////////////////
@@ -234,7 +276,28 @@ public class Activity4Page extends Activity {
 		this.Act4_UndoButton.setOnClickListener(new Button.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				// DO SOMETHING
+				synchronized (drawPaintDataList) {
+					synchronized (rePaintDataList) {
+						if (drawPaintDataList.size() > 0) {
+							rePaintDataList.add(drawPaintDataList
+									.get(drawPaintDataList.size() - 1));
+							Act4_RedoButton.setEnabled(true);
+
+							drawPaintDataList.remove(drawPaintDataList.size() - 1);
+							if (drawPaintDataList.size() == 0) {
+								Act4_EraserButton.setEnabled(false);
+								Act4_UndoButton.setEnabled(false);
+								Act4_ClearButton.setEnabled(false);
+								if (currentPaintType == PaintType.Eraser)
+									currentPaintType = PaintType.Black;
+							}
+							Logger.log("Action Undo: current size = "
+									+ String.valueOf(drawPaintDataList.size())
+									+ " redoSize = "
+									+ String.valueOf(rePaintDataList.size()));
+						}
+					}
+				}
 			}
 		});
 		// ///////////////////////////////////////////////////////////////////////////
@@ -387,8 +450,8 @@ public class Activity4Page extends Activity {
 					case Eraser:
 						canvas.drawPath(data.paintPath, EraserPaint);
 						break;
-					}
 
+					}
 				}
 			}
 		}
@@ -462,5 +525,19 @@ public class Activity4Page extends Activity {
 
 			return super.onTouchEvent(event);
 		}
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		drawPanel[0].pause();
+		drawPanel[1].pause();
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		drawPanel[0].resume();
+		drawPanel[1].resume();
 	}
 }

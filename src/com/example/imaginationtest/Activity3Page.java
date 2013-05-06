@@ -738,13 +738,13 @@ public class Activity3Page extends Activity {
 	protected void onPause() {
 		super.onPause();
 		mGLView.onPause();
-		drawPanel.pause();
+		//drawPanel.pause();
 	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
 		mGLView.onResume();
-		drawPanel.resume();
+		//drawPanel.resume();
 	}
 }
