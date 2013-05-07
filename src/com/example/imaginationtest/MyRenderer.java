@@ -9,6 +9,7 @@ import android.content.res.AssetManager;
 import android.content.res.Resources;
 import android.opengl.GLSurfaceView.Renderer;
 
+import com.example.imaginationtest.Activity3Page.Action3DObject;
 import com.example.imaginationtest.Activity3Page.EditStatus;
 import com.threed.jpct.Camera;
 import com.threed.jpct.FrameBuffer;
@@ -33,9 +34,12 @@ public class MyRenderer implements Renderer {
 	public float deltaRotateAngleY = 0;
 	public float deltaScale = 0;
 
+	public float PointX;
+	public float PointY;
+
 	private long currentSystemTime = System.currentTimeMillis();
 
-	private FrameBuffer frameBuffer = null;
+	public FrameBuffer frameBuffer = null;
 	private World world = null;
 	private RGBColor backgroundColor = new RGBColor(255, 255, 255);
 
@@ -69,6 +73,14 @@ public class MyRenderer implements Renderer {
 		box.compile();
 		cylinder = loadModel("Cylinder.3DS", 7);
 		cylinder.compile();
+
+		arch.setCollisionMode(Object3D.COLLISION_CHECK_OTHERS);
+		box.setCollisionMode(Object3D.COLLISION_CHECK_OTHERS);
+		cylinder.setCollisionMode(Object3D.COLLISION_CHECK_OTHERS);
+
+		arch.setName("Arch");
+		box.setName("Box");
+		cylinder.setName("Cylinder");
 
 		// 設定世界場景(加入3個模型)
 		world = new World();
@@ -105,6 +117,7 @@ public class MyRenderer implements Renderer {
 		if (Activity3Page.currentEditStatus == EditStatus.Mode3D) {
 
 			gl.glShadeModel(GL10.GL_SMOOTH);
+			gl.glEnable(GL10.GL_DEPTH_TEST); // 啟動深度檢測(沒有看到的面就不會被畫)
 
 			float deltaTime = (System.currentTimeMillis() - currentSystemTime) / 1000.0f;
 			currentSystemTime = System.currentTimeMillis();
@@ -118,6 +131,28 @@ public class MyRenderer implements Renderer {
 			colorValue += (deltaTime * colorChangeSpeed);
 
 			switch (Activity3Page.currentAction3DObject) {
+
+			case DetectObject:
+				SimpleVector ray = Interact2D.reproject2D3D(world.getCamera(),
+						frameBuffer, (int) PointX, (int) PointY).normalize();
+				Object[] res = world.calcMinDistanceAndObject3D(world
+						.getCamera().getPosition(), ray, 1000);
+				if (res[1] != null) {
+					String name = null;
+					name = ((Object3D) res[1]).getName();
+					if (name == "Arch") {
+						Activity3Page.currentAction3DObject = Action3DObject.Arch;
+					} else if (name == "Box") {
+						Activity3Page.currentAction3DObject = Action3DObject.Box;
+					} else if (name == "Cylinder") {
+						Activity3Page.currentAction3DObject = Action3DObject.Cylinder;
+					}
+				}
+			case NoAction:
+				arch.setAdditionalColor(new RGBColor(0, 0, 0, 0));// 原色
+				box.setAdditionalColor(new RGBColor(0, 0, 0, 0));// 原色
+				cylinder.setAdditionalColor(new RGBColor(0, 0, 0, 0));// 原色
+				break;
 			case Arch:
 				arch.setAdditionalColor(new RGBColor((int) colorValue, 0, 0,
 						255));// 提示色
@@ -141,12 +176,8 @@ public class MyRenderer implements Renderer {
 				Handle3DControl(cylinder, cylinderOriginPosition.z);
 				break;
 			}
-		} else {
-			arch.setAdditionalColor(new RGBColor(0, 0, 0, 0));// 原色
-			box.setAdditionalColor(new RGBColor(0, 0, 0, 0));// 原色
-			cylinder.setAdditionalColor(new RGBColor(0, 0, 0, 0));// 原色
-		}
 
+		}
 		frameBuffer.clear(backgroundColor);
 		world.renderScene(frameBuffer);
 		world.draw(frameBuffer);

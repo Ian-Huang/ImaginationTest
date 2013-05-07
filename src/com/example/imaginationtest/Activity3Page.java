@@ -38,7 +38,7 @@ public class Activity3Page extends Activity {
 	}
 
 	enum Action3DObject {
-		Arch, Box, Cylinder
+		NoAction, DetectObject, Arch, Box, Cylinder
 	}
 
 	enum PaintType {
@@ -58,7 +58,7 @@ public class Activity3Page extends Activity {
 	private PaintType currentPaintType = PaintType.Black;// 確認目前畫筆的顏色(黑筆、白筆、橡皮擦)
 	public static EditStatus currentEditStatus = EditStatus.Mode2D;// 確認目前編輯狀態是在2D或3D
 	public static ActionType currentActionType = ActionType.Move;// 確認目前3D模式的動作
-	public static Action3DObject currentAction3DObject = Action3DObject.Arch;// 確認目前3D模式的動作
+	public static Action3DObject currentAction3DObject = Action3DObject.NoAction;// 確認目前3D模式的動作
 
 	// ----------Button----------
 	private Button undoPaintButton;
@@ -72,10 +72,7 @@ public class Activity3Page extends Activity {
 	private Button moveButton;
 	private Button rotateButton;
 	private Button depthButton;
-	private Button archButton;
-	private Button boxButton;
-	private Button cylinderButton;
-	
+
 	private Button startTestButton;
 	// -----------------------------
 
@@ -259,48 +256,6 @@ public class Activity3Page extends Activity {
 		});
 		// ----------------------
 
-		// 設定"Arch"Button (3D物件)
-		archButton = (Button) findViewById(R.id.Act3_ArchButton);
-		archButton.setEnabled(false);
-		archButton.setOnClickListener(new Button.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				currentAction3DObject = Action3DObject.Arch;
-				archButton.setEnabled(false);
-				boxButton.setEnabled(true);
-				cylinderButton.setEnabled(true);
-			}
-		});
-		// ----------------------
-
-		// 設定"Box"Button (3D物件)
-		boxButton = (Button) findViewById(R.id.Act3_BoxButton);
-		boxButton.setEnabled(false);
-		boxButton.setOnClickListener(new Button.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				currentAction3DObject = Action3DObject.Box;
-				archButton.setEnabled(true);
-				boxButton.setEnabled(false);
-				cylinderButton.setEnabled(true);
-			}
-		});
-		// ----------------------
-
-		// 設定"Cylinder"Button (3D物件)
-		cylinderButton = (Button) findViewById(R.id.Act3_CylinderButton);
-		cylinderButton.setEnabled(false);
-		cylinderButton.setOnClickListener(new Button.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				currentAction3DObject = Action3DObject.Cylinder;
-				archButton.setEnabled(true);
-				boxButton.setEnabled(true);
-				cylinderButton.setEnabled(false);
-			}
-		});
-		// ----------------------
-
 		// 設定"編輯切換"Button
 		editChangeButton = (Button) findViewById(R.id.Act3_EditChangeButton);
 		editChangeButton.setOnClickListener(new Button.OnClickListener() {
@@ -334,33 +289,11 @@ public class Activity3Page extends Activity {
 								break;
 							}
 
-							switch (currentAction3DObject) {
-							case Arch:
-								archButton.setEnabled(false);
-								boxButton.setEnabled(true);
-								cylinderButton.setEnabled(true);
-								break;
-							case Box:
-								archButton.setEnabled(true);
-								boxButton.setEnabled(false);
-								cylinderButton.setEnabled(true);
-								break;
-							case Cylinder:
-								archButton.setEnabled(true);
-								boxButton.setEnabled(true);
-								cylinderButton.setEnabled(false);
-								break;
-							}
-
 							currentEditStatus = EditStatus.Mode3D;
 						} else {
 							moveButton.setEnabled(false);
 							rotateButton.setEnabled(false);
 							depthButton.setEnabled(false);
-
-							archButton.setEnabled(false);
-							boxButton.setEnabled(false);
-							cylinderButton.setEnabled(false);
 
 							whitePaintButton.setEnabled(true);
 							blackPaintButton.setEnabled(true);
@@ -380,7 +313,7 @@ public class Activity3Page extends Activity {
 			}
 		});
 		// ----------------------
-		
+
 		// 設定"開始測驗"Button
 		this.startTestButton = (Button) findViewById(R.id.Act3_StartTest);
 
@@ -393,31 +326,31 @@ public class Activity3Page extends Activity {
 		});
 		// ----------------------
 	}
-	
+
 	// 彈出設窗設定:提示是否進入下一頁
-		private void ShowMsgDialog() {
-			Builder MyAlertDialog = new AlertDialog.Builder(this);
+	private void ShowMsgDialog() {
+		Builder MyAlertDialog = new AlertDialog.Builder(this);
 
-			// 設定對話框標題
-			MyAlertDialog.setTitle("活動三");
-			// 設定對話框內容
-			MyAlertDialog.setMessage("時間到  停止作答！！\n進入下一活動");
+		// 設定對話框標題
+		MyAlertDialog.setTitle("活動三");
+		// 設定對話框內容
+		MyAlertDialog.setMessage("時間到  停止作答！！\n進入下一活動");
 
-			// Button觸發後的設定
-			DialogInterface.OnClickListener OkClick = new DialogInterface.OnClickListener() {
-				public void onClick(DialogInterface dialog, int which) {
-					// 確定觸發後...
-					Intent intent = new Intent();
-					intent.setClass(Activity3Page.this, Activity4Page.class);
-					startActivity(intent);
-					System.exit(0);
-				}
-			};
+		// Button觸發後的設定
+		DialogInterface.OnClickListener OkClick = new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int which) {
+				// 確定觸發後...
+				Intent intent = new Intent();
+				intent.setClass(Activity3Page.this, Activity4Page.class);
+				startActivity(intent);
+				System.exit(0);
+			}
+		};
 
-			MyAlertDialog.setNeutralButton("確定", OkClick);
+		MyAlertDialog.setNeutralButton("確定", OkClick);
 
-			MyAlertDialog.show();
-		}
+		MyAlertDialog.show();
+	}
 
 	private void paintInit() {
 
@@ -428,7 +361,7 @@ public class Activity3Page extends Activity {
 		BlackPaint.setStyle(Paint.Style.STROKE);
 		BlackPaint.setStrokeJoin(Paint.Join.ROUND);
 		BlackPaint.setStrokeCap(Paint.Cap.ROUND);
-		BlackPaint.setStrokeWidth(30);
+		BlackPaint.setStrokeWidth(10);
 
 		// 白色筆初始化
 		WhitePaint = new Paint();
@@ -437,7 +370,7 @@ public class Activity3Page extends Activity {
 		WhitePaint.setStyle(Paint.Style.STROKE);
 		WhitePaint.setStrokeJoin(Paint.Join.ROUND);
 		WhitePaint.setStrokeCap(Paint.Cap.ROUND);
-		WhitePaint.setStrokeWidth(30);
+		WhitePaint.setStrokeWidth(10);
 
 		// 橡皮擦初始化
 		EraserPaint = new Paint();
@@ -448,7 +381,7 @@ public class Activity3Page extends Activity {
 		EraserPaint.setStyle(Paint.Style.STROKE);
 		EraserPaint.setStrokeJoin(Paint.Join.ROUND);
 		EraserPaint.setStrokeCap(Paint.Cap.ROUND);
-		EraserPaint.setStrokeWidth(30);
+		EraserPaint.setStrokeWidth(20);
 	}
 
 	protected void onCreate(Bundle savedInstanceState) {
@@ -470,60 +403,6 @@ public class Activity3Page extends Activity {
 		drawPanel = new DrawPanel(this);
 		frameLayout.addView(drawPanel);
 	}
-
-	/*
-	 * public boolean onTouchEvent(MotionEvent event) {
-	 * 
-	 * if (currentEditStatus == EditStatus.Mode3D) { int pointerCount =
-	 * event.getPointerCount(); // 幾個觸控點 switch (event.getAction() &
-	 * MotionEvent.ACTION_MASK) {
-	 * 
-	 * case MotionEvent.ACTION_DOWN: tempTouchPosX = event.getX(); tempTouchPosY
-	 * = event.getY(); return true;
-	 * 
-	 * case MotionEvent.ACTION_POINTER_DOWN: // 當兩個點以上觸碰時觸發的動作 // 記錄兩點間距離
-	 * oldDistance = (float) Math.sqrt(Math.pow( (event.getX(0) -
-	 * event.getX(1)), 2) + Math.pow((event.getY(0) - event.getY(1)), 2));
-	 * return true;
-	 * 
-	 * case MotionEvent.ACTION_MOVE: if (pointerCount == 1) {// 觸碰一點時的控制
-	 * 
-	 * float x_delta = event.getX() - tempTouchPosX; float y_delta =
-	 * event.getY() - tempTouchPosY; tempTouchPosX = event.getX(); tempTouchPosY
-	 * = event.getY();
-	 * 
-	 * // Log.i("Position", // " event.getX: " + String.valueOf(event.getX()) //
-	 * + " event.getY: " // + String.valueOf(event.getY()));
-	 * 
-	 * renderer.deltaTranslatePositionX = x_delta / 100.0f;
-	 * renderer.deltaTranslatePositionY = y_delta / 100.0f;
-	 * 
-	 * renderer.deltaRotateAngleX = x_delta / -100f; renderer.deltaRotateAngleY
-	 * = y_delta / -100f;
-	 * 
-	 * } else if (pointerCount == 2) {// 觸碰兩點時的控制
-	 * 
-	 * // 記錄兩點間距離 newDistance = (float) Math.sqrt(Math.pow( (event.getX(0) -
-	 * event.getX(1)), 2) + Math.pow((event.getY(0) - event.getY(1)), 2));
-	 * 
-	 * float delta = newDistance - oldDistance;// 計算上次與這次兩點間距離的差值 //
-	 * Log.i("delta", "delta" + String.valueOf(delta)); oldDistance =
-	 * newDistance;
-	 * 
-	 * renderer.deltaScale = delta / 1000.0f; } return true;
-	 * 
-	 * case MotionEvent.ACTION_POINTER_UP: // 當兩個點以上離開時觸發的動作 renderer.deltaScale
-	 * = 0; return true;
-	 * 
-	 * case MotionEvent.ACTION_UP: renderer.deltaTranslatePositionX = 0;
-	 * renderer.deltaTranslatePositionY = 0;
-	 * 
-	 * renderer.deltaRotateAngleX = 0; renderer.deltaRotateAngleY = 0; return
-	 * true;
-	 * 
-	 * default: break; } } try { Thread.sleep(15); } catch (Exception e) { // No
-	 * need for this... } return super.onTouchEvent(event); }
-	 */
 
 	public class DrawPanel extends SurfaceView implements Runnable {
 
@@ -649,6 +528,10 @@ public class Activity3Page extends Activity {
 				case MotionEvent.ACTION_DOWN:
 					tempTouchPosX = event.getX();
 					tempTouchPosY = event.getY();
+
+					renderer.PointX = event.getX();
+					renderer.PointY = event.getY();
+					currentAction3DObject = Action3DObject.DetectObject;
 					return true;
 
 				case MotionEvent.ACTION_POINTER_DOWN: // 當兩個點以上觸碰時觸發的動作
@@ -668,21 +551,29 @@ public class Activity3Page extends Activity {
 				case MotionEvent.ACTION_MOVE:
 					if (pointerCount == 1) {// 觸碰一點時的控制
 
+						renderer.PointX = event.getX();
+						renderer.PointY = event.getY();
+
 						float x_delta = event.getX() - tempTouchPosX;
 						float y_delta = event.getY() - tempTouchPosY;
 						tempTouchPosX = event.getX();
 						tempTouchPosY = event.getY();
 
 						// 深度
-						renderer.deltaTranslatePositionZ = y_delta / -100.0f;
+						renderer.deltaTranslatePositionZ = y_delta
+								/ renderer.frameBuffer.getHeight() * 15;
 
 						// 移動
-						renderer.deltaTranslatePositionX = x_delta / 10.0f;
-						renderer.deltaTranslatePositionY = y_delta / 10.0f;
+						renderer.deltaTranslatePositionX = x_delta
+								/ renderer.frameBuffer.getWidth() * 85;
+						renderer.deltaTranslatePositionY = y_delta
+								/ renderer.frameBuffer.getHeight() * 85;
 
 						// 旋轉
-						renderer.deltaRotateAngleX = x_delta / -100f;
-						renderer.deltaRotateAngleY = y_delta / -100f;
+						renderer.deltaRotateAngleX = x_delta
+								/ -renderer.frameBuffer.getWidth() * 15;
+						renderer.deltaRotateAngleY = y_delta
+								/ -renderer.frameBuffer.getHeight() * 15;
 
 					} else if (pointerCount == 2) {// 觸碰兩點時的控制
 
@@ -695,7 +586,8 @@ public class Activity3Page extends Activity {
 						oldDistance = newDistance;
 
 						// 縮放
-						renderer.deltaScale = delta / 1000.0f;
+						renderer.deltaScale = delta
+								/ renderer.frameBuffer.getWidth();
 					}
 					return true;
 
@@ -707,6 +599,16 @@ public class Activity3Page extends Activity {
 						tempTouchPosX = event.getX(0);
 						tempTouchPosY = event.getY(0);
 					}
+					renderer.deltaTranslatePositionX = 0;
+					renderer.deltaTranslatePositionY = 0;
+					renderer.deltaTranslatePositionZ = 0;
+
+					renderer.deltaRotateAngleX = 0;
+					renderer.deltaRotateAngleY = 0;
+
+					renderer.deltaScale = 0;
+					return true;
+
 				case MotionEvent.ACTION_UP:
 
 					renderer.deltaTranslatePositionX = 0;
@@ -717,6 +619,10 @@ public class Activity3Page extends Activity {
 					renderer.deltaRotateAngleY = 0;
 
 					renderer.deltaScale = 0;
+
+					// renderer.PointX = -999;
+					// renderer.PointY = -999;
+					currentAction3DObject = Action3DObject.NoAction;
 					return true;
 
 				default:
@@ -738,13 +644,13 @@ public class Activity3Page extends Activity {
 	protected void onPause() {
 		super.onPause();
 		mGLView.onPause();
-		//drawPanel.pause();
+		drawPanel.pause();
 	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
 		mGLView.onResume();
-		//drawPanel.resume();
+		drawPanel.resume();
 	}
 }
