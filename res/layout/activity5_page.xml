@@ -67,7 +67,7 @@
             android:layout_gravity="center"
             android:layout_marginRight="3dp"
             android:gravity="center"
-            android:text="不同意２"
+            android:text="不同意．．２"
             android:textSize="@dimen/font_size_small" />
 
         <TextView
@@ -85,7 +85,7 @@
             android:layout_gravity="center"
             android:layout_marginRight="3dp"
             android:gravity="center"
-            android:text="有點同意４"
+            android:text="有點同意．４"
             android:textSize="@dimen/font_size_small" />
 
         <TextView
@@ -94,7 +94,7 @@
             android:layout_gravity="center"
             android:layout_marginRight="3dp"
             android:gravity="center"
-            android:text="同意５"
+            android:text="同意．．．５"
             android:textSize="@dimen/font_size_small" />
 
         <TextView
@@ -103,7 +103,7 @@
             android:layout_gravity="center"
             android:layout_marginRight="3dp"
             android:gravity="center"
-            android:text="非常同意６"
+            android:text="非常同意．６"
             android:textSize="@dimen/font_size_small" />
     </TableRow>
 
