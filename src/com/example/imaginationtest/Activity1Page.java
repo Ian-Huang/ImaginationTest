@@ -1,5 +1,7 @@
 package com.example.imaginationtest;
 
+import org.json.JSONException;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
@@ -87,6 +89,30 @@ public class Activity1Page extends Activity {
 		// Button觸發後的設定
 		DialogInterface.OnClickListener OkClick = new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int which) {
+
+				// ------PUT JSON DATA------
+				// 活動一答案的key Ac1Q1~Ac1Q45
+				int count = 0;
+				try {
+					for (int i = 0; i < answerEditText_Collection.length; i++) {
+						if (answerEditText_Collection[i].getText().toString()
+								.length() != 0) {
+							count++;
+							ParseJSON.PutJsonData(
+									"Ac1Q" + String.valueOf(count),
+									answerEditText_Collection[i].getText()
+											.toString());
+						}
+					}
+
+					if (count == 0)
+						ParseJSON.PutJsonData("Ac1Q1", "無");
+				} catch (JSONException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				// ------PUT JSON DATA------
+
 				// 確定觸發後...
 				Intent intent = new Intent();
 				intent.setClass(Activity1Page.this,

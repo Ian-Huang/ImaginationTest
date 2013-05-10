@@ -1,5 +1,7 @@
 package com.example.imaginationtest;
 
+import org.json.JSONException;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
@@ -86,6 +88,30 @@ public class Activity5Page extends Activity {
 		// Button觸發後的設定
 		DialogInterface.OnClickListener OkClick = new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int which) {
+				
+				// ------PUT JSON DATA------
+				// 活動五答案的key Ac5Q1~Ac5Q15 value是1~6
+				
+				try {
+					int i = 1;
+					for (RadioButton[] group : radioButtonCollection) {
+						int j = 1;
+						for(RadioButton button: group)
+						{						
+							if(button.isChecked()){							
+								break;
+							}
+							j++;
+						}
+						ParseJSON.PutJsonData("Ac5Q"+String.valueOf(i), String.valueOf(j));
+						i++;
+					}
+				} catch (JSONException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				// ------PUT JSON DATA------
+				
 				// 確定觸發後...
 				Intent intent = new Intent();
 				intent.setClass(Activity5Page.this, HomePage.class);

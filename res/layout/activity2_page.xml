@@ -1042,6 +1042,30 @@
                     android:inputType="text"
                     android:textSize="@dimen/font_size" />
             </LinearLayout>
+            
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="5dp"
+                    android:text="42."
+                    android:textSize="@dimen/font_size" />
+
+                <EditText
+                    android:id="@+id/Act2answer_EditText42"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="5dp"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:inputType="text"
+                    android:textSize="@dimen/font_size" />
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 

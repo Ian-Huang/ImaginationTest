@@ -1,5 +1,7 @@
 package com.example.imaginationtest;
 
+import org.json.JSONException;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
@@ -14,7 +16,7 @@ import android.widget.TextView;
 
 public class Activity2Page extends Activity {
 
-	private EditText[] answerEditText_Collection = new EditText[41];
+	private EditText[] answerEditText_Collection = new EditText[42];
 
 	private Button nextActButton;
 
@@ -87,6 +89,31 @@ public class Activity2Page extends Activity {
 		// Button觸發後的設定
 		DialogInterface.OnClickListener OkClick = new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int which) {
+
+				// ------PUT JSON DATA------
+				// 活動二答案的key Ac2Q1~Ac2Q42
+				int count = 0;
+				try {
+					for (int i = 0; i < answerEditText_Collection.length; i++) {
+						if (answerEditText_Collection[i].getText().toString()
+								.length() != 0) {
+							count++;
+							ParseJSON.PutJsonData(
+									"Ac2Q" + String.valueOf(count),
+									answerEditText_Collection[i].getText()
+											.toString());
+						}
+					}
+
+					if (count == 0)
+						ParseJSON.PutJsonData("Ac2Q1", "無");
+
+				} catch (JSONException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				// ------PUT JSON DATA------
+
 				// 確定觸發後...
 				Intent intent = new Intent();
 				intent.setClass(Activity2Page.this, Activity3Page.class);

@@ -2,6 +2,8 @@ package com.example.imaginationtest;
 
 import java.util.Calendar;
 
+import org.json.JSONException;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
@@ -105,6 +107,35 @@ public class PersonalInformationPage extends Activity {
 		// Button觸發後的設定
 		DialogInterface.OnClickListener OkClick = new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int which) {
+
+				// ------PUT JSON DATA------
+				int radioButtonID = sexRadioGroup.getCheckedRadioButtonId();
+				View radioButton = sexRadioGroup.findViewById(radioButtonID);
+				int idx = sexRadioGroup.indexOfChild(radioButton);
+				try {
+					// StudentName
+					ParseJSON.PutJsonData("StudentName", userNameEditText
+							.getText().toString());
+					// Sex 男：1女：2
+					ParseJSON.PutJsonData("Sex", String.valueOf(idx + 1));
+					// SchoolName
+					ParseJSON.PutJsonData("SchoolName", schoolNameEditText
+							.getText().toString());
+					// GradeYear
+					ParseJSON.PutJsonData("GradeYear", gradeYearEditText
+							.getText().toString());
+					// Birthday (日期格式)2013-02-19
+					ParseJSON.PutJsonData("Birthday", birthdayTextView
+							.getText().toString());
+					// TestDay (日期格式)2013-02-19
+					ParseJSON.PutJsonData("TestDay", testDayTextView.getText()
+							.toString());
+				} catch (JSONException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				// ------PUT JSON DATA------
+
 				// 確定觸發後...
 				Intent intent = new Intent();
 				intent.setClass(PersonalInformationPage.this,
