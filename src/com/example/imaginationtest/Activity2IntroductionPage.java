@@ -53,7 +53,8 @@ public class Activity2IntroductionPage extends Activity {
 				intent.setClass(Activity2IntroductionPage.this,
 						Activity2Page.class);
 				startActivity(intent);
-				System.exit(0);
+				Activity2IntroductionPage.this.finish();
+				//System.exit(0);
 			}
 		};
 		DialogInterface.OnClickListener CancelClick = new DialogInterface.OnClickListener() {

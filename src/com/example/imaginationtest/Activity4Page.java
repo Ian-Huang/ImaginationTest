@@ -33,8 +33,6 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.imaginationtest.Activity3Page.DrawPanel;
-import com.example.imaginationtest.Activity3Page.PaintType;
 import com.threed.jpct.Logger;
 
 public class Activity4Page extends Activity {
@@ -397,7 +395,8 @@ public class Activity4Page extends Activity {
 				Intent intent = new Intent();
 				intent.setClass(Activity4Page.this, Activity5Page.class);
 				startActivity(intent);
-				System.exit(0);
+				Activity4Page.this.finish();
+				//System.exit(0);
 			}
 		};
 

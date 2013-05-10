@@ -24,7 +24,8 @@ public class HomePage extends Activity {
 				Intent intent = new Intent();
 				intent.setClass(HomePage.this, PersonalInformationPage.class);
 				startActivity(intent);
-				System.exit(0);
+				HomePage.this.finish();
+				//System.exit(0);
 			}
 		});
 

@@ -343,7 +343,8 @@ public class Activity3Page extends Activity {
 				Intent intent = new Intent();
 				intent.setClass(Activity3Page.this, Activity4Page.class);
 				startActivity(intent);
-				System.exit(0);
+				Activity3Page.this.finish();
+				//System.exit(0);
 			}
 		};
 

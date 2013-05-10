@@ -20,6 +20,9 @@ import android.widget.TextView;
 
 public class PersonalInformationPage extends Activity {
 
+	public static String StudendName;
+	public static String TestDay;
+
 	private Calendar calendar;
 
 	private RadioGroup sexRadioGroup;
@@ -114,8 +117,8 @@ public class PersonalInformationPage extends Activity {
 				int idx = sexRadioGroup.indexOfChild(radioButton);
 				try {
 					// StudentName
-					ParseJSON.PutJsonData("StudentName", userNameEditText
-							.getText().toString());
+					StudendName = userNameEditText.getText().toString();
+					ParseJSON.PutJsonData("StudentName", StudendName);
 					// Sex 男：1女：2
 					ParseJSON.PutJsonData("Sex", String.valueOf(idx + 1));
 					// SchoolName
@@ -128,8 +131,9 @@ public class PersonalInformationPage extends Activity {
 					ParseJSON.PutJsonData("Birthday", birthdayTextView
 							.getText().toString());
 					// TestDay (日期格式)2013-02-19
-					ParseJSON.PutJsonData("TestDay", testDayTextView.getText()
-							.toString());
+					TestDay = testDayTextView.getText().toString();
+					ParseJSON.PutJsonData("TestDay", TestDay);
+					ParseJSON.JsonOutput();
 				} catch (JSONException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -141,7 +145,8 @@ public class PersonalInformationPage extends Activity {
 				intent.setClass(PersonalInformationPage.this,
 						Activity1IntroductionPage.class);
 				startActivity(intent);
-				System.exit(0);
+				PersonalInformationPage.this.finish();
+				// System.exit(0);
 			}
 		};
 		DialogInterface.OnClickListener CancelClick = new DialogInterface.OnClickListener() {

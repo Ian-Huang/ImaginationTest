@@ -6,7 +6,6 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -88,35 +87,139 @@ public class Activity5Page extends Activity {
 		// Button觸發後的設定
 		DialogInterface.OnClickListener OkClick = new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int which) {
-				
+
 				// ------PUT JSON DATA------
 				// 活動五答案的key Ac5Q1~Ac5Q15 value是1~6
-				
+
 				try {
 					int i = 1;
 					for (RadioButton[] group : radioButtonCollection) {
 						int j = 1;
-						for(RadioButton button: group)
-						{						
-							if(button.isChecked()){							
+						for (RadioButton button : group) {
+							if (button.isChecked()) {
 								break;
 							}
 							j++;
 						}
-						ParseJSON.PutJsonData("Ac5Q"+String.valueOf(i), String.valueOf(j));
+						ParseJSON.PutJsonData("Ac5Q" + String.valueOf(i),
+								String.valueOf(j));
 						i++;
 					}
+					ParseJSON.JsonOutput();
 				} catch (JSONException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				// ------PUT JSON DATA------
-				
+				ParseJSON
+						.PostData("http://irating.ntue.edu.tw:8080/mobile/UploadUser.php");
+				// // ------儲存JSON檔------
+				// // 設定外部儲存位置
+				// File publicFolder = Environment
+				// .getExternalStoragePublicDirectory("ImaginationTest");
+				// if (!publicFolder.exists())
+				// publicFolder.mkdir();
+				// // 以使用者人名當作資料夾名字
+				// File userNameFolder = new File(publicFolder, "users");
+				// if (!userNameFolder.exists())
+				// userNameFolder.mkdir();
+				// // 設定檔案名子
+				//
+				// File fileName = new File(userNameFolder,
+				// PersonalInformationPage.TestDay
+				// + PersonalInformationPage.StudendName + ".json");
+				//
+				// try {
+				// BufferedWriter buf = new BufferedWriter(new FileWriter(
+				// fileName, false));
+				// buf.append(ParseJSON.GetJSONString());
+				// buf.newLine();
+				// buf.close();
+				// } catch (Exception e) {
+				// e.printStackTrace();
+				// }
+				// // ------儲存JSON檔------
+
+				// ---
+				// HttpURLConnection connection = null;
+				// DataOutputStream outputStream = null;
+				// DataInputStream inputStream = null;
+				//
+				// String pathToOurFile = "/data/file_to_send.mp3";
+				// String urlServer = "http://192.168.1.1/handle_upload.php";
+				// String lineEnd = "\r\n";
+				// String twoHyphens = "--";
+				// String boundary = "*****";
+				//
+				// int bytesRead, bytesAvailable, bufferSize;
+				// byte[] buffer;
+				// int maxBufferSize = 1*1024*1024;
+				//
+				// try
+				// {
+				// FileInputStream fileInputStream = new FileInputStream(new
+				// File(pathToOurFile) );
+				//
+				// URL url = new URL(urlServer);
+				// connection = (HttpURLConnection) url.openConnection();
+				//
+				// // Allow Inputs & Outputs
+				// connection.setDoInput(true);
+				// connection.setDoOutput(true);
+				// connection.setUseCaches(false);
+				//
+				// // Enable POST method
+				// connection.setRequestMethod("POST");
+				//
+				// connection.setRequestProperty("Connection", "Keep-Alive");
+				// connection.setRequestProperty("Content-Type",
+				// "multipart/form-data;boundary="+boundary);
+				//
+				// outputStream = new DataOutputStream(
+				// connection.getOutputStream() );
+				// //outputStream.writeBytes(twoHyphens + boundary + lineEnd);
+				// outputStream.writeBytes(pathToOurFile);
+				// //outputStream.writeBytes(lineEnd);
+				//
+				// bytesAvailable = fileInputStream.available();
+				// bufferSize = Math.min(bytesAvailable, maxBufferSize);
+				// buffer = new byte[bufferSize];
+				//
+				// // Read file
+				// bytesRead = fileInputStream.read(buffer, 0, bufferSize);
+				//
+				// while (bytesRead > 0)
+				// {
+				// //outputStream.write(buffer, 0, bufferSize);
+				// bytesAvailable = fileInputStream.available();
+				// bufferSize = Math.min(bytesAvailable, maxBufferSize);
+				// bytesRead = fileInputStream.read(buffer, 0, bufferSize);
+				// }
+				//
+				// //outputStream.writeBytes(lineEnd);
+				// //outputStream.writeBytes(twoHyphens + boundary + twoHyphens
+				// + lineEnd);
+				//
+				// // Responses from the server (code and message)
+				// //serverResponseCode = connection.getResponseCode();
+				// String serverResponseMessage =
+				// connection.getResponseMessage();
+				//
+				// fileInputStream.close();
+				// outputStream.flush();
+				// outputStream.close();
+				// }
+				// catch (Exception ex)
+				// {
+				// //Exception handling
+				// }
+				// ---
+
 				// 確定觸發後...
-				Intent intent = new Intent();
-				intent.setClass(Activity5Page.this, HomePage.class);
-				startActivity(intent);
-				System.exit(0);
+				// Intent intent = new Intent();
+				// intent.setClass(Activity5Page.this, HomePage.class);
+				// startActivity(intent);
+				// System.exit(0);
 			}
 		};
 		DialogInterface.OnClickListener CancelClick = new DialogInterface.OnClickListener() {

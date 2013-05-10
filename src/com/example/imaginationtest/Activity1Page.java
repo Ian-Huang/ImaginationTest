@@ -107,6 +107,7 @@ public class Activity1Page extends Activity {
 
 					if (count == 0)
 						ParseJSON.PutJsonData("Ac1Q1", "µL");
+					ParseJSON.JsonOutput();
 				} catch (JSONException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -118,7 +119,8 @@ public class Activity1Page extends Activity {
 				intent.setClass(Activity1Page.this,
 						Activity2IntroductionPage.class);
 				startActivity(intent);
-				System.exit(0);
+				Activity1Page.this.finish();
+				//System.exit(0);
 			}
 		};
 
