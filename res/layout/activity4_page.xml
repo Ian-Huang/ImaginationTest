@@ -116,7 +116,7 @@
             android:layout_height="wrap_content"
             android:ems="10" >
 
-            <requestFocus />
+            
         </EditText>
 
         <FrameLayout
@@ -131,6 +131,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:src="@android:drawable/sym_def_app_icon" />
+
         </FrameLayout>
 
         <EditText
