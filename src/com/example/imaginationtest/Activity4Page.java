@@ -5,6 +5,8 @@ import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 
+import com.threed.jpct.Logger;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
@@ -33,7 +35,6 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.threed.jpct.Logger;
 
 public class Activity4Page extends Activity {
 
@@ -54,8 +55,8 @@ public class Activity4Page extends Activity {
 	private PaintType currentPaintType = PaintType.Black;// 活動四僅有黑筆
 
 	// ----路徑資訊----
-	private ArrayList<PaintData> drawPaintDataList = new ArrayList<PaintData>();
 	private ArrayList<PaintData> rePaintDataList = new ArrayList<PaintData>();
+	private ArrayList<PaintData>[] drawPaintDataList = new ArrayList[picMaxCount* pageMaxCount];
 	private Path currentPath;
 	// ------------------------------------
 
@@ -65,7 +66,7 @@ public class Activity4Page extends Activity {
 	// ------------------------------------
 
 	// --------2D Canvas繪圖相關-------
-	private DrawPanel[] drawPanel = new DrawPanel[2 * pageMaxCount];
+	private DrawPanel[] drawPanel = new DrawPanel[picMaxCount * pageMaxCount];
 	// ------------------------------------
 
 	// --------按鈕相關--------------------
@@ -78,23 +79,36 @@ public class Activity4Page extends Activity {
 	private Button Act4_SaveFileButton;
 	private Button Act4_NextActivity;
 	// ------------------------------------
+	
 	// --------時間訊息-------------------
 	private TextView Act4_Timer;
 	// ------------------------------------
+	
 	// --------輸入字串-------------------
 	private EditText Act4_EditText01;
 	private EditText Act4_EditText02;
 	// ---------------------------------------
+	
 	// --------顯示圖片訊息-------------------
 	private ImageView Act4_ImageView01;
 	private ImageView Act4_ImageView02;
 	// ---------------------------------------
+	
+	// --------畫布-------------------
+	private FrameLayout Act4_UpFrameLayout;
+	private FrameLayout Act4_DownFrameLayout;
+	// ---------------------------------------
+	
+	
 	private long Countdown_Time = 600; // 倒數計時總時間 ( 單位:秒)
 
 	// 總頁數
 	private static int pageMaxCount = 28;
+	// 每頁圖片數
+	private static int picMaxCount = 2;
 	// 每頁的文字資訊
-	private String[] EditText_Collection = new String[2 * pageMaxCount];
+	private String[] EditText_Collection = new String[picMaxCount
+			* pageMaxCount];
 	// 每頁的圖片資訊
 	public static Bitmap[] Bitmap_Collection = new Bitmap[pageMaxCount];
 
@@ -104,8 +118,17 @@ public class Activity4Page extends Activity {
 	private Bitmap bitmapLayout;
 	// 當前頁面編號
 	private int CurrentPage = 1;
+	// 當前畫布Panel編號
+	private int CurrentPanel;
+	// 當前按下的是上還是下Panel
+	private int CurrentClickPanel;
+	
+	private boolean getpic = false;
+	
+	Bitmap bitmap[] = new Bitmap[2];
 
-	private Context[] con = new Context[28];
+	 DrawView drawView1;
+	 DrawView drawView2;
 	private void paintInit() {
 
 		// 黑色筆初始化
@@ -115,7 +138,7 @@ public class Activity4Page extends Activity {
 		BlackPaint.setStyle(Paint.Style.STROKE);
 		BlackPaint.setStrokeJoin(Paint.Join.ROUND);
 		BlackPaint.setStrokeCap(Paint.Cap.ROUND);
-		BlackPaint.setStrokeWidth(30);
+		BlackPaint.setStrokeWidth(10);
 
 		// 橡皮擦初始化
 		EraserPaint = new Paint();
@@ -126,46 +149,105 @@ public class Activity4Page extends Activity {
 		EraserPaint.setStyle(Paint.Style.STROKE);
 		EraserPaint.setStrokeJoin(Paint.Join.ROUND);
 		EraserPaint.setStrokeCap(Paint.Cap.ROUND);
-		EraserPaint.setStrokeWidth(30);
+		EraserPaint.setStrokeWidth(15);
+	}
+
+	private void drawPanelInit() {
+		
+		for (int i = 0; i < picMaxCount * pageMaxCount; i++)
+			drawPaintDataList[i] = new ArrayList<PaintData>();
+
+		drawPanel[0] = new DrawPanel(this,0);
+		drawPanel[1] = new DrawPanel(this,1);
+		Act4_UpFrameLayout.addView(drawPanel[0]);
+		Act4_DownFrameLayout.addView(drawPanel[1]);
 	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		this.setContentView(R.layout.activity4_page);
 
 		this.Layout = (View) findViewById(R.id.Act4_Layout);
-
 		this.Act4_Timer = (TextView) findViewById(R.id.Act4_Timer);
 		this.Act4_EditText01 = (EditText) findViewById(R.id.Act4_editText01);
 		this.Act4_EditText02 = (EditText) findViewById(R.id.Act4_editText02);
 		this.Act4_ImageView01 = (ImageView) findViewById(R.id.Act4_ImageView01);
 		this.Act4_ImageView02 = (ImageView) findViewById(R.id.Act4_ImageView02);
+		this.Act4_UpFrameLayout = (FrameLayout) findViewById(R.id.activity4_Upframelayout);
+		this.Act4_DownFrameLayout = (FrameLayout) findViewById(R.id.activity4_Downframelayout);
 
-		Init();
+		// 初始化設定
+		ButtonsInit();
 		paintInit();
+		drawPanelInit();
 
 		Act4_PageUpdate();
 		this.StartCountDownTimer();
 		
-		FrameLayout upframeLayout = (FrameLayout) findViewById(R.id.activity4_Upframelayout);
-		FrameLayout downframeLayout = (FrameLayout) findViewById(R.id.activity4_Downframelayout);
-		//drawPanel = new DrawPanel(this);
-		drawPanel[0] = new DrawPanel(this);
-		drawPanel[1] = new DrawPanel(this);
-		upframeLayout.addView(drawPanel[0]);
-		downframeLayout.addView(drawPanel[1]);
+
+
+		//new!!//INVISIBLE
+	     drawView1 = new DrawView(this,0);
+	     drawView1.setVisibility(View.INVISIBLE);
+	     drawView2 = new DrawView(this,1);
+	     drawView2.setVisibility(View.INVISIBLE);
+	     Act4_UpFrameLayout.addView(drawView1);
+	    
+	     Act4_DownFrameLayout.addView(drawView2);
+	     //背景透明
+	     //drawView1.setBackgroundColor(Color.WHITE);
+
+		
+
+	}
+	
+	//new!!
+	public class DrawView extends View{
+
+		//各畫布獨立變數 用來區分上畫布與下畫布
+		private int  _panelCount;
+		
+	    public DrawView(Context context , int count ) {
+	        super(context);
+	        _panelCount = count;
+	        
+	    }
+
+	    @Override
+	    public void onDraw(Canvas canvas) {
+	    	Logger.log("Print on Draw");
+			synchronized (drawPaintDataList) {
+				CurrentPanel = (CurrentPage - 1 )*2 + _panelCount;
+				for (PaintData data : drawPaintDataList[CurrentPanel]) {
+					switch (data.paintType) {
+					case Black:
+						canvas.drawPath(data.paintPath, BlackPaint);
+						break;
+					case Eraser:
+						canvas.drawPath(data.paintPath, EraserPaint);
+						break;
+
+					}
+				}
+			}
+	    }
+
 	}
 
-	void Init() {
+	void ButtonsInit() {
+		
 		// 設定存檔Button回饋
 		this.Act4_SaveFileButton = (Button) findViewById(R.id.Act4_SaveFileButton);
 		this.Act4_SaveFileButton
 				.setOnClickListener(new Button.OnClickListener() {
 					@Override
-					public void onClick(View v) {
+					public void onClick(View v) {				
+						//重要備註：必須destroyDrawingCache();才能進行更新getDrawingCache();不然會抓不到新資料！
 						Layout.setDrawingCacheEnabled(true);
+						Layout.destroyDrawingCache();
 						bitmapLayout = Layout.getDrawingCache();
 						saveImage(bitmapLayout);
 					}
@@ -178,10 +260,18 @@ public class Activity4Page extends Activity {
 				.setOnClickListener(new Button.OnClickListener() {
 					@Override
 					public void onClick(View v) {
+						//儲存圖片
+						Layout.setDrawingCacheEnabled(true);
+						Layout.destroyDrawingCache();
+						bitmapLayout = Layout.getDrawingCache();
+						saveImage(bitmapLayout);
+						//儲存文字
 						Act4_SaveEditText();
 						if (CurrentPage > 1)
 							CurrentPage--;
+						//更新畫面資料
 						Act4_PageUpdate();
+						
 					}
 				});
 		// ///////////////////////////////////////////////////////////////////////////
@@ -192,10 +282,33 @@ public class Activity4Page extends Activity {
 				.setOnClickListener(new Button.OnClickListener() {
 					@Override
 					public void onClick(View v) {
+											
+						drawView1.setVisibility(View.VISIBLE);
+						drawView2.setVisibility(View.VISIBLE);
+						
+						View view = v.getRootView();
+				        view.setDrawingCacheEnabled(true);
+				        view.destroyDrawingCache();
+				        view.getDrawingCache();
+				        Bitmap bitmap = view.getDrawingCache();
+				        
+						//儲存圖片
+						Layout.setDrawingCacheEnabled(true);
+						Layout.destroyDrawingCache();
+						//Layout.setDrawingCacheBackgroundColor(Color.WHITE);
+						bitmapLayout = Layout.getDrawingCache();
+						saveImage(bitmap);
+						
+						drawView1.setVisibility(View.INVISIBLE);
+						drawView2.setVisibility(View.INVISIBLE);
+						
+						//儲存文字
 						Act4_SaveEditText();
 						if (CurrentPage < pageMaxCount)
 							CurrentPage++;
+						//更新畫面資料
 						Act4_PageUpdate();
+
 					}
 				});
 		// ///////////////////////////////////////////////////////////////////////////
@@ -204,7 +317,17 @@ public class Activity4Page extends Activity {
 		this.Act4_NextActivity = (Button) findViewById(R.id.Act4_NextActivity);
 		this.Act4_NextActivity.setOnClickListener(new Button.OnClickListener() {
 			@Override
-			public void onClick(View v) {
+			public void onClick(View v) {			
+
+				drawView1.setVisibility(View.VISIBLE);
+				drawView2.setVisibility(View.VISIBLE);
+				//儲存圖片
+				Layout.setDrawingCacheEnabled(true);
+				Layout.destroyDrawingCache();
+				bitmapLayout = Layout.getDrawingCache();
+				saveImage(bitmapLayout);
+
+				//出現訊息視窗
 				ShowMsgDialog();
 			}
 		});
@@ -215,14 +338,17 @@ public class Activity4Page extends Activity {
 		this.Act4_ClearButton.setOnClickListener(new Button.OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				
 				synchronized (drawPaintDataList) {
 					synchronized (rePaintDataList) {
-						drawPaintDataList.clear();
+					
+						drawPaintDataList[CurrentClickPanel].clear();		
 						rePaintDataList.clear();
 						Act4_RedoButton.setEnabled(false);
 						Act4_EraserButton.setEnabled(false);
 						Act4_UndoButton.setEnabled(false);
 						Act4_ClearButton.setEnabled(false);
+						
 						if (currentPaintType == PaintType.Eraser)
 							currentPaintType = PaintType.Black;
 					}
@@ -235,8 +361,18 @@ public class Activity4Page extends Activity {
 		this.Act4_EraserButton = (Button) findViewById(R.id.Act4_EraserButton);
 		this.Act4_EraserButton.setOnClickListener(new Button.OnClickListener() {
 			@Override
-			public void onClick(View v) {
-				currentPaintType = PaintType.Eraser;
+			public void onClick(View v) {	
+				
+				if (currentPaintType == PaintType.Eraser)
+				{
+					Act4_EraserButton.setText("橡皮擦");
+					currentPaintType = PaintType.Black;
+				}
+				else if (currentPaintType == PaintType.Black)
+				{
+					Act4_EraserButton.setText("黑筆");
+					currentPaintType = PaintType.Eraser;
+				}
 			}
 		});
 		// ///////////////////////////////////////////////////////////////////////////
@@ -249,7 +385,7 @@ public class Activity4Page extends Activity {
 				synchronized (drawPaintDataList) {
 					synchronized (rePaintDataList) {
 						if (rePaintDataList.size() > 0) {
-							drawPaintDataList.add(rePaintDataList
+							drawPaintDataList[CurrentClickPanel].add(rePaintDataList
 									.get(rePaintDataList.size() - 1));
 							Act4_RedoButton.setEnabled(true);
 							Act4_ClearButton.setEnabled(true);
@@ -258,10 +394,6 @@ public class Activity4Page extends Activity {
 							if (rePaintDataList.size() == 0)
 								Act4_RedoButton.setEnabled(false);
 
-							Logger.log("Action Redo: current size = "
-									+ String.valueOf(drawPaintDataList.size())
-									+ " redoSize = "
-									+ String.valueOf(rePaintDataList.size()));
 						}
 					}
 				}
@@ -276,23 +408,19 @@ public class Activity4Page extends Activity {
 			public void onClick(View v) {
 				synchronized (drawPaintDataList) {
 					synchronized (rePaintDataList) {
-						if (drawPaintDataList.size() > 0) {
-							rePaintDataList.add(drawPaintDataList
-									.get(drawPaintDataList.size() - 1));
+						if (drawPaintDataList[CurrentClickPanel].size() > 0) {
+							rePaintDataList.add(drawPaintDataList[CurrentClickPanel]
+									.get(drawPaintDataList[CurrentClickPanel].size() - 1));
 							Act4_RedoButton.setEnabled(true);
 
-							drawPaintDataList.remove(drawPaintDataList.size() - 1);
-							if (drawPaintDataList.size() == 0) {
+							drawPaintDataList[CurrentClickPanel].remove(drawPaintDataList[CurrentClickPanel]
+									.size() - 1);
+							if (drawPaintDataList[CurrentClickPanel].size() == 0) {
 								Act4_EraserButton.setEnabled(false);
 								Act4_UndoButton.setEnabled(false);
-								Act4_ClearButton.setEnabled(false);
 								if (currentPaintType == PaintType.Eraser)
 									currentPaintType = PaintType.Black;
 							}
-							Logger.log("Action Undo: current size = "
-									+ String.valueOf(drawPaintDataList.size())
-									+ " redoSize = "
-									+ String.valueOf(rePaintDataList.size()));
 						}
 					}
 				}
@@ -317,8 +445,11 @@ public class Activity4Page extends Activity {
 			userNameFolder.mkdir();
 		// 設定檔案名子
 
-		File fileName = new File(userNameFolder, "Act4_Page" + CurrentPage
-				+ ".jpg");
+		File fileName = new File(userNameFolder, "Act4_Page_" + String.valueOf(CurrentPage)
+				+ ".png");
+		
+		if (fileName.exists())
+			fileName.delete();
 
 		try {
 			OutputStream os = new FileOutputStream(fileName);
@@ -328,8 +459,12 @@ public class Activity4Page extends Activity {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		
 
 	}
+	
+	
+
 
 	private void Act4_SaveEditText() {
 		EditText_Collection[(CurrentPage - 1) * 2 + 0] = Act4_EditText01
@@ -341,6 +476,7 @@ public class Activity4Page extends Activity {
 	private void Act4_PageUpdate() {
 		Act4_EditText01.setText(EditText_Collection[(CurrentPage - 1) * 2 + 0]);
 		Act4_EditText02.setText(EditText_Collection[(CurrentPage - 1) * 2 + 1]);
+
 		Act4_ImageView01.setImageResource(R.drawable.action01
 				+ (CurrentPage - 1) * 2 + 0);
 		Act4_ImageView02.setImageResource(R.drawable.action01
@@ -354,6 +490,10 @@ public class Activity4Page extends Activity {
 			this.Act4_NextPageButton.setEnabled(false);
 		else
 			this.Act4_NextPageButton.setEnabled(true);
+		
+		Act4_ClearButton.setEnabled(true);
+
+		
 	}
 
 	// 計時器設定
@@ -395,8 +535,8 @@ public class Activity4Page extends Activity {
 				Intent intent = new Intent();
 				intent.setClass(Activity4Page.this, Activity5Page.class);
 				startActivity(intent);
-				Activity4Page.this.finish();
 				//System.exit(0);
+				Activity4Page.this.finish();
 			}
 		};
 
@@ -410,13 +550,21 @@ public class Activity4Page extends Activity {
 		Thread t = null;
 		SurfaceHolder holder;
 		boolean isItOk = false;
+		//各畫布獨立變數 用來區分上畫布與下畫布
+		private int  _panelCount;
+		
 
-		public DrawPanel(Context context) {
+		public DrawPanel(Context context , int panelCount) {
 			super(context);
 			// TODO Auto-generated constructor stub
 			holder = getHolder();
 			setZOrderOnTop(true);
-			holder.setFormat(PixelFormat.TRANSLUCENT);
+			holder.setFormat(PixelFormat.TRANSPARENT);
+			//bitmap = Bitmap.createBitmap(400,500, Bitmap.Config.ARGB_8888);
+			_panelCount = panelCount;
+			//set Drawing Cache Enabled
+			this.setDrawingCacheEnabled(true);
+		
 		}
 
 		public void run() {
@@ -428,7 +576,6 @@ public class Activity4Page extends Activity {
 				}
 
 				Canvas c = holder.lockCanvas();
-
 				c.drawColor(0x00AAAAAA, Mode.CLEAR);
 				// c.drawARGB(255, 0, 0, 0);
 				onDraw(c);
@@ -439,9 +586,13 @@ public class Activity4Page extends Activity {
 		@Override
 		protected void onDraw(Canvas canvas) {
 			// TODO Auto-generated method stub
+			//http://stackoverflow.com/questions/2174875/android-canvas-to-jpg 
+			//http://stackoverflow.com/questions/2738834/combining-two-png-files-in-android
 			super.onDraw(canvas);
+
 			synchronized (drawPaintDataList) {
-				for (PaintData data : drawPaintDataList) {
+				CurrentPanel = (CurrentPage - 1 )*2 + _panelCount;
+				for (PaintData data : drawPaintDataList[CurrentPanel]) {
 					switch (data.paintType) {
 					case Black:
 						canvas.drawPath(data.paintPath, BlackPaint);
@@ -484,30 +635,29 @@ public class Activity4Page extends Activity {
 					switch (event.getAction()) {
 
 					case MotionEvent.ACTION_DOWN:
-
+						
+						//設定當前手按下的Panel編號
+						CurrentClickPanel = (CurrentPage - 1 )*2 + _panelCount;
+						
+						Act4_RedoButton.setEnabled(true);
+						Act4_EraserButton.setEnabled(true);
+						Act4_UndoButton.setEnabled(true);
+						Act4_ClearButton.setEnabled(true);
+						
 						rePaintDataList.clear();// 清除重做(Redo)的所有紀錄
-						// redoPaintButton.setEnabled(false);
-						// eraserButton.setEnabled(true);
-						// undoPaintButton.setEnabled(true);
-						// clearCanvasButton.setEnabled(true);
 
 						currentPath = new Path();
 						currentPath.moveTo(event.getX(), event.getY());
 
 						PaintData pData = new PaintData(currentPath,
 								currentPaintType);
-						drawPaintDataList.add(pData);
+						drawPaintDataList[CurrentClickPanel].add(pData);
 
-						Logger.log("Action Draw: cuttentSize = "
-								+ String.valueOf(drawPaintDataList.size()));
 						return true;
 
 					case MotionEvent.ACTION_MOVE:
 						currentPath.lineTo(event.getX(), event.getY());
-						Log.i("Position",
-								" event.getX: " + String.valueOf(event.getX())
-										+ " event.getY: "
-										+ String.valueOf(event.getY()));
+						
 						return true;
 
 					default:

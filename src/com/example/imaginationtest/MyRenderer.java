@@ -1,12 +1,17 @@
 package com.example.imaginationtest;
 
 import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
+import java.nio.IntBuffer;
+import java.nio.ShortBuffer;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
 import android.content.res.AssetManager;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
 import android.opengl.GLSurfaceView.Renderer;
 
 import com.example.imaginationtest.Activity3Page.Action3DObject;
@@ -55,6 +60,14 @@ public class MyRenderer implements Renderer {
 	private float colorChangeSpeed = 255;
 
 	private Light sun = null;
+	
+	private int[] myFrameBuffer;
+	
+	public boolean getBitmap = false;
+
+	private GL10 myGL;
+	
+	public Bitmap GLBitmap;
 
 	public MyRenderer(Resources res) {
 		this.resource = res;
@@ -114,8 +127,43 @@ public class MyRenderer implements Renderer {
 	}
 
 	public void onDrawFrame(GL10 gl) {
+		
+		/*
+		if(getBitmap){         
+			int width = frameBuffer.getWidth();
+			int height = frameBuffer.getHeight();
+			
+            int screenshotSize = width * height;
+            ByteBuffer bb = ByteBuffer.allocateDirect(screenshotSize * 4);
+            bb.order(ByteOrder.nativeOrder());
+            gl.glReadPixels(0, 0, width, height, GL10.GL_RGBA, GL10.GL_UNSIGNED_BYTE, bb);
+            int pixelsBuffer[] = new int[screenshotSize];
+            bb.asIntBuffer().get(pixelsBuffer);
+            bb = null;
+            Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
+            bitmap.setPixels(pixelsBuffer, screenshotSize-width, -width, 0, 0, width, height);
+            pixelsBuffer = null;
+
+            short sBuffer[] = new short[screenshotSize];
+            ShortBuffer sb = ShortBuffer.wrap(sBuffer);
+            bitmap.copyPixelsToBuffer(sb);
+
+            //Making created bitmap (from OpenGL points) compatible with Android bitmap
+            for (int i = 0; i < screenshotSize; ++i) {                  
+                short v = sBuffer[i];
+                sBuffer[i] = (short) (((v&0x1f) << 11) | (v&0x7e0) | ((v&0xf800) >> 11));
+            }
+            sb.rewind();
+            bitmap.copyPixelsFromBuffer(sb);
+            GLBitmap = bitmap;
+            
+            getBitmap = false;
+        }
+		*/
+		
 		if (Activity3Page.currentEditStatus == EditStatus.Mode3D) {
 
+		
 			gl.glShadeModel(GL10.GL_SMOOTH);
 			gl.glEnable(GL10.GL_DEPTH_TEST); // 啟動深度檢測(沒有看到的面就不會被畫)
 
@@ -277,4 +325,34 @@ public class MyRenderer implements Renderer {
 		return null;
 	}
 
+	
+	
+	public Bitmap SavePixels(int x, int y, int w, int h)
+	{
+		w = frameBuffer.getWidth();
+		h = frameBuffer.getHeight();
+		
+	    int b[]=new int[w*h];
+	    int bt[]=new int[w*h];
+	    IntBuffer ib=IntBuffer.wrap(b);
+	    ib.position(0);
+	    myGL.glReadPixels(x, y, w, h, GL10.GL_RGBA, GL10.GL_UNSIGNED_BYTE, ib);
+
+	    /*  remember, that OpenGL bitmap is incompatible with 
+	        Android bitmap and so, some correction need.
+	     */   
+	    for(int i=0; i<h; i++)
+	    {         
+	        for(int j=0; j<w; j++)
+	        {
+	            int pix=b[i*w+j];
+	            int pb=(pix>>16)&0xff;
+	            int pr=(pix<<16)&0x00ff0000;
+	            int pix1=(pix&0xff00ff00) | pr | pb;
+	            bt[(h-i-1)*w+j]=pix1;
+	        }
+	    }              
+	    Bitmap sb=Bitmap.createBitmap(bt, w, h, Bitmap.Config.ARGB_8888);
+	    return sb;
+	}
 }

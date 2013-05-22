@@ -1,5 +1,8 @@
 package com.example.imaginationtest;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 
 import android.app.Activity;
@@ -8,6 +11,7 @@ import android.app.AlertDialog.Builder;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -17,6 +21,7 @@ import android.graphics.PorterDuff.Mode;
 import android.graphics.PorterDuffXfermode;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
@@ -24,7 +29,10 @@ import android.view.SurfaceView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 
+import com.example.imaginationtest.Activity4Page.DrawView;
+import com.example.imaginationtest.Activity4Page.PaintData;
 import com.threed.jpct.Logger;
 
 public class Activity3Page extends Activity {
@@ -97,6 +105,8 @@ public class Activity3Page extends Activity {
 	private float tempTouchPosY = -1;
 	private float oldDistance = -1;
 	private float newDistance = -1;
+	
+	 DrawView drawView1;
 
 	private void ButtonInit() {
 
@@ -321,6 +331,23 @@ public class Activity3Page extends Activity {
 		this.startTestButton.setOnClickListener(new Button.OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				
+				renderer.getBitmap = true;
+				Bitmap mybitmap = renderer.GLBitmap;
+				
+				///////////////線條與儲存圖片
+				drawView1.setVisibility(View.VISIBLE);
+				//儲存圖片
+				LinearLayout frameLayout = (LinearLayout) findViewById(R.id.Act3_Layout);	
+				frameLayout.setDrawingCacheEnabled(true);
+				frameLayout.destroyDrawingCache();
+				Bitmap bitmapLayout = frameLayout.getDrawingCache();
+				drawView1.setVisibility(View.INVISIBLE);
+				///////////////////
+				
+
+				
+				saveImage(mybitmap);
 				ShowMsgDialog();
 			}
 		});
@@ -400,10 +427,44 @@ public class Activity3Page extends Activity {
 		renderer = new MyRenderer(getResources());
 		mGLView.setRenderer(renderer);
 		frameLayout.addView(mGLView);
-
 		drawPanel = new DrawPanel(this);
 		frameLayout.addView(drawPanel);
+		
+		
+		//new!!//INVISIBLE
+	     drawView1 = new DrawView(this);
+	     drawView1.setVisibility(View.INVISIBLE);
+	     frameLayout.addView(drawView1);
 	}
+	//new!!
+		public class DrawView extends View{
+
+		    public DrawView(Context context) {
+		        super(context);
+		    }
+
+		    @Override
+		    public void onDraw(Canvas canvas) {
+		    	Logger.log("Print on Draw");
+				synchronized (drawPaintDataList) {
+					for (PaintData data : drawPaintDataList) {
+						switch (data.paintType) {
+						case Black:
+							canvas.drawPath(data.paintPath, BlackPaint);
+							break;
+						case White:
+							canvas.drawPath(data.paintPath, WhitePaint);
+							break;
+						case Eraser:
+							canvas.drawPath(data.paintPath, EraserPaint);
+							break;
+						}
+					}
+				}
+		    }
+
+		}
+
 
 	public class DrawPanel extends SurfaceView implements Runnable {
 
@@ -440,6 +501,7 @@ public class Activity3Page extends Activity {
 		protected void onDraw(Canvas canvas) {
 			// TODO Auto-generated method stub
 			super.onDraw(canvas);
+			
 			synchronized (drawPaintDataList) {
 				for (PaintData data : drawPaintDataList) {
 					switch (data.paintType) {
@@ -641,6 +703,40 @@ public class Activity3Page extends Activity {
 		}
 	}
 
+	
+	// 儲存圖片
+	protected void saveImage(Bitmap bmScreen2) {
+		// TODO Auto-generated method stub
+
+		// 設定外部儲存位置
+		File publicFolder = Environment
+				.getExternalStoragePublicDirectory("ImaginationTest");
+		if (!publicFolder.exists())
+			publicFolder.mkdir();
+		// 以使用者人名當作資料夾名子
+		File userNameFolder = new File(publicFolder, "users");
+		if (!userNameFolder.exists())
+			userNameFolder.mkdir();
+		// 設定檔案名子
+
+		File fileName = new File(userNameFolder, "Act3_Page"
+				+ ".png");
+		
+		if (fileName.exists())
+			fileName.delete();
+
+		try {
+			OutputStream os = new FileOutputStream(fileName);
+			bmScreen2.compress(Bitmap.CompressFormat.PNG, 80, os);
+			os.flush();
+			os.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+
+	}
+	
 	@Override
 	protected void onPause() {
 		super.onPause();
@@ -654,4 +750,10 @@ public class Activity3Page extends Activity {
 		mGLView.onResume();
 		drawPanel.resume();
 	}
+	
+	
 }
+
+
+
+
