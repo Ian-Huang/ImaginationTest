@@ -1,26 +1,13 @@
 package com.example.imaginationtest;
 
-import java.io.File;
-import java.io.IOException;
-
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.mime.MultipartEntity;
-import org.apache.http.entity.mime.content.ContentBody;
-import org.apache.http.entity.mime.content.FileBody;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.util.EntityUtils;
 import org.json.JSONException;
 
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
-import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -125,88 +112,21 @@ public class Activity5Page extends Activity {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				// ------PUT JSON DATA------
-				// ParseJSON
-				// .PostData("http://irating.ntue.edu.tw:8080/mobile/UploadUser.php");
 
-				// // ------儲存JSON檔------
-				// // 設定外部儲存位置
-				File publicFolder = Environment
-						.getExternalStoragePublicDirectory("ImaginationTest");
-				if (!publicFolder.exists())
-					publicFolder.mkdir();
-				// 以使用者人名當作資料夾名字
-				File userNameFolder = new File(publicFolder, "users");
-				if (!userNameFolder.exists())
-					userNameFolder.mkdir();
-				// 設定檔案名子
-
-				File fileName = new File(userNameFolder, "test.json");
-				if (!fileName.exists()) {
-					Log.i("JSON String", "File not exist");
+				String responseStr = ParseJSON
+						.UploadData("http://irating.ntue.edu.tw:8080/mobile/UploadUser.php");
+				if (responseStr != null) {
+					// 上傳成功
+					Log.i("JSON String", responseStr);
+				} else {
+					// 上傳失敗
 				}
-				// File fileName = new File(userNameFolder,
-				// PersonalInformationPage.TestDay
-				// + PersonalInformationPage.StudendName + ".json");
-
-				// try {
-				// BufferedWriter buf = new BufferedWriter(new FileWriter(
-				// fileName, false));
-				// buf.append(ParseJSON.GetJSONString());
-				// buf.newLine();
-				// buf.close();
-				// } catch (Exception e) {
-				// e.printStackTrace();
-				// }
-				// // ------儲存JSON檔------
-
-				// ---
-
-				HttpClient httpclient = new DefaultHttpClient();
-				HttpPost httppost = new HttpPost(
-						"http://irating.ntue.edu.tw:8080/mobile/UploadUser.php");
-
-				MultipartEntity mpEntity = new MultipartEntity();
-
-				 //ContentBody cbFile = new FileBody(fileName,
-				 //"application/json","UTF-8");
-				FileBody bin = new FileBody(fileName);
-				mpEntity.addPart("data", bin);
-				//
-				httppost.setEntity(mpEntity);
-
-				try {
-					HttpResponse response = httpclient.execute(httppost);
-
-					HttpEntity resEntity = response.getEntity();
-					Log.i("JSON String",
-							"response.getStatusLine()"
-									+ response.getStatusLine());
-					if (resEntity != null) {
-						Log.i("JSON String", "resEntity.getContentLength()"
-								+ resEntity.getContentLength());
-						String str = EntityUtils.toString(response.getEntity());
-
-						Log.i("JSON String", "ResponseStr = " + str);
-						// Log.i("JSON String", "resEntity.consumeContent();" +
-						// );
-						resEntity.consumeContent();
-					}
-
-				} catch (ClientProtocolException ce) {
-					// TODO Auto-generated catch block
-					Log.i("JSON String", "ce:" + ce.toString());
-				} catch (IOException ie) {
-					// TODO Auto-generated catch block
-					Log.i("JSON String", "ie:" + ie.toString());
-				}
-				// ---
 
 				// 確定觸發後...
-				// Intent intent = new Intent();
-				// intent.setClass(Activity5Page.this, HomePage.class);
-				// startActivity(intent);
-				// System.exit(0);
+				Intent intent = new Intent();
+				intent.setClass(Activity5Page.this, HomePage.class);
+				startActivity(intent);
+				System.exit(0);
 			}
 		};
 		DialogInterface.OnClickListener CancelClick = new DialogInterface.OnClickListener() {

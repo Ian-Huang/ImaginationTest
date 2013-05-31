@@ -1,23 +1,22 @@
 package com.example.imaginationtest;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
+import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicHeader;
-import org.apache.http.params.BasicHttpParams;
-import org.apache.http.params.HttpConnectionParams;
-import org.apache.http.params.HttpParams;
+import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.os.StrictMode;
 import android.util.Log;
 
 public class ParseJSON {
@@ -26,13 +25,20 @@ public class ParseJSON {
 
 	private static JSONObject JsonObject = new JSONObject();
 
+	public static ArrayList<String> nameList = new ArrayList<String>();
+	public static ArrayList<String> valueList = new ArrayList<String>();
+
 	public static void PutJsonData(String name, String value)
 			throws JSONException {
+
 		JsonObject.put(name, value);
+		nameList.add(name);
+		valueList.add(value);
 	}
 
 	public static void JsonOutput() throws JSONException {
 		// JSONArray jsonArray = new JSONArray();
+
 		// jsonArray.put(JsonObject);
 
 		JSONString = JsonObject.toString();
@@ -43,39 +49,40 @@ public class ParseJSON {
 		return JSONString;
 	}
 
-	public static void PostData(String url) {
+	public static String UploadData(String url) {
 
-		// Create a new HttpClient and Post Header
-		HttpParams myParams = new BasicHttpParams();
-		HttpConnectionParams.setConnectionTimeout(myParams, 10000);
-		HttpConnectionParams.setSoTimeout(myParams, 10000);
-		HttpClient httpclient = new DefaultHttpClient(myParams);
+		String strResult = null;
 
-		StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
-				.detectDiskReads().detectDiskWrites().detectNetwork()
-				.penaltyLog().build());
-		StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder()
-				.detectLeakedSqlLiteObjects().penaltyLog().penaltyDeath()
-				.build());
+		HttpPost httpRequest = new HttpPost(url);
+
+		List<NameValuePair> params = new ArrayList<NameValuePair>();
+		params.add(new BasicNameValuePair("data", "get"));
+		for (int i = 0; i < nameList.size(); i++) {
+			params.add(new BasicNameValuePair(nameList.get(i), valueList.get(i)));
+		}
 
 		try {
+			httpRequest.setEntity(new UrlEncodedFormEntity(params, HTTP.UTF_8));
 
-			HttpPost httppost = new HttpPost(url.toString());
-			httppost.setHeader("Content-type", "application/json");
+			HttpResponse httpResponse = new DefaultHttpClient()
+					.execute(httpRequest);
 
-			StringEntity se = new StringEntity(JSONString);
-			se.setContentEncoding(new BasicHeader(HTTP.CONTENT_TYPE,
-					"application/json"));
-			httppost.setEntity(se);
+			if (httpResponse.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
 
-			HttpResponse response = httpclient.execute(httppost);
-			String temp = EntityUtils.toString(response.getEntity());
-			Log.i("JSON String", "YES:" + temp);
+				strResult = EntityUtils.toString(httpResponse.getEntity(),
+						HTTP.UTF_8);
 
-		} catch (ClientProtocolException ce) {
-			Log.i("JSON String", ce.getMessage());
-		} catch (IOException ie) {
-			Log.i("JSON String", ie.getMessage());
+				strResult = strResult.toString().replace("\r\n", "\\r\\n");
+			}
 		}
+
+		catch (ClientProtocolException e) {
+			return strResult;
+		} catch (IOException e) {
+			return strResult;
+		} catch (Exception e) {
+			return strResult;
+		}
+		return strResult;
 	}
 }
