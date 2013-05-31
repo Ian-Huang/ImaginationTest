@@ -1,5 +1,18 @@
 package com.example.imaginationtest;
 
+import java.io.File;
+import java.io.IOException;
+
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.mime.MultipartEntity;
+import org.apache.http.entity.mime.content.ContentBody;
+import org.apache.http.entity.mime.content.FileBody;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.util.EntityUtils;
 import org.json.JSONException;
 
 import android.app.Activity;
@@ -7,6 +20,8 @@ import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.os.Environment;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RadioButton;
@@ -111,24 +126,29 @@ public class Activity5Page extends Activity {
 					e.printStackTrace();
 				}
 				// ------PUT JSON DATA------
-				ParseJSON
-						.PostData("http://irating.ntue.edu.tw:8080/mobile/UploadUser.php");
+				// ParseJSON
+				// .PostData("http://irating.ntue.edu.tw:8080/mobile/UploadUser.php");
+
 				// // ------儲存JSON檔------
 				// // 設定外部儲存位置
-				// File publicFolder = Environment
-				// .getExternalStoragePublicDirectory("ImaginationTest");
-				// if (!publicFolder.exists())
-				// publicFolder.mkdir();
-				// // 以使用者人名當作資料夾名字
-				// File userNameFolder = new File(publicFolder, "users");
-				// if (!userNameFolder.exists())
-				// userNameFolder.mkdir();
-				// // 設定檔案名子
-				//
+				File publicFolder = Environment
+						.getExternalStoragePublicDirectory("ImaginationTest");
+				if (!publicFolder.exists())
+					publicFolder.mkdir();
+				// 以使用者人名當作資料夾名字
+				File userNameFolder = new File(publicFolder, "users");
+				if (!userNameFolder.exists())
+					userNameFolder.mkdir();
+				// 設定檔案名子
+
+				File fileName = new File(userNameFolder, "test.json");
+				if (!fileName.exists()) {
+					Log.i("JSON String", "File not exist");
+				}
 				// File fileName = new File(userNameFolder,
 				// PersonalInformationPage.TestDay
 				// + PersonalInformationPage.StudendName + ".json");
-				//
+
 				// try {
 				// BufferedWriter buf = new BufferedWriter(new FileWriter(
 				// fileName, false));
@@ -141,78 +161,45 @@ public class Activity5Page extends Activity {
 				// // ------儲存JSON檔------
 
 				// ---
-				// HttpURLConnection connection = null;
-				// DataOutputStream outputStream = null;
-				// DataInputStream inputStream = null;
+
+				HttpClient httpclient = new DefaultHttpClient();
+				HttpPost httppost = new HttpPost(
+						"http://irating.ntue.edu.tw:8080/mobile/UploadUser.php");
+
+				MultipartEntity mpEntity = new MultipartEntity();
+
+				 //ContentBody cbFile = new FileBody(fileName,
+				 //"application/json","UTF-8");
+				FileBody bin = new FileBody(fileName);
+				mpEntity.addPart("data", bin);
 				//
-				// String pathToOurFile = "/data/file_to_send.mp3";
-				// String urlServer = "http://192.168.1.1/handle_upload.php";
-				// String lineEnd = "\r\n";
-				// String twoHyphens = "--";
-				// String boundary = "*****";
-				//
-				// int bytesRead, bytesAvailable, bufferSize;
-				// byte[] buffer;
-				// int maxBufferSize = 1*1024*1024;
-				//
-				// try
-				// {
-				// FileInputStream fileInputStream = new FileInputStream(new
-				// File(pathToOurFile) );
-				//
-				// URL url = new URL(urlServer);
-				// connection = (HttpURLConnection) url.openConnection();
-				//
-				// // Allow Inputs & Outputs
-				// connection.setDoInput(true);
-				// connection.setDoOutput(true);
-				// connection.setUseCaches(false);
-				//
-				// // Enable POST method
-				// connection.setRequestMethod("POST");
-				//
-				// connection.setRequestProperty("Connection", "Keep-Alive");
-				// connection.setRequestProperty("Content-Type",
-				// "multipart/form-data;boundary="+boundary);
-				//
-				// outputStream = new DataOutputStream(
-				// connection.getOutputStream() );
-				// //outputStream.writeBytes(twoHyphens + boundary + lineEnd);
-				// outputStream.writeBytes(pathToOurFile);
-				// //outputStream.writeBytes(lineEnd);
-				//
-				// bytesAvailable = fileInputStream.available();
-				// bufferSize = Math.min(bytesAvailable, maxBufferSize);
-				// buffer = new byte[bufferSize];
-				//
-				// // Read file
-				// bytesRead = fileInputStream.read(buffer, 0, bufferSize);
-				//
-				// while (bytesRead > 0)
-				// {
-				// //outputStream.write(buffer, 0, bufferSize);
-				// bytesAvailable = fileInputStream.available();
-				// bufferSize = Math.min(bytesAvailable, maxBufferSize);
-				// bytesRead = fileInputStream.read(buffer, 0, bufferSize);
-				// }
-				//
-				// //outputStream.writeBytes(lineEnd);
-				// //outputStream.writeBytes(twoHyphens + boundary + twoHyphens
-				// + lineEnd);
-				//
-				// // Responses from the server (code and message)
-				// //serverResponseCode = connection.getResponseCode();
-				// String serverResponseMessage =
-				// connection.getResponseMessage();
-				//
-				// fileInputStream.close();
-				// outputStream.flush();
-				// outputStream.close();
-				// }
-				// catch (Exception ex)
-				// {
-				// //Exception handling
-				// }
+				httppost.setEntity(mpEntity);
+
+				try {
+					HttpResponse response = httpclient.execute(httppost);
+
+					HttpEntity resEntity = response.getEntity();
+					Log.i("JSON String",
+							"response.getStatusLine()"
+									+ response.getStatusLine());
+					if (resEntity != null) {
+						Log.i("JSON String", "resEntity.getContentLength()"
+								+ resEntity.getContentLength());
+						String str = EntityUtils.toString(response.getEntity());
+
+						Log.i("JSON String", "ResponseStr = " + str);
+						// Log.i("JSON String", "resEntity.consumeContent();" +
+						// );
+						resEntity.consumeContent();
+					}
+
+				} catch (ClientProtocolException ce) {
+					// TODO Auto-generated catch block
+					Log.i("JSON String", "ce:" + ce.toString());
+				} catch (IOException ie) {
+					// TODO Auto-generated catch block
+					Log.i("JSON String", "ie:" + ie.toString());
+				}
 				// ---
 
 				// 確定觸發後...
