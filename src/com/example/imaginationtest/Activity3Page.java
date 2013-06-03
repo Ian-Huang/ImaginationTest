@@ -12,6 +12,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Bitmap.Config;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -31,8 +32,7 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
-import com.example.imaginationtest.Activity4Page.DrawView;
-import com.example.imaginationtest.Activity4Page.PaintData;
+import com.threed.jpct.FrameBuffer;
 import com.threed.jpct.Logger;
 
 public class Activity3Page extends Activity {
@@ -332,22 +332,27 @@ public class Activity3Page extends Activity {
 			@Override
 			public void onClick(View v) {
 				
-				renderer.getBitmap = true;
-				Bitmap mybitmap = renderer.GLBitmap;
-				
+				renderer.getJCPTImage = true;
+              
 				///////////////線條與儲存圖片
 				drawView1.setVisibility(View.VISIBLE);
 				//儲存圖片
-				LinearLayout frameLayout = (LinearLayout) findViewById(R.id.Act3_Layout);	
+				FrameLayout frameLayout = (FrameLayout) findViewById(R.id.activity3_framelayout);	
 				frameLayout.setDrawingCacheEnabled(true);
 				frameLayout.destroyDrawingCache();
 				Bitmap bitmapLayout = frameLayout.getDrawingCache();
+				
 				drawView1.setVisibility(View.INVISIBLE);
-				///////////////////
+				///////////////////	
+				saveImage(bitmapLayout);
 				
+				while(renderer.GLBitmap != null)
+				{
+					Canvas comboImage = new Canvas(renderer.GLBitmap);
+					//comboImage.drawBitmap(bitmapLayout, 0f, 0f, null);
+					saveImage(renderer.GLBitmap);
+				}
 
-				
-				saveImage(mybitmap);
 				ShowMsgDialog();
 			}
 		});
@@ -445,7 +450,6 @@ public class Activity3Page extends Activity {
 
 		    @Override
 		    public void onDraw(Canvas canvas) {
-		    	Logger.log("Print on Draw");
 				synchronized (drawPaintDataList) {
 					for (PaintData data : drawPaintDataList) {
 						switch (data.paintType) {
@@ -460,8 +464,10 @@ public class Activity3Page extends Activity {
 							break;
 						}
 					}
+					
 				}
 		    }
+		    
 
 		}
 
@@ -501,6 +507,7 @@ public class Activity3Page extends Activity {
 		protected void onDraw(Canvas canvas) {
 			// TODO Auto-generated method stub
 			super.onDraw(canvas);
+			
 			
 			synchronized (drawPaintDataList) {
 				for (PaintData data : drawPaintDataList) {
@@ -751,7 +758,7 @@ public class Activity3Page extends Activity {
 		drawPanel.resume();
 	}
 	
-	
+
 }
 
 

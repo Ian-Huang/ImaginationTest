@@ -1,6 +1,9 @@
 package com.example.imaginationtest;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.IntBuffer;
@@ -12,7 +15,9 @@ import javax.microedition.khronos.opengles.GL10;
 import android.content.res.AssetManager;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.Bitmap.Config;
 import android.opengl.GLSurfaceView.Renderer;
+import android.os.Environment;
 
 import com.example.imaginationtest.Activity3Page.Action3DObject;
 import com.example.imaginationtest.Activity3Page.EditStatus;
@@ -61,13 +66,11 @@ public class MyRenderer implements Renderer {
 
 	private Light sun = null;
 	
-	private int[] myFrameBuffer;
-	
-	public boolean getBitmap = false;
+	public boolean getJCPTImage = false;
 
-	private GL10 myGL;
 	
 	public Bitmap GLBitmap;
+	
 
 	public MyRenderer(Resources res) {
 		this.resource = res;
@@ -128,38 +131,16 @@ public class MyRenderer implements Renderer {
 
 	public void onDrawFrame(GL10 gl) {
 		
-		/*
-		if(getBitmap){         
-			int width = frameBuffer.getWidth();
-			int height = frameBuffer.getHeight();
-			
-            int screenshotSize = width * height;
-            ByteBuffer bb = ByteBuffer.allocateDirect(screenshotSize * 4);
-            bb.order(ByteOrder.nativeOrder());
-            gl.glReadPixels(0, 0, width, height, GL10.GL_RGBA, GL10.GL_UNSIGNED_BYTE, bb);
-            int pixelsBuffer[] = new int[screenshotSize];
-            bb.asIntBuffer().get(pixelsBuffer);
-            bb = null;
-            Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
-            bitmap.setPixels(pixelsBuffer, screenshotSize-width, -width, 0, 0, width, height);
-            pixelsBuffer = null;
+		//程式已精簡過，備註：此部分必須寫在GL端，getPixel不能跳脫GL執行緒內
+		//錯誤內容call to OpenGL ES API with no current context (logged once per thread)
 
-            short sBuffer[] = new short[screenshotSize];
-            ShortBuffer sb = ShortBuffer.wrap(sBuffer);
-            bitmap.copyPixelsToBuffer(sb);
-
-            //Making created bitmap (from OpenGL points) compatible with Android bitmap
-            for (int i = 0; i < screenshotSize; ++i) {                  
-                short v = sBuffer[i];
-                sBuffer[i] = (short) (((v&0x1f) << 11) | (v&0x7e0) | ((v&0xf800) >> 11));
-            }
-            sb.rewind();
-            bitmap.copyPixelsFromBuffer(sb);
-            GLBitmap = bitmap;
-            
-            getBitmap = false;
+		if(getJCPTImage){
+			FrameBuffer fb =  frameBuffer;
+			GLBitmap = Bitmap.createBitmap(fb.getPixels(), fb.getWidth(), fb.getHeight(),Config.ARGB_8888);
+			saveJCPTImage(GLBitmap);
+            getJCPTImage = false;
         }
-		*/
+		
 		
 		if (Activity3Page.currentEditStatus == EditStatus.Mode3D) {
 
@@ -227,9 +208,11 @@ public class MyRenderer implements Renderer {
 
 		}
 		frameBuffer.clear(backgroundColor);
+
 		world.renderScene(frameBuffer);
 		world.draw(frameBuffer);
 		frameBuffer.display();
+		
 	}
 
 	private void Handle3DControl(Object3D obj, float originZ) {
@@ -327,32 +310,37 @@ public class MyRenderer implements Renderer {
 
 	
 	
-	public Bitmap SavePixels(int x, int y, int w, int h)
-	{
-		w = frameBuffer.getWidth();
-		h = frameBuffer.getHeight();
-		
-	    int b[]=new int[w*h];
-	    int bt[]=new int[w*h];
-	    IntBuffer ib=IntBuffer.wrap(b);
-	    ib.position(0);
-	    myGL.glReadPixels(x, y, w, h, GL10.GL_RGBA, GL10.GL_UNSIGNED_BYTE, ib);
+	
+//	// 儲存圖片
+	protected void saveJCPTImage(Bitmap bmScreen2) {
+		// TODO Auto-generated method stub
 
-	    /*  remember, that OpenGL bitmap is incompatible with 
-	        Android bitmap and so, some correction need.
-	     */   
-	    for(int i=0; i<h; i++)
-	    {         
-	        for(int j=0; j<w; j++)
-	        {
-	            int pix=b[i*w+j];
-	            int pb=(pix>>16)&0xff;
-	            int pr=(pix<<16)&0x00ff0000;
-	            int pix1=(pix&0xff00ff00) | pr | pb;
-	            bt[(h-i-1)*w+j]=pix1;
-	        }
-	    }              
-	    Bitmap sb=Bitmap.createBitmap(bt, w, h, Bitmap.Config.ARGB_8888);
-	    return sb;
+		// 設定外部儲存位置
+		File publicFolder = Environment
+				.getExternalStoragePublicDirectory("ImaginationTest");
+		if (!publicFolder.exists())
+			publicFolder.mkdir();
+		// 以使用者人名當作資料夾名子
+		File userNameFolder = new File(publicFolder, "users");
+		if (!userNameFolder.exists())
+			userNameFolder.mkdir();
+		// 設定檔案名子
+
+		File fileName = new File(userNameFolder, "Act3_Page_JCPT"
+				+ ".png");
+		
+		if (fileName.exists())
+			fileName.delete();
+
+		try {
+			OutputStream os = new FileOutputStream(fileName);
+			bmScreen2.compress(Bitmap.CompressFormat.PNG, 80, os);
+			os.flush();
+			os.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+
 	}
 }
