@@ -85,7 +85,9 @@ public class Activity2Page extends Activity {
 		MyAlertDialog.setTitle("活動二");
 		// 設定對話框內容
 		MyAlertDialog.setMessage("時間到  停止作答！！\n進入下一活動");
-
+		// 設定不能被取消
+		MyAlertDialog.setCancelable(false);
+		
 		// Button觸發後的設定
 		DialogInterface.OnClickListener OkClick = new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int which) {

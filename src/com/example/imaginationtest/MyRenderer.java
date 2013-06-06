@@ -15,6 +15,7 @@ import javax.microedition.khronos.opengles.GL10;
 import android.content.res.AssetManager;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.Bitmap.Config;
 import android.opengl.GLSurfaceView.Renderer;
 import android.os.Environment;
@@ -66,7 +67,7 @@ public class MyRenderer implements Renderer {
 
 	private Light sun = null;
 	
-	public boolean getJCPTImage = false;
+	public boolean combineImage = false;
 
 	
 	public Bitmap GLBitmap;
@@ -134,11 +135,19 @@ public class MyRenderer implements Renderer {
 		//程式已精簡過，備註：此部分必須寫在GL端，getPixel不能跳脫GL執行緒內
 		//錯誤內容call to OpenGL ES API with no current context (logged once per thread)
 
-		if(getJCPTImage){
+		if(combineImage){
 			FrameBuffer fb =  frameBuffer;
 			GLBitmap = Bitmap.createBitmap(fb.getPixels(), fb.getWidth(), fb.getHeight(),Config.ARGB_8888);
-			saveJCPTImage(GLBitmap);
-            getJCPTImage = false;
+
+			Bitmap combineBitmap;
+			combineBitmap = Bitmap.createBitmap(GLBitmap.getWidth(), GLBitmap.getHeight(), Bitmap.Config.ARGB_8888); 
+			Canvas comboImage = new Canvas(combineBitmap); 
+			comboImage.drawBitmap(Activity3Page.Activity3BitmapPaint, 0f , 0f, null); 
+			comboImage.drawBitmap(GLBitmap, 0f, 0f, null); 
+		   
+		    saveImage(combineBitmap);
+		    
+            combineImage = false;
         }
 		
 		
@@ -312,7 +321,7 @@ public class MyRenderer implements Renderer {
 	
 	
 //	// 儲存圖片
-	protected void saveJCPTImage(Bitmap bmScreen2) {
+	protected void saveImage(Bitmap bmScreen2) {
 		// TODO Auto-generated method stub
 
 		// 設定外部儲存位置
@@ -326,7 +335,7 @@ public class MyRenderer implements Renderer {
 			userNameFolder.mkdir();
 		// 設定檔案名子
 
-		File fileName = new File(userNameFolder, "Act3_Page_JCPT"
+		File fileName = new File(userNameFolder, "Act3_Page"
 				+ ".png");
 		
 		if (fileName.exists())

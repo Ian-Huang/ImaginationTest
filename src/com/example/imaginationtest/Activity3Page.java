@@ -106,7 +106,9 @@ public class Activity3Page extends Activity {
 	private float oldDistance = -1;
 	private float newDistance = -1;
 	
-	 DrawView drawView1;
+	DrawView drawView1;
+	
+	public static Bitmap Activity3BitmapPaint;
 
 	private void ButtonInit() {
 
@@ -332,26 +334,19 @@ public class Activity3Page extends Activity {
 			@Override
 			public void onClick(View v) {
 				
-				renderer.getJCPTImage = true;
-              
 				///////////////線條與儲存圖片
 				drawView1.setVisibility(View.VISIBLE);
 				//儲存圖片
 				FrameLayout frameLayout = (FrameLayout) findViewById(R.id.activity3_framelayout);	
 				frameLayout.setDrawingCacheEnabled(true);
 				frameLayout.destroyDrawingCache();
-				Bitmap bitmapLayout = frameLayout.getDrawingCache();
+				Activity3BitmapPaint = frameLayout.getDrawingCache();
 				
 				drawView1.setVisibility(View.INVISIBLE);
 				///////////////////	
-				saveImage(bitmapLayout);
 				
-				while(renderer.GLBitmap != null)
-				{
-					Canvas comboImage = new Canvas(renderer.GLBitmap);
-					//comboImage.drawBitmap(bitmapLayout, 0f, 0f, null);
-					saveImage(renderer.GLBitmap);
-				}
+				//呼叫JCPT去合併JCPT的圖片並存圖(在MyRenderer.java)
+				renderer.combineImage = true;
 
 				ShowMsgDialog();
 			}
@@ -367,7 +362,8 @@ public class Activity3Page extends Activity {
 		MyAlertDialog.setTitle("活動三");
 		// 設定對話框內容
 		MyAlertDialog.setMessage("時間到  停止作答！！\n進入下一活動");
-
+		// 設定不能被取消
+		MyAlertDialog.setCancelable(false);
 		// Button觸發後的設定
 		DialogInterface.OnClickListener OkClick = new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int which) {
@@ -710,39 +706,7 @@ public class Activity3Page extends Activity {
 		}
 	}
 
-	
-	// 儲存圖片
-	protected void saveImage(Bitmap bmScreen2) {
-		// TODO Auto-generated method stub
 
-		// 設定外部儲存位置
-		File publicFolder = Environment
-				.getExternalStoragePublicDirectory("ImaginationTest");
-		if (!publicFolder.exists())
-			publicFolder.mkdir();
-		// 以使用者人名當作資料夾名子
-		File userNameFolder = new File(publicFolder, "users");
-		if (!userNameFolder.exists())
-			userNameFolder.mkdir();
-		// 設定檔案名子
-
-		File fileName = new File(userNameFolder, "Act3_Page"
-				+ ".png");
-		
-		if (fileName.exists())
-			fileName.delete();
-
-		try {
-			OutputStream os = new FileOutputStream(fileName);
-			bmScreen2.compress(Bitmap.CompressFormat.PNG, 80, os);
-			os.flush();
-			os.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-
-	}
 	
 	@Override
 	protected void onPause() {

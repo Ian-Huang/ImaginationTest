@@ -92,7 +92,9 @@ public class Activity5Page extends Activity {
 
 		// 設定對話框標題
 		MyAlertDialog.setTitle("活動五");
-
+		// 設定不能被取消
+		MyAlertDialog.setCancelable(false);
+		
 		// Button觸發後的設定
 		DialogInterface.OnClickListener OkClick = new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int which) {

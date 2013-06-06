@@ -517,6 +517,8 @@ public class Activity4Page extends Activity {
 		MyAlertDialog.setTitle("活動四");
 		// 設定對話框內容
 		MyAlertDialog.setMessage("時間到  停止作答！！");
+		// 設定不能被取消
+		MyAlertDialog.setCancelable(false);
 
 		// Button觸發後的設定
 		DialogInterface.OnClickListener OkClick = new DialogInterface.OnClickListener() {
