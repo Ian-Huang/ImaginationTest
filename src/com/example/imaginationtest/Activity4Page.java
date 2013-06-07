@@ -5,8 +5,6 @@ import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 
-import com.threed.jpct.Logger;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
@@ -24,7 +22,6 @@ import android.graphics.PorterDuffXfermode;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Environment;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -129,6 +126,9 @@ public class Activity4Page extends Activity {
 	DrawView drawView1;
 	DrawView drawView2;
 
+	private CountDownTimer timer;
+	private boolean isTimeFinish = false;
+
 	private void paintInit() {
 
 		// 黑色筆初始化
@@ -187,7 +187,7 @@ public class Activity4Page extends Activity {
 		Act4_PageUpdate();
 		this.StartCountDownTimer();
 
-		//創建兩View的畫布將SurfaceView的筆畫重畫在View裡 並將其INVISIBLE(不被看到)等到要存檔時在顯示出來
+		// 創建兩View的畫布將SurfaceView的筆畫重畫在View裡 並將其INVISIBLE(不被看到)等到要存檔時在顯示出來
 		drawView1 = new DrawView(this, 0);
 		drawView1.setVisibility(View.INVISIBLE);
 		drawView2 = new DrawView(this, 1);
@@ -255,16 +255,16 @@ public class Activity4Page extends Activity {
 						// 儲存圖片
 						drawView1.setVisibility(View.VISIBLE);
 						drawView2.setVisibility(View.VISIBLE);
-						
+
 						Layout.setDrawingCacheEnabled(true);
 						Layout.destroyDrawingCache();
 						bitmapLayout = Layout.getDrawingCache();
 						saveImage(bitmapLayout);
-						
-						//儲存完後隱藏
+
+						// 儲存完後隱藏
 						drawView1.setVisibility(View.INVISIBLE);
 						drawView2.setVisibility(View.INVISIBLE);
-						
+
 						// 儲存文字
 						Act4_SaveEditText();
 						if (CurrentPage > 1)
@@ -283,7 +283,7 @@ public class Activity4Page extends Activity {
 					@Override
 					public void onClick(View v) {
 
-						//顯示兩View的畫布
+						// 顯示兩View的畫布
 						drawView1.setVisibility(View.VISIBLE);
 						drawView2.setVisibility(View.VISIBLE);
 
@@ -293,7 +293,7 @@ public class Activity4Page extends Activity {
 						bitmapLayout = Layout.getDrawingCache();
 						saveImage(bitmapLayout);
 
-						//儲存完後隱藏
+						// 儲存完後隱藏
 						drawView1.setVisibility(View.INVISIBLE);
 						drawView2.setVisibility(View.INVISIBLE);
 
@@ -489,13 +489,15 @@ public class Activity4Page extends Activity {
 	// 計時器設定
 	void StartCountDownTimer() {
 
-		new CountDownTimer(Countdown_Time * 1000, 500) {
+		timer = new CountDownTimer(Countdown_Time * 1000, 500) {
 
 			@Override
 			public void onFinish() {
 				// 時間到後提示進入下一頁
-				Act4_Timer.setText("剩餘時間    00：00");
-				ShowMsgDialog();
+				if (!isTimeFinish) {
+					Act4_Timer.setText("剩餘時間    00：00");
+					ShowMsgDialog();
+				}
 			}
 
 			@Override
@@ -506,7 +508,9 @@ public class Activity4Page extends Activity {
 						+ String.format("%02d", totalSec / 60) + "："
 						+ String.format("%02d", totalSec % 60));
 			}
-		}.start();
+		};
+		timer.start();
+		isTimeFinish = false;
 	}
 
 	// 彈出設窗設定:提示是否進入下一頁
@@ -523,6 +527,9 @@ public class Activity4Page extends Activity {
 		// Button觸發後的設定
 		DialogInterface.OnClickListener OkClick = new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int which) {
+				isTimeFinish = true;
+				timer.cancel();
+
 				// 確定觸發後...
 				Intent intent = new Intent();
 				intent.setClass(Activity4Page.this, Activity5Page.class);

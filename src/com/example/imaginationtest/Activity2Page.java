@@ -23,6 +23,9 @@ public class Activity2Page extends Activity {
 	private TextView timerTextView;
 	private long Countdown_Time = 300; // 倒數計時總時間 ( 單位:秒)
 
+	private CountDownTimer timer;
+	private boolean isTimeFinish = false;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -57,13 +60,15 @@ public class Activity2Page extends Activity {
 	// 計時器設定
 	void StartCountDownTimer() {
 
-		new CountDownTimer(Countdown_Time * 1000, 500) {
+		timer = new CountDownTimer(Countdown_Time * 1000, 500) {
 
 			@Override
 			public void onFinish() {
 				// 時間到後提示進入下一頁
-				timerTextView.setText("剩餘時間    00：00");
-				ShowMsgDialog();
+				if (!isTimeFinish) {
+					timerTextView.setText("剩餘時間    00：00");
+					ShowMsgDialog();
+				}
 			}
 
 			@Override
@@ -74,7 +79,9 @@ public class Activity2Page extends Activity {
 						+ String.format("%02d", totalSec / 60) + "："
 						+ String.format("%02d", totalSec % 60));
 			}
-		}.start();
+		};
+		timer.start();
+		isTimeFinish = false;
 	}
 
 	// 彈出設窗設定:提示是否進入下一頁
@@ -87,7 +94,7 @@ public class Activity2Page extends Activity {
 		MyAlertDialog.setMessage("時間到  停止作答！！\n進入下一活動");
 		// 設定不能被取消
 		MyAlertDialog.setCancelable(false);
-		
+
 		// Button觸發後的設定
 		DialogInterface.OnClickListener OkClick = new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int which) {
@@ -115,13 +122,14 @@ public class Activity2Page extends Activity {
 					e.printStackTrace();
 				}
 				// ------PUT JSON DATA------
-
+				isTimeFinish = true;
+				timer.cancel();
 				// 確定觸發後...
 				Intent intent = new Intent();
 				intent.setClass(Activity2Page.this, Activity3Page.class);
 				startActivity(intent);
 				Activity2Page.this.finish();
-				//System.exit(0);
+				// System.exit(0);
 			}
 		};
 

@@ -94,7 +94,7 @@ public class Activity5Page extends Activity {
 		MyAlertDialog.setTitle("活動五");
 		// 設定不能被取消
 		MyAlertDialog.setCancelable(false);
-		
+
 		// Button觸發後的設定
 		DialogInterface.OnClickListener OkClick = new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int which) {
@@ -131,7 +131,7 @@ public class Activity5Page extends Activity {
 					// 上傳失敗
 				}
 
-				//------FTP上傳圖片------
+				// ------FTP上傳圖片------
 				FTPClient client = new FTPClient();
 				try {
 					client.connect("irating.ntue.edu.tw");
@@ -150,7 +150,8 @@ public class Activity5Page extends Activity {
 							FileInputStream fileStream = new FileInputStream(
 									userNameFolder[i]);
 
-							String.valueOf(client.changeWorkingDirectory("/image"));
+							String.valueOf(client
+									.changeWorkingDirectory("/image"));
 
 							boolean result = client.storeFile(
 									responseStr.toString()
@@ -171,7 +172,7 @@ public class Activity5Page extends Activity {
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-				//------FTP上傳圖片(End)------
+				// ------FTP上傳圖片(End)------
 
 				// 確定觸發後...
 				Intent intent = new Intent();
