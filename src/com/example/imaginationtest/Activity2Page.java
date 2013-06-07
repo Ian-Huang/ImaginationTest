@@ -126,9 +126,10 @@ public class Activity2Page extends Activity {
 				timer.cancel();
 				// ½T©wÄ²µo«á...
 				Intent intent = new Intent();
-				intent.setClass(Activity2Page.this, Activity3Page.class);
+				intent.setClass(Activity2Page.this, Activity3IntroductionPage.class);
 				startActivity(intent);
 				Activity2Page.this.finish();
+				
 				// System.exit(0);
 			}
 		};

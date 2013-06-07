@@ -142,9 +142,8 @@ public class MyRenderer implements Renderer {
 			Bitmap combineBitmap;
 			combineBitmap = Bitmap.createBitmap(GLBitmap.getWidth(), GLBitmap.getHeight(), Bitmap.Config.ARGB_8888); 
 			Canvas comboImage = new Canvas(combineBitmap); 
-			comboImage.drawBitmap(Activity3Page.Activity3BitmapPaint, 0f , 0f, null); 
 			comboImage.drawBitmap(GLBitmap, 0f, 0f, null); 
-		   
+		    comboImage.drawBitmap(Activity3Page.Activity3BitmapPaint, 0f , 0f, null); 
 		    saveImage(combineBitmap);
 		    
             combineImage = false;

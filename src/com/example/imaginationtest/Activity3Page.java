@@ -369,7 +369,7 @@ public class Activity3Page extends Activity {
 			public void onClick(DialogInterface dialog, int which) {
 				// ½T©wÄ²µo«á...
 				Intent intent = new Intent();
-				intent.setClass(Activity3Page.this, Activity4Page.class);
+				intent.setClass(Activity3Page.this, Activity4IntroductionPage.class);
 				startActivity(intent);
 				Activity3Page.this.finish();
 				//System.exit(0);
