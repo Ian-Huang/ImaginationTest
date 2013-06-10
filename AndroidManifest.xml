@@ -18,6 +18,11 @@
             android:name="com.example.imaginationtest.HomePage"
             android:label="@string/app_name"
             android:screenOrientation="portrait" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name="com.example.imaginationtest.PersonalInformationPage"
@@ -38,16 +43,13 @@
             android:name="com.example.imaginationtest.Activity2IntroductionPage"
             android:label="@string/app_name"
             android:screenOrientation="portrait" >
+            
         </activity>
         <activity
             android:name="com.example.imaginationtest.Activity2Page"
             android:label="@string/app_name"
             android:screenOrientation="portrait" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            
         </activity>
         <activity
             android:name="com.example.imaginationtest.Activity3IntroductionPage"

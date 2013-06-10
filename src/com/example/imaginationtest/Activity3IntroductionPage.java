@@ -1,18 +1,16 @@
 package com.example.imaginationtest;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.AlertDialog.Builder;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 
 public class Activity3IntroductionPage extends Activity {
 
-	private ImageButton act3_ImageButton;
+	private ImageView act3_ImageButton;
 
 	private int ImageMax = 3;
 	int i = 1;
@@ -28,7 +26,7 @@ public class Activity3IntroductionPage extends Activity {
 
 	// 初始化設定
 	void Init() {
-		this.act3_ImageButton = (ImageButton) findViewById(R.id.Act3_ImageButton);
+		this.act3_ImageButton = (ImageView) findViewById(R.id.Act3_ImageButton);
 
 		// 設定"開始測驗"Button Listener
 		this.act3_ImageButton.setOnClickListener(new Button.OnClickListener() {
@@ -37,9 +35,9 @@ public class Activity3IntroductionPage extends Activity {
 				i++;
 				
 				if(i==2)
-					act3_ImageButton.setImageResource(R.drawable.action01);
+					act3_ImageButton.setImageResource(R.drawable.act3t1);
 				if(i==3)
-					act3_ImageButton.setImageResource(R.drawable.action02);
+					act3_ImageButton.setImageResource(R.drawable.act3t2);
 				if(i==4)
 				{
 					Intent intent = new Intent();

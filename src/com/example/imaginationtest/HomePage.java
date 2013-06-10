@@ -5,11 +5,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
-import android.widget.ImageButton;
+import android.widget.ImageView;
 
 public class HomePage extends Activity {
 
-	private ImageButton imageButton;
+	private ImageView imageButton;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -17,7 +17,7 @@ public class HomePage extends Activity {
 		setContentView(R.layout.home_page);
 
 		// Image button е\пр
-		this.imageButton = (ImageButton) findViewById(R.id.HomePage_ImageButton);
+		this.imageButton = (ImageView) findViewById(R.id.HomePage_ImageView);
 		this.imageButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -25,7 +25,7 @@ public class HomePage extends Activity {
 				intent.setClass(HomePage.this, PersonalInformationPage.class);
 				startActivity(intent);
 				HomePage.this.finish();
-				//System.exit(0);
+				// System.exit(0);
 			}
 		});
 
