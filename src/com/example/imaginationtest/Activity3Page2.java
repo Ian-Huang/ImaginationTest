@@ -18,6 +18,7 @@ import android.graphics.PorterDuff.Mode;
 import android.graphics.PorterDuffXfermode;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
@@ -25,6 +26,7 @@ import android.view.SurfaceView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.TextView;
 
 import com.threed.jpct.Logger;
 
@@ -102,6 +104,11 @@ public class Activity3Page2 extends Activity {
 	DrawView drawView1;
 
 	public static Bitmap Activity3BitmapPaint;
+
+	private TextView timerTextView;
+	private long Countdown_Time = 600; // 倒數計時總時間 ( 單位:秒)
+	private CountDownTimer timer;
+	private boolean isTimeFinish = false;
 
 	private void ButtonInit() {
 
@@ -362,6 +369,8 @@ public class Activity3Page2 extends Activity {
 		DialogInterface.OnClickListener OkClick = new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int which) {
 				// 確定觸發後...
+				isTimeFinish = true;
+				timer.cancel();
 				Intent intent = new Intent();
 				intent.setClass(Activity3Page2.this,
 						Activity4IntroductionPage.class);
@@ -413,8 +422,12 @@ public class Activity3Page2 extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity3_page2);
 
+		this.timerTextView = (TextView) findViewById(R.id.Act3_2Timer_textView);
+
 		ButtonInit();
 		paintInit();
+
+		this.StartCountDownTimer();
 
 		FrameLayout frameLayout = (FrameLayout) this
 				.findViewById(R.id.activity3_2_framelayout);
@@ -430,6 +443,33 @@ public class Activity3Page2 extends Activity {
 		drawView1 = new DrawView(this);
 		drawView1.setVisibility(View.INVISIBLE);
 		frameLayout.addView(drawView1);
+	}
+
+	// 計時器設定
+	void StartCountDownTimer() {
+
+		timer = new CountDownTimer(Countdown_Time * 1000, 500) {
+
+			@Override
+			public void onFinish() {
+				// 時間到後提示進入下一頁
+				if (!isTimeFinish) {
+					timerTextView.setText("剩餘時間    00：00");
+					ShowMsgDialog();
+				}
+			}
+
+			@Override
+			public void onTick(long millisUntilFinished) {
+
+				long totalSec = millisUntilFinished / 1000;
+				timerTextView.setText("剩餘時間    "
+						+ String.format("%02d", totalSec / 60) + "："
+						+ String.format("%02d", totalSec % 60));
+			}
+		};
+		timer.start();
+		isTimeFinish = false;
 	}
 
 	// new!!
