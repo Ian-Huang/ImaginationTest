@@ -119,8 +119,6 @@ public class Activity4Page extends Activity {
 	// 當前按下的是上還是下Panel
 	private int CurrentClickPanel;
 
-	private boolean getpic = false;
-
 	Bitmap bitmap[] = new Bitmap[2];
 
 	DrawView drawView1;
@@ -231,19 +229,20 @@ public class Activity4Page extends Activity {
 
 	void ButtonsInit() {
 
-//		// 設定存檔Button回饋
-//		this.Act4_SaveFileButton = (Button) findViewById(R.id.Act4_SaveFileButton);
-//		this.Act4_SaveFileButton
-//				.setOnClickListener(new Button.OnClickListener() {
-//					@Override
-//					public void onClick(View v) {
-//						// 重要備註：必須destroyDrawingCache();才能進行更新getDrawingCache();不然會抓不到新資料！
-//						Layout.setDrawingCacheEnabled(true);
-//						Layout.destroyDrawingCache();
-//						bitmapLayout = Layout.getDrawingCache();
-//						saveImage(bitmapLayout);
-//					}
-//				});
+		// // 設定存檔Button回饋
+		// this.Act4_SaveFileButton = (Button)
+		// findViewById(R.id.Act4_SaveFileButton);
+		// this.Act4_SaveFileButton
+		// .setOnClickListener(new Button.OnClickListener() {
+		// @Override
+		// public void onClick(View v) {
+		// // 重要備註：必須destroyDrawingCache();才能進行更新getDrawingCache();不然會抓不到新資料！
+		// Layout.setDrawingCacheEnabled(true);
+		// Layout.destroyDrawingCache();
+		// bitmapLayout = Layout.getDrawingCache();
+		// saveImage(bitmapLayout);
+		// }
+		// });
 		// ///////////////////////////////////////////////////////////////////////////
 
 		// 設定上一頁Button回饋

@@ -28,7 +28,7 @@ import android.widget.FrameLayout;
 
 import com.threed.jpct.Logger;
 
-public class Activity3Page extends Activity {
+public class Activity3Page2 extends Activity {
 
 	enum EditStatus {
 		Mode2D, Mode3D
@@ -74,7 +74,7 @@ public class Activity3Page extends Activity {
 	private Button rotateButton;
 	private Button depthButton;
 
-	private Button startTestButton;
+	private Button NextActivityButton;
 	// -----------------------------
 
 	// --------2D Canvas繪圖相關-------
@@ -92,7 +92,7 @@ public class Activity3Page extends Activity {
 	// ------------------------------------
 
 	private GLSurfaceView mGLView;
-	private Activity3JpctRenderer renderer = null;
+	private Activity3JpctRenderer2 renderer = null;
 
 	private float tempTouchPosX = -1;
 	private float tempTouchPosY = -1;
@@ -106,7 +106,7 @@ public class Activity3Page extends Activity {
 	private void ButtonInit() {
 
 		// 設定"還原"Button
-		undoPaintButton = (Button) findViewById(R.id.Act3_UndoPaintButton);
+		undoPaintButton = (Button) findViewById(R.id.Act3_2_UndoPaintButton);
 		undoPaintButton.setEnabled(false);
 		undoPaintButton.setOnClickListener(new Button.OnClickListener() {
 			@Override
@@ -138,7 +138,7 @@ public class Activity3Page extends Activity {
 		// ----------------------
 
 		// 設定"重畫"Button
-		redoPaintButton = (Button) findViewById(R.id.Act3_RedoPaintButton);
+		redoPaintButton = (Button) findViewById(R.id.Act3_2_RedoPaintButton);
 		redoPaintButton.setEnabled(false);
 		redoPaintButton.setOnClickListener(new Button.OnClickListener() {
 			@Override
@@ -167,7 +167,7 @@ public class Activity3Page extends Activity {
 		// ----------------------
 
 		// 設定"黑色"Button (切換為黑筆)
-		blackPaintButton = (Button) findViewById(R.id.Act3_BlackPaintButton);
+		blackPaintButton = (Button) findViewById(R.id.Act3_2_BlackPaintButton);
 		blackPaintButton.setOnClickListener(new Button.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -177,7 +177,7 @@ public class Activity3Page extends Activity {
 		// ----------------------
 
 		// 設定"白色"Button (切換為白筆)
-		whitePaintButton = (Button) findViewById(R.id.Act3_WhitePaintButton);
+		whitePaintButton = (Button) findViewById(R.id.Act3_2_WhitePaintButton);
 		whitePaintButton.setOnClickListener(new Button.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -187,7 +187,7 @@ public class Activity3Page extends Activity {
 		// ----------------------
 
 		// 設定"橡皮擦"Button (切換為橡皮擦模式，擦除畫筆)
-		eraserButton = (Button) findViewById(R.id.Act3_EraserButton);
+		eraserButton = (Button) findViewById(R.id.Act3_2_EraserButton);
 		eraserButton.setEnabled(false);
 		eraserButton.setOnClickListener(new Button.OnClickListener() {
 			@Override
@@ -198,7 +198,7 @@ public class Activity3Page extends Activity {
 		// ----------------------
 
 		// 設定"清除"Button (Canvas 所有的Paint全部清除)
-		clearCanvasButton = (Button) findViewById(R.id.Act3_ClearCanvasButton);
+		clearCanvasButton = (Button) findViewById(R.id.Act3_2_ClearCanvasButton);
 		clearCanvasButton.setEnabled(false);
 		clearCanvasButton.setOnClickListener(new Button.OnClickListener() {
 			@Override
@@ -220,7 +220,7 @@ public class Activity3Page extends Activity {
 		// ----------------------
 
 		// 設定"移動"Button (3D物件控制)
-		moveButton = (Button) findViewById(R.id.Act3_MoveButton);
+		moveButton = (Button) findViewById(R.id.Act3_2_MoveButton);
 		moveButton.setEnabled(false);
 		moveButton.setOnClickListener(new Button.OnClickListener() {
 			@Override
@@ -234,7 +234,7 @@ public class Activity3Page extends Activity {
 		// ----------------------
 
 		// 設定"旋轉"Button (3D物件控制)
-		rotateButton = (Button) findViewById(R.id.Act3_RotateButton);
+		rotateButton = (Button) findViewById(R.id.Act3_2_RotateButton);
 		rotateButton.setEnabled(false);
 		rotateButton.setOnClickListener(new Button.OnClickListener() {
 			@Override
@@ -248,7 +248,7 @@ public class Activity3Page extends Activity {
 		// ----------------------
 
 		// 設定"深度"Button (3D物件控制)
-		depthButton = (Button) findViewById(R.id.Act3_DepthButton);
+		depthButton = (Button) findViewById(R.id.Act3_2_DepthButton);
 		depthButton.setEnabled(false);
 		depthButton.setOnClickListener(new Button.OnClickListener() {
 			@Override
@@ -262,7 +262,7 @@ public class Activity3Page extends Activity {
 		// ----------------------
 
 		// 設定"編輯切換"Button
-		editChangeButton = (Button) findViewById(R.id.Act3_EditChangeButton);
+		editChangeButton = (Button) findViewById(R.id.Act3_2_EditChangeButton);
 		editChangeButton.setOnClickListener(new Button.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -320,31 +320,31 @@ public class Activity3Page extends Activity {
 		// ----------------------
 
 		// 設定"開始測驗"Button
-		this.startTestButton = (Button) findViewById(R.id.Act3_StartTest);
+		this.NextActivityButton = (Button) findViewById(R.id.Act3_2_NextActivityButton);
 
 		// 設定"下一步"Button Listener
-		this.startTestButton.setOnClickListener(new Button.OnClickListener() {
-			@Override
-			public void onClick(View v) {
+		this.NextActivityButton
+				.setOnClickListener(new Button.OnClickListener() {
+					@Override
+					public void onClick(View v) {
 
-				// // /////////////線條與儲存圖片
-				// drawView1.setVisibility(View.VISIBLE);
-				// // 儲存圖片
-				// FrameLayout frameLayout = (FrameLayout)
-				// findViewById(R.id.activity3_framelayout);
-				// frameLayout.setDrawingCacheEnabled(true);
-				// frameLayout.destroyDrawingCache();
-				// Activity3BitmapPaint = frameLayout.getDrawingCache();
-				//
-				// drawView1.setVisibility(View.INVISIBLE);
-				// // /////////////////
-				//
-				// // 呼叫JCPT去合併JCPT的圖片並存圖(在MyRenderer.java)
-				// renderer.combineImage = true;
+						// /////////////線條與儲存圖片
+						drawView1.setVisibility(View.VISIBLE);
+						// 儲存圖片
+						FrameLayout frameLayout = (FrameLayout) findViewById(R.id.activity3_2_framelayout);
+						frameLayout.setDrawingCacheEnabled(true);
+						frameLayout.destroyDrawingCache();
+						Activity3BitmapPaint = frameLayout.getDrawingCache();
 
-				ShowMsgDialog();
-			}
-		});
+						drawView1.setVisibility(View.INVISIBLE);
+						// /////////////////
+
+						// 呼叫JCPT去合併JCPT的圖片並存圖(在MyRenderer.java)
+						renderer.combineImage = true;
+
+						ShowMsgDialog();
+					}
+				});
 		// ----------------------
 	}
 
@@ -355,7 +355,7 @@ public class Activity3Page extends Activity {
 		// 設定對話框標題
 		MyAlertDialog.setTitle("活動三");
 		// 設定對話框內容
-		MyAlertDialog.setMessage("練習結束！！\n進入正式測驗");
+		MyAlertDialog.setMessage("時間到  停止作答！！\n進入下一活動");
 		// 設定不能被取消
 		MyAlertDialog.setCancelable(false);
 		// Button觸發後的設定
@@ -363,10 +363,10 @@ public class Activity3Page extends Activity {
 			public void onClick(DialogInterface dialog, int which) {
 				// 確定觸發後...
 				Intent intent = new Intent();
-				intent.setClass(Activity3Page.this,
-						Activity3IntroductionPage2.class);
+				intent.setClass(Activity3Page2.this,
+						Activity4IntroductionPage.class);
 				startActivity(intent);
-				Activity3Page.this.finish();
+				Activity3Page2.this.finish();
 				// System.exit(0);
 			}
 		};
@@ -411,16 +411,16 @@ public class Activity3Page extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity3_page);
+		setContentView(R.layout.activity3_page2);
 
 		ButtonInit();
 		paintInit();
 
 		FrameLayout frameLayout = (FrameLayout) this
-				.findViewById(R.id.activity3_framelayout);
+				.findViewById(R.id.activity3_2_framelayout);
 
 		mGLView = new GLSurfaceView(getApplication());
-		renderer = new Activity3JpctRenderer(getResources());
+		renderer = new Activity3JpctRenderer2(getResources());
 		mGLView.setRenderer(renderer);
 		frameLayout.addView(mGLView);
 		drawPanel = new DrawPanel(this);

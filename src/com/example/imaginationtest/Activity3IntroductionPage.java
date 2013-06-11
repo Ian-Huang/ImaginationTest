@@ -5,16 +5,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 
 public class Activity3IntroductionPage extends Activity {
 
 	private ImageView act3_ImageButton;
+	private int actionIndex = 1;
 
-	private int ImageMax = 3;
-	int i = 1;
-	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -32,16 +29,16 @@ public class Activity3IntroductionPage extends Activity {
 		this.act3_ImageButton.setOnClickListener(new Button.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				i++;
-				
-				if(i==2)
+				actionIndex++;
+
+				if (actionIndex == 2)
 					act3_ImageButton.setImageResource(R.drawable.act3t1);
-				if(i==3)
+				if (actionIndex == 3)
 					act3_ImageButton.setImageResource(R.drawable.act3t2);
-				if(i==4)
-				{
+				if (actionIndex == 4) {
 					Intent intent = new Intent();
-					intent.setClass(Activity3IntroductionPage.this, Activity3Page.class);
+					intent.setClass(Activity3IntroductionPage.this,
+							Activity3Page.class);
 					startActivity(intent);
 					Activity3IntroductionPage.this.finish();
 				}

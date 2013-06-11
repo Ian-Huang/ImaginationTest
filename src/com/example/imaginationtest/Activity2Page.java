@@ -9,7 +9,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -105,7 +104,8 @@ public class Activity2Page extends Activity {
 				int count = 0;
 				try {
 					for (int i = 0; i < answerEditText_Collection.length; i++) {
-						Log.i("JSON String", String.valueOf(i) + " = "+answerEditText_Collection[i].getText().toString());
+						// Log.i("JSON String", String.valueOf(i) +
+						// " = "+answerEditText_Collection[i].getText().toString());
 						if (answerEditText_Collection[i].getText().toString()
 								.length() != 0) {
 							count++;

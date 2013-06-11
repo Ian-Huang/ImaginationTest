@@ -4,10 +4,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
-import java.nio.IntBuffer;
-import java.nio.ShortBuffer;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
@@ -15,8 +11,8 @@ import javax.microedition.khronos.opengles.GL10;
 import android.content.res.AssetManager;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
-import android.graphics.Canvas;
 import android.graphics.Bitmap.Config;
+import android.graphics.Canvas;
 import android.opengl.GLSurfaceView.Renderer;
 import android.os.Environment;
 
@@ -34,7 +30,7 @@ import com.threed.jpct.SimpleVector;
 import com.threed.jpct.World;
 import com.threed.jpct.util.MemoryHelper;
 
-public class MyRenderer implements Renderer {
+public class Activity3JpctRenderer implements Renderer {
 
 	private Resources resource;
 
@@ -66,14 +62,12 @@ public class MyRenderer implements Renderer {
 	private float colorChangeSpeed = 255;
 
 	private Light sun = null;
-	
+
 	public boolean combineImage = false;
 
-	
 	public Bitmap GLBitmap;
-	
 
-	public MyRenderer(Resources res) {
+	public Activity3JpctRenderer(Resources res) {
 		this.resource = res;
 	}
 
@@ -131,28 +125,30 @@ public class MyRenderer implements Renderer {
 	}
 
 	public void onDrawFrame(GL10 gl) {
-		
-		//程式已精簡過，備註：此部分必須寫在GL端，getPixel不能跳脫GL執行緒內
-		//錯誤內容call to OpenGL ES API with no current context (logged once per thread)
 
-		if(combineImage){
-			FrameBuffer fb =  frameBuffer;
-			GLBitmap = Bitmap.createBitmap(fb.getPixels(), fb.getWidth(), fb.getHeight(),Config.ARGB_8888);
+		// 程式已精簡過，備註：此部分必須寫在GL端，getPixel不能跳脫GL執行緒內
+		// 錯誤內容call to OpenGL ES API with no current context (logged once per
+		// thread)
+
+		if (combineImage) {
+			FrameBuffer fb = frameBuffer;
+			GLBitmap = Bitmap.createBitmap(fb.getPixels(), fb.getWidth(),
+					fb.getHeight(), Config.ARGB_8888);
 
 			Bitmap combineBitmap;
-			combineBitmap = Bitmap.createBitmap(GLBitmap.getWidth(), GLBitmap.getHeight(), Bitmap.Config.ARGB_8888); 
-			Canvas comboImage = new Canvas(combineBitmap); 
-			comboImage.drawBitmap(GLBitmap, 0f, 0f, null); 
-		    comboImage.drawBitmap(Activity3Page.Activity3BitmapPaint, 0f , 0f, null); 
-		    saveImage(combineBitmap);
-		    
-            combineImage = false;
-        }
-		
-		
+			combineBitmap = Bitmap.createBitmap(GLBitmap.getWidth(),
+					GLBitmap.getHeight(), Bitmap.Config.ARGB_8888);
+			Canvas comboImage = new Canvas(combineBitmap);
+			comboImage.drawBitmap(GLBitmap, 0f, 0f, null);
+			comboImage.drawBitmap(Activity3Page.Activity3BitmapPaint, 0f, 0f,
+					null);
+			saveImage(combineBitmap);
+
+			combineImage = false;
+		}
+
 		if (Activity3Page.currentEditStatus == EditStatus.Mode3D) {
 
-		
 			gl.glShadeModel(GL10.GL_SMOOTH);
 			gl.glEnable(GL10.GL_DEPTH_TEST); // 啟動深度檢測(沒有看到的面就不會被畫)
 
@@ -220,7 +216,7 @@ public class MyRenderer implements Renderer {
 		world.renderScene(frameBuffer);
 		world.draw(frameBuffer);
 		frameBuffer.display();
-		
+
 	}
 
 	private void Handle3DControl(Object3D obj, float originZ) {
@@ -316,10 +312,7 @@ public class MyRenderer implements Renderer {
 		return null;
 	}
 
-	
-	
-	
-//	// 儲存圖片
+	// // 儲存圖片
 	protected void saveImage(Bitmap bmScreen2) {
 		// TODO Auto-generated method stub
 
@@ -334,9 +327,8 @@ public class MyRenderer implements Renderer {
 			userNameFolder.mkdir();
 		// 設定檔案名子
 
-		File fileName = new File(userNameFolder, "Act3_Page"
-				+ ".png");
-		
+		File fileName = new File(userNameFolder, "Act3_Page" + ".png");
+
 		if (fileName.exists())
 			fileName.delete();
 
@@ -348,7 +340,5 @@ public class MyRenderer implements Renderer {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
-
 	}
 }
