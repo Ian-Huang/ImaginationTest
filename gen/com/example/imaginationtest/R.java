@@ -222,14 +222,14 @@ public final class R {
         public static final int Act4_UndoButton=0x7f09007a;
         public static final int Act4_editText01=0x7f090084;
         public static final int Act4_editText02=0x7f090087;
-        public static final int Birthday_testView=0x7f0900eb;
-        public static final int GradeYear_editText=0x7f0900e9;
-        public static final int HomePage_ImageView=0x7f0900e5;
-        public static final int SchoolName_editText=0x7f0900e8;
-        public static final int SetBirthday_button=0x7f0900ea;
-        public static final int StartTest_button=0x7f0900ed;
-        public static final int TestDay_testView=0x7f0900ec;
-        public static final int UserName_editText=0x7f0900e6;
+        public static final int Birthday_testView=0x7f0900ee;
+        public static final int GradeYear_editText=0x7f0900ec;
+        public static final int HomePage_ImageView=0x7f0900e8;
+        public static final int SchoolName_editText=0x7f0900eb;
+        public static final int SetBirthday_button=0x7f0900ed;
+        public static final int StartTest_button=0x7f0900f0;
+        public static final int TestDay_testView=0x7f0900ef;
+        public static final int UserName_editText=0x7f0900e9;
         public static final int act1Introduction_StartTestButton=0x7f09002f;
         public static final int act2Introduction_StartTestButton=0x7f09005c;
         public static final int act3Introduction2_StartTestButton=0x7f090078;
@@ -325,12 +325,15 @@ public final class R {
         public static final int act5_Radiobtn_answer15_5=0x7f0900e2;
         public static final int act5_Radiobtn_answer15_6=0x7f0900e3;
         public static final int act5_finish_button=0x7f0900e4;
-        public static final int action_settings=0x7f0900ee;
+        public static final int action_settings=0x7f0900f1;
         public static final int activity3_2_framelayout=0x7f090076;
         public static final int activity3_framelayout=0x7f090068;
         public static final int activity4_Downframelayout=0x7f090085;
         public static final int activity4_Upframelayout=0x7f090082;
-        public static final int radioGroup_sex=0x7f0900e7;
+        public static final int endPage_ExitTestButton=0x7f0900e7;
+        public static final int endPage_HintCurrentState=0x7f0900e6;
+        public static final int endPage_UploadDataButton=0x7f0900e5;
+        public static final int radioGroup_sex=0x7f0900ea;
         public static final int tableRow1=0x7f090089;
     }
     public static final class layout {
@@ -345,8 +348,9 @@ public final class R {
         public static final int activity4_page=0x7f030008;
         public static final int activity4introduction_page=0x7f030009;
         public static final int activity5_page=0x7f03000a;
-        public static final int home_page=0x7f03000b;
-        public static final int personalinformation_page=0x7f03000c;
+        public static final int end_page=0x7f03000b;
+        public static final int home_page=0x7f03000c;
+        public static final int personalinformation_page=0x7f03000d;
     }
     public static final class menu {
         public static final int home_page=0x7f080000;

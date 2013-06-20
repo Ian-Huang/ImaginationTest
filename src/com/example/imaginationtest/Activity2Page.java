@@ -118,7 +118,7 @@ public class Activity2Page extends Activity {
 
 					if (count == 0)
 						ParseJSON.PutJsonData("Ac2Q1", "µL");
-					ParseJSON.JsonOutput();
+					ParseJSON.JsonOutput(false);
 				} catch (JSONException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

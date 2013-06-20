@@ -1,11 +1,5 @@
 package com.example.imaginationtest;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-
-import org.apache.commons.net.ftp.FTP;
-import org.apache.commons.net.ftp.FTPClient;
 import org.json.JSONException;
 
 import android.app.Activity;
@@ -14,8 +8,6 @@ import android.app.AlertDialog.Builder;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Environment;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RadioButton;
@@ -116,69 +108,17 @@ public class Activity5Page extends Activity {
 								String.valueOf(j));
 						i++;
 					}
-					ParseJSON.JsonOutput();
+					ParseJSON.JsonOutput(true);
 				} catch (JSONException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-
-				String responseStr = ParseJSON
-						.UploadData("http://irating.ntue.edu.tw:8080/mobile/UploadUser.php");
-				if (responseStr != null) {
-					// 上傳成功
-					Log.i("JSON String", responseStr);
-				} else {
-					// 上傳失敗
-				}
-
-				// ------FTP上傳圖片------
-				FTPClient client = new FTPClient();
-				try {
-					client.connect("irating.ntue.edu.tw");
-					if (client.login("weiwen", "0988523032")) {
-
-						client.setFileType(FTP.BINARY_FILE_TYPE);
-						client.setFileTransferMode(FTP.BINARY_FILE_TYPE);
-						client.enterLocalPassiveMode();
-
-						File[] userNameFolder = Environment
-								.getExternalStoragePublicDirectory(
-										"ImaginationTest/users").listFiles();
-
-						for (int i = 0; i < userNameFolder.length; i++) {
-
-							FileInputStream fileStream = new FileInputStream(
-									userNameFolder[i]);
-
-							String.valueOf(client
-									.changeWorkingDirectory("/image"));
-
-							boolean result = client.storeFile(
-									responseStr.toString()
-											+ userNameFolder[i].getName(),
-									fileStream);
-
-							fileStream.close();
-							if (result)
-								Log.i("JSON String", "Success");
-						}
-					}
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-				try {
-					client.logout();
-					client.disconnect();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-				// ------FTP上傳圖片(End)------
-
 				// 確定觸發後...
 				Intent intent = new Intent();
-				intent.setClass(Activity5Page.this, HomePage.class);
+				intent.setClass(Activity5Page.this, EndPage.class);
 				startActivity(intent);
-				System.exit(0);
+				Activity5Page.this.finish();
+				// System.exit(0);
 			}
 		};
 		DialogInterface.OnClickListener CancelClick = new DialogInterface.OnClickListener() {

@@ -1066,6 +1066,7 @@
                     android:inputType="text"
                     android:textSize="@dimen/font_size" />
             </LinearLayout>
+            
         </LinearLayout>
     </ScrollView>
 

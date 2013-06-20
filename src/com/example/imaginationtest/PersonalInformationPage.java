@@ -133,7 +133,7 @@ public class PersonalInformationPage extends Activity {
 					// TestDay (日期格式)2013-02-19
 					TestDay = testDayTextView.getText().toString();
 					ParseJSON.PutJsonData("TestDay", TestDay);
-					ParseJSON.JsonOutput();
+					ParseJSON.JsonOutput(false);
 				} catch (JSONException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

@@ -1,5 +1,7 @@
 package com.example.imaginationtest;
 
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,9 +16,11 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.os.Environment;
 import android.util.Log;
 
 public class ParseJSON {
@@ -36,12 +40,41 @@ public class ParseJSON {
 		valueList.add(value);
 	}
 
-	public static void JsonOutput() throws JSONException {
-		// JSONArray jsonArray = new JSONArray();
+	public static void JsonOutput(Boolean NeedSave) throws JSONException {
+		JSONArray jsonArray = new JSONArray();
 
-		// jsonArray.put(JsonObject);
+		jsonArray.put(JsonObject);
 
-		JSONString = JsonObject.toString();
+		JSONString = jsonArray.toString();
+
+		if (NeedSave) {
+			// 設定外部儲存位置
+			try {
+				File publicFolder = Environment
+						.getExternalStoragePublicDirectory("ImaginationTest");
+				if (!publicFolder.exists())
+					publicFolder.mkdir();
+				// 以使用者人名當作資料夾名子
+				File userNameFolder = new File(publicFolder,
+						String.valueOf(PersonalInformationPage.StudendName
+								.hashCode()));
+				if (!userNameFolder.exists())
+					userNameFolder.mkdir();
+				// 設定檔案名子
+
+				File fileName = new File(userNameFolder, "JsonData" + ".json");
+
+				FileWriter writer = new FileWriter(fileName);
+
+				writer.append(JSONString);
+
+				writer.flush();
+				writer.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 		Log.i("JSON String", JSONString);
 	}
 
