@@ -38,7 +38,7 @@ public class EndPage extends Activity {
 		this.ExitButton.setOnClickListener(new Button.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-
+				System.exit(0);
 			}
 		});
 	}
@@ -51,8 +51,9 @@ public class EndPage extends Activity {
 	}
 
 	void UploadData() {
-		
+
 		this.hintCurrentState.setText("資料上傳中...");
+		this.uploadButton.setVisibility(View.INVISIBLE);
 		String responseStr = ParseJSON
 				.UploadData("http://irating.ntue.edu.tw:8080/mobile/UploadUser.php");
 		if (responseStr != null) {
@@ -61,6 +62,7 @@ public class EndPage extends Activity {
 		} else {
 			// 上傳失敗
 			this.hintCurrentState.setText("網路未連接，上傳失敗！");
+			this.uploadButton.setVisibility(View.VISIBLE);
 			return;
 		}
 
@@ -81,6 +83,9 @@ public class EndPage extends Activity {
 												.hashCode())).listFiles();
 
 				for (int i = 0; i < userNameFolder.length; i++) {
+
+					if (userNameFolder[i].getName().contains("json"))
+						continue;
 
 					FileInputStream fileStream = new FileInputStream(
 							userNameFolder[i]);
@@ -106,5 +111,6 @@ public class EndPage extends Activity {
 		}
 		// ------FTP上傳圖片(End)------
 		this.hintCurrentState.setText("上傳成功！！");
+		this.uploadButton.setVisibility(View.VISIBLE);
 	}
 }
