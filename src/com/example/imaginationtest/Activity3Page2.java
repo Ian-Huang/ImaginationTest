@@ -26,6 +26,7 @@ import android.view.SurfaceView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.threed.jpct.Logger;
@@ -104,6 +105,7 @@ public class Activity3Page2 extends Activity {
 	DrawView drawView1;
 
 	public static Bitmap Activity3BitmapPaint;
+	public static LinearLayout linearLayout1,linearLayout2;
 
 	private TextView timerTextView;
 	private long Countdown_Time = 600; // 倒數計時總時間 ( 單位:秒)
@@ -338,14 +340,19 @@ public class Activity3Page2 extends Activity {
 						// /////////////線條與儲存圖片
 						drawView1.setVisibility(View.VISIBLE);
 						// 儲存圖片
-						FrameLayout frameLayout = (FrameLayout) findViewById(R.id.activity3_2_framelayout);
-						frameLayout.setDrawingCacheEnabled(true);
-						frameLayout.destroyDrawingCache();
-						Activity3BitmapPaint = frameLayout.getDrawingCache();
+						LinearLayout linearLayout = (LinearLayout) findViewById(R.id.Act3_TotalView);
+						linearLayout.setDrawingCacheEnabled(true);
+						linearLayout.destroyDrawingCache();
+						Activity3BitmapPaint = linearLayout.getDrawingCache();
 
 						drawView1.setVisibility(View.INVISIBLE);
 						// /////////////////
 
+						
+						//[0620增加]取得圖片上方兩個LinearLayout的高度，要把JCPT的圖下移
+						linearLayout1 = (LinearLayout) findViewById(R.id.Act3_LinearLayout1);
+						linearLayout2 = (LinearLayout) findViewById(R.id.Act3_LinearLayout2);
+						
 						// 呼叫JCPT去合併JCPT的圖片並存圖(在MyRenderer.java)
 						renderer.combineImage = true;
 
