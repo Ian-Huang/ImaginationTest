@@ -434,7 +434,8 @@ public class Activity4Page extends Activity {
 		if (!publicFolder.exists())
 			publicFolder.mkdir();
 		// 以使用者人名當作資料夾名子
-		File userNameFolder = new File(publicFolder, "users");
+		File userNameFolder = new File(publicFolder,
+				String.valueOf(PersonalInformationPage.StudendName.hashCode()));
 		if (!userNameFolder.exists())
 			userNameFolder.mkdir();
 		// 設定檔案名子
