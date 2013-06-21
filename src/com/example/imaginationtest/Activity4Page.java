@@ -493,6 +493,20 @@ public class Activity4Page extends Activity {
 
 			@Override
 			public void onFinish() {
+				
+				//等同"下一步"按鈕的行為
+				drawView1.setVisibility(View.VISIBLE);
+				drawView2.setVisibility(View.VISIBLE);
+				// 儲存圖片
+				Layout.setDrawingCacheEnabled(true);
+				Layout.destroyDrawingCache();
+				bitmapLayout = Layout.getDrawingCache();
+				saveImage(bitmapLayout);
+
+				// 出現訊息視窗
+				//ShowMsgDialog();
+				
+				
 				// 時間到後提示進入下一頁
 				if (!isTimeFinish) {
 					Act4_Timer.setText("剩餘時間    00：00");

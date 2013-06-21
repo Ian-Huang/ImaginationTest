@@ -25,6 +25,7 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -111,6 +112,9 @@ public class Activity3Page2 extends Activity {
 	private long Countdown_Time = 600; // 倒數計時總時間 ( 單位:秒)
 	private CountDownTimer timer;
 	private boolean isTimeFinish = false;
+	
+	public static EditText PictureName_editText;
+	EditText pictureName;
 
 	private void ButtonInit() {
 
@@ -336,26 +340,6 @@ public class Activity3Page2 extends Activity {
 				.setOnClickListener(new Button.OnClickListener() {
 					@Override
 					public void onClick(View v) {
-
-						// /////////////線條與儲存圖片
-						drawView1.setVisibility(View.VISIBLE);
-						// 儲存圖片
-						LinearLayout linearLayout = (LinearLayout) findViewById(R.id.Act3_TotalView);
-						linearLayout.setDrawingCacheEnabled(true);
-						linearLayout.destroyDrawingCache();
-						Activity3BitmapPaint = linearLayout.getDrawingCache();
-
-						drawView1.setVisibility(View.INVISIBLE);
-						// /////////////////
-
-						
-						//[0620增加]取得圖片上方兩個LinearLayout的高度，要把JCPT的圖下移
-						linearLayout1 = (LinearLayout) findViewById(R.id.Act3_LinearLayout1);
-						linearLayout2 = (LinearLayout) findViewById(R.id.Act3_LinearLayout2);
-						
-						// 呼叫JCPT去合併JCPT的圖片並存圖(在MyRenderer.java)
-						renderer.combineImage = true;
-
 						ShowMsgDialog();
 					}
 				});
@@ -376,6 +360,31 @@ public class Activity3Page2 extends Activity {
 		DialogInterface.OnClickListener OkClick = new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int which) {
 				// 確定觸發後...
+				
+				if(PictureName_editText.getText().toString().isEmpty() == true)
+					PictureName_editText.setText(pictureName.getText().toString());
+				
+				// /////////////線條與儲存圖片
+				drawView1.setVisibility(View.VISIBLE);
+				// 儲存圖片
+				LinearLayout linearLayout = (LinearLayout) findViewById(R.id.Act3_TotalView);
+				linearLayout.setDrawingCacheEnabled(true);
+				linearLayout.destroyDrawingCache();
+				Activity3BitmapPaint = linearLayout.getDrawingCache();
+
+				drawView1.setVisibility(View.INVISIBLE);
+				// /////////////////
+
+				
+				//[0620增加]取得圖片上方兩個LinearLayout的高度，要把JCPT的圖下移
+				linearLayout1 = (LinearLayout) findViewById(R.id.Act3_LinearLayout1);
+				linearLayout2 = (LinearLayout) findViewById(R.id.Act3_LinearLayout2);
+				
+				// 呼叫JCPT去合併JCPT的圖片並存圖(在MyRenderer.java)
+				renderer.combineImage = true;
+				
+				
+				
 				isTimeFinish = true;
 				timer.cancel();
 				Intent intent = new Intent();
@@ -384,11 +393,24 @@ public class Activity3Page2 extends Activity {
 				startActivity(intent);
 				Activity3Page2.this.finish();
 				// System.exit(0);
+				
+				
+				
 			}
 		};
 
+		
+		
 		MyAlertDialog.setNeutralButton("確定", OkClick);
 
+		//如果沒有定義標題，新給一個填入框
+		PictureName_editText = (EditText) findViewById(R.id.Act3_2PictureName_editText); 
+		if(PictureName_editText.getText().toString().isEmpty() == true)
+		{
+			MyAlertDialog.setMessage("時間到  停止作答！！\n進入下一活動 \n 請在下方輸入標題名稱：");
+			pictureName = new EditText(this);
+			MyAlertDialog.setView(pictureName);
+		}
 		MyAlertDialog.show();
 	}
 
@@ -459,6 +481,28 @@ public class Activity3Page2 extends Activity {
 
 			@Override
 			public void onFinish() {
+				
+				//等同"下一步"的行為
+				// /////////////線條與儲存圖片
+				drawView1.setVisibility(View.VISIBLE);
+				// 儲存圖片
+				LinearLayout linearLayout = (LinearLayout) findViewById(R.id.Act3_TotalView);
+				linearLayout.setDrawingCacheEnabled(true);
+				linearLayout.destroyDrawingCache();
+				Activity3BitmapPaint = linearLayout.getDrawingCache();
+
+				drawView1.setVisibility(View.INVISIBLE);
+				// /////////////////
+
+				
+				//[0620增加]取得圖片上方兩個LinearLayout的高度，要把JCPT的圖下移
+				linearLayout1 = (LinearLayout) findViewById(R.id.Act3_LinearLayout1);
+				linearLayout2 = (LinearLayout) findViewById(R.id.Act3_LinearLayout2);
+				
+				// 呼叫JCPT去合併JCPT的圖片並存圖(在MyRenderer.java)
+				renderer.combineImage = true;
+
+				
 				// 時間到後提示進入下一頁
 				if (!isTimeFinish) {
 					timerTextView.setText("剩餘時間    00：00");
