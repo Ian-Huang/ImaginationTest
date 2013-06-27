@@ -47,7 +47,7 @@ public class Activity3Page2 extends Activity {
 	}
 
 	enum PaintType {
-		Eraser, White, Black
+		Eraser, Gray, Black
 	}
 
 	class PaintData {
@@ -60,7 +60,7 @@ public class Activity3Page2 extends Activity {
 		}
 	}
 
-	private PaintType currentPaintType = PaintType.Black;// 確認目前畫筆的顏色(黑筆、白筆、橡皮擦)
+	private PaintType currentPaintType = PaintType.Black;// 確認目前畫筆的顏色(黑筆、灰筆、橡皮擦)
 	public static EditStatus currentEditStatus = EditStatus.Mode2D;// 確認目前編輯狀態是在2D或3D
 	public static ActionType currentActionType = ActionType.Move;// 確認目前3D模式的動作
 	public static Action3DObject currentAction3DObject = Action3DObject.NoAction;// 確認目前3D模式的動作
@@ -69,7 +69,7 @@ public class Activity3Page2 extends Activity {
 	private Button undoPaintButton;
 	private Button redoPaintButton;
 	private Button eraserButton;
-	private Button whitePaintButton;
+	private Button grayPaintButton;
 	private Button blackPaintButton;
 	private Button clearCanvasButton;
 
@@ -86,7 +86,7 @@ public class Activity3Page2 extends Activity {
 
 	// ----畫筆初始化----
 	private Paint BlackPaint;
-	private Paint WhitePaint;
+	private Paint GrayPaint;
 	private Paint EraserPaint;
 
 	// ----路徑資訊----
@@ -106,13 +106,13 @@ public class Activity3Page2 extends Activity {
 	DrawView drawView1;
 
 	public static Bitmap Activity3BitmapPaint;
-	public static LinearLayout linearLayout1,linearLayout2;
+	public static LinearLayout linearLayout1, linearLayout2;
 
 	private TextView timerTextView;
 	private long Countdown_Time = 600; // 倒數計時總時間 ( 單位:秒)
 	private CountDownTimer timer;
 	private boolean isTimeFinish = false;
-	
+
 	public static EditText PictureName_editText;
 	EditText pictureName;
 
@@ -189,12 +189,12 @@ public class Activity3Page2 extends Activity {
 		});
 		// ----------------------
 
-		// 設定"白色"Button (切換為白筆)
-		whitePaintButton = (Button) findViewById(R.id.Act3_2_WhitePaintButton);
-		whitePaintButton.setOnClickListener(new Button.OnClickListener() {
+		// 設定"灰色"Button (切換為灰筆)
+		grayPaintButton = (Button) findViewById(R.id.Act3_2_GrayPaintButton);
+		grayPaintButton.setOnClickListener(new Button.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				currentPaintType = PaintType.White;
+				currentPaintType = PaintType.Gray;
 			}
 		});
 		// ----------------------
@@ -285,7 +285,7 @@ public class Activity3Page2 extends Activity {
 							undoPaintButton.setEnabled(false);
 							redoPaintButton.setEnabled(false);
 							eraserButton.setEnabled(false);
-							whitePaintButton.setEnabled(false);
+							grayPaintButton.setEnabled(false);
 							blackPaintButton.setEnabled(false);
 							clearCanvasButton.setEnabled(false);
 
@@ -313,7 +313,7 @@ public class Activity3Page2 extends Activity {
 							rotateButton.setEnabled(false);
 							depthButton.setEnabled(false);
 
-							whitePaintButton.setEnabled(true);
+							grayPaintButton.setEnabled(true);
 							blackPaintButton.setEnabled(true);
 							if (drawPaintDataList.size() != 0) {
 								undoPaintButton.setEnabled(true);
@@ -360,10 +360,11 @@ public class Activity3Page2 extends Activity {
 		DialogInterface.OnClickListener OkClick = new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int which) {
 				// 確定觸發後...
-				
-				if(PictureName_editText.getText().toString().isEmpty() == true)
-					PictureName_editText.setText(pictureName.getText().toString());
-				
+
+				if (PictureName_editText.getText().toString().isEmpty() == true)
+					PictureName_editText.setText(pictureName.getText()
+							.toString());
+
 				// /////////////線條與儲存圖片
 				drawView1.setVisibility(View.VISIBLE);
 				// 儲存圖片
@@ -375,16 +376,13 @@ public class Activity3Page2 extends Activity {
 				drawView1.setVisibility(View.INVISIBLE);
 				// /////////////////
 
-				
-				//[0620增加]取得圖片上方兩個LinearLayout的高度，要把JCPT的圖下移
+				// [0620增加]取得圖片上方兩個LinearLayout的高度，要把JCPT的圖下移
 				linearLayout1 = (LinearLayout) findViewById(R.id.Act3_LinearLayout1);
 				linearLayout2 = (LinearLayout) findViewById(R.id.Act3_LinearLayout2);
-				
+
 				// 呼叫JCPT去合併JCPT的圖片並存圖(在MyRenderer.java)
 				renderer.combineImage = true;
-				
-				
-				
+
 				isTimeFinish = true;
 				timer.cancel();
 				Intent intent = new Intent();
@@ -393,20 +391,15 @@ public class Activity3Page2 extends Activity {
 				startActivity(intent);
 				Activity3Page2.this.finish();
 				// System.exit(0);
-				
-				
-				
+
 			}
 		};
 
-		
-		
 		MyAlertDialog.setNeutralButton("確定", OkClick);
 
-		//如果沒有定義標題，新給一個填入框
-		PictureName_editText = (EditText) findViewById(R.id.Act3_2PictureName_editText); 
-		if(PictureName_editText.getText().toString().isEmpty() == true)
-		{
+		// 如果沒有定義標題，新給一個填入框
+		PictureName_editText = (EditText) findViewById(R.id.Act3_2PictureName_editText);
+		if (PictureName_editText.getText().toString().isEmpty() == true) {
 			MyAlertDialog.setMessage("時間到  停止作答！！\n進入下一活動 \n 請在下方輸入標題名稱：");
 			pictureName = new EditText(this);
 			MyAlertDialog.setView(pictureName);
@@ -423,16 +416,16 @@ public class Activity3Page2 extends Activity {
 		BlackPaint.setStyle(Paint.Style.STROKE);
 		BlackPaint.setStrokeJoin(Paint.Join.ROUND);
 		BlackPaint.setStrokeCap(Paint.Cap.ROUND);
-		BlackPaint.setStrokeWidth(10);
+		BlackPaint.setStrokeWidth(5);
 
-		// 白色筆初始化
-		WhitePaint = new Paint();
-		WhitePaint.setDither(true);
-		WhitePaint.setColor(Color.WHITE);
-		WhitePaint.setStyle(Paint.Style.STROKE);
-		WhitePaint.setStrokeJoin(Paint.Join.ROUND);
-		WhitePaint.setStrokeCap(Paint.Cap.ROUND);
-		WhitePaint.setStrokeWidth(10);
+		// 灰色筆初始化
+		GrayPaint = new Paint();
+		GrayPaint.setDither(true);
+		GrayPaint.setColor(Color.GRAY);
+		GrayPaint.setStyle(Paint.Style.STROKE);
+		GrayPaint.setStrokeJoin(Paint.Join.ROUND);
+		GrayPaint.setStrokeCap(Paint.Cap.ROUND);
+		GrayPaint.setStrokeWidth(5);
 
 		// 橡皮擦初始化
 		EraserPaint = new Paint();
@@ -481,8 +474,8 @@ public class Activity3Page2 extends Activity {
 
 			@Override
 			public void onFinish() {
-				
-				//等同"下一步"的行為
+
+				// 等同"下一步"的行為
 				// /////////////線條與儲存圖片
 				drawView1.setVisibility(View.VISIBLE);
 				// 儲存圖片
@@ -494,15 +487,13 @@ public class Activity3Page2 extends Activity {
 				drawView1.setVisibility(View.INVISIBLE);
 				// /////////////////
 
-				
-				//[0620增加]取得圖片上方兩個LinearLayout的高度，要把JCPT的圖下移
+				// [0620增加]取得圖片上方兩個LinearLayout的高度，要把JCPT的圖下移
 				linearLayout1 = (LinearLayout) findViewById(R.id.Act3_LinearLayout1);
 				linearLayout2 = (LinearLayout) findViewById(R.id.Act3_LinearLayout2);
-				
+
 				// 呼叫JCPT去合併JCPT的圖片並存圖(在MyRenderer.java)
 				renderer.combineImage = true;
 
-				
 				// 時間到後提示進入下一頁
 				if (!isTimeFinish) {
 					timerTextView.setText("剩餘時間    00：00");
@@ -538,8 +529,8 @@ public class Activity3Page2 extends Activity {
 					case Black:
 						canvas.drawPath(data.paintPath, BlackPaint);
 						break;
-					case White:
-						canvas.drawPath(data.paintPath, WhitePaint);
+					case Gray:
+						canvas.drawPath(data.paintPath, GrayPaint);
 						break;
 					case Eraser:
 						canvas.drawPath(data.paintPath, EraserPaint);
@@ -594,8 +585,8 @@ public class Activity3Page2 extends Activity {
 					case Black:
 						canvas.drawPath(data.paintPath, BlackPaint);
 						break;
-					case White:
-						canvas.drawPath(data.paintPath, WhitePaint);
+					case Gray:
+						canvas.drawPath(data.paintPath, GrayPaint);
 						break;
 					case Eraser:
 						canvas.drawPath(data.paintPath, EraserPaint);
@@ -710,19 +701,19 @@ public class Activity3Page2 extends Activity {
 
 						// 深度
 						renderer.deltaTranslatePositionZ = y_delta
-								/ renderer.frameBuffer.getHeight() * 15;
+								/ renderer.frameBuffer.getHeight() * 25;
 
 						// 移動
 						renderer.deltaTranslatePositionX = x_delta
-								/ renderer.frameBuffer.getWidth() * 85;
+								/ renderer.frameBuffer.getWidth() * 100;
 						renderer.deltaTranslatePositionY = y_delta
-								/ renderer.frameBuffer.getHeight() * 85;
+								/ renderer.frameBuffer.getHeight() * 100;
 
 						// 旋轉
 						renderer.deltaRotateAngleX = x_delta
-								/ -renderer.frameBuffer.getWidth() * 15;
+								/ -renderer.frameBuffer.getWidth() * 25;
 						renderer.deltaRotateAngleY = y_delta
-								/ -renderer.frameBuffer.getHeight() * 15;
+								/ -renderer.frameBuffer.getHeight() * 25;
 
 					} else if (pointerCount == 2) {// 觸碰兩點時的控制
 

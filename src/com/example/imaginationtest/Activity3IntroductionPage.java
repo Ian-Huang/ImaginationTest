@@ -10,6 +10,7 @@ import android.widget.ImageView;
 public class Activity3IntroductionPage extends Activity {
 
 	private ImageView act3_ImageButton;
+	private Button nextPageButton;
 	private int actionIndex = 1;
 
 	@Override
@@ -23,10 +24,11 @@ public class Activity3IntroductionPage extends Activity {
 
 	// 初始化設定
 	void Init() {
+		this.nextPageButton = (Button) findViewById(R.id.act3introduction_NextPageButton);
 		this.act3_ImageButton = (ImageView) findViewById(R.id.Act3_ImageButton);
 
-		// 設定"開始測驗"Button Listener
-		this.act3_ImageButton.setOnClickListener(new Button.OnClickListener() {
+		// 設定"下一頁"Button Listener
+		this.nextPageButton.setOnClickListener(new Button.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				actionIndex++;

@@ -1,8 +1,5 @@
 package com.example.imaginationtest;
 
-
-import android.app.Activity;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -18,7 +15,6 @@ import android.graphics.Bitmap.Config;
 import android.graphics.Canvas;
 import android.opengl.GLSurfaceView.Renderer;
 import android.os.Environment;
-import android.widget.LinearLayout;
 
 import com.example.imaginationtest.Activity3Page2.Action3DObject;
 import com.example.imaginationtest.Activity3Page2.EditStatus;
@@ -140,15 +136,16 @@ public class Activity3JpctRenderer2 implements Renderer {
 					fb.getHeight(), Config.ARGB_8888);
 
 			Bitmap combineBitmap;
-			combineBitmap = Bitmap.createBitmap(Activity3Page2.Activity3BitmapPaint.getWidth(),
-					Activity3Page2.Activity3BitmapPaint.getHeight(), Bitmap.Config.ARGB_8888);
+			combineBitmap = Bitmap.createBitmap(
+					Activity3Page2.Activity3BitmapPaint.getWidth(),
+					Activity3Page2.Activity3BitmapPaint.getHeight(),
+					Bitmap.Config.ARGB_8888);
 			Canvas comboImage = new Canvas(combineBitmap);
-			
-			//JCPT的圖改變高度
+
+			// JCPT的圖改變高度
 			comboImage.drawBitmap(GLBitmap, 0f,
-					Activity3Page2.linearLayout1.getHeight()+ 
-					Activity3Page2.linearLayout2.getHeight(),
-					null);
+					Activity3Page2.linearLayout1.getHeight()
+							+ Activity3Page2.linearLayout2.getHeight(), null);
 			comboImage.drawBitmap(Activity3Page2.Activity3BitmapPaint, 0f, 0f,
 					null);
 			saveImage(combineBitmap);
@@ -331,7 +328,7 @@ public class Activity3JpctRenderer2 implements Renderer {
 		if (!publicFolder.exists())
 			publicFolder.mkdir();
 		// 以使用者人名當作資料夾名子
-		File userNameFolder = new File(publicFolder,//"users");
+		File userNameFolder = new File(publicFolder,// "users");
 				String.valueOf(PersonalInformationPage.StudendName.hashCode()));
 		if (!userNameFolder.exists())
 			userNameFolder.mkdir();

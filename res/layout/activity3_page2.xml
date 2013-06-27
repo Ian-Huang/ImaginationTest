@@ -49,10 +49,10 @@
                 android:textSize="@dimen/font_size_small" />
 
             <Button
-                android:id="@+id/Act3_2_WhitePaintButton"
+                android:id="@+id/Act3_2_GrayPaintButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="白色"
+                android:text="灰色"
                 android:textSize="@dimen/font_size_small" />
 
             <Button
@@ -74,14 +74,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="重畫"
-                android:textSize="@dimen/font_size_small" />
+                android:textSize="@dimen/font_size_small"
+                android:visibility="invisible" />
 
             <Button
                 android:id="@+id/Act3_2_ClearCanvasButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="清除"
-                android:textSize="@dimen/font_size_small" />
+                android:textSize="@dimen/font_size_small"
+                android:visibility="invisible" />
+
         </LinearLayout>
 
         <LinearLayout
