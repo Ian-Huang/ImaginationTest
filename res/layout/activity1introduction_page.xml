@@ -34,8 +34,21 @@
                 android:layout_marginRight="@dimen/activity_horizontal_margin"
                 android:layout_marginTop="@dimen/activity_vertical_margin"
                 android:layout_weight="0.00"
-                android:text="        假想你能夠直接跟這個世界上各種動物溝通，你可能會碰到什麼樣的問題？請列舉越多問題越好。請特別注意！你是跟動物溝通發生問題，而不是「你要問動物什麼問題」或是「動物要問你什麼問題」。"
+                android:text="        假想你能夠直接跟這個世界上的各種動物溝通，你可能會碰到什麼樣的問題？請發揮想像力列舉越多問題越好！但請特別注意！是你跟動物溝通發生的問題，不是「你要問動物什麼問題」或是「動物要問你什麼問題」。"
                 android:textSize="@dimen/font_size" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:gravity="center_vertical|center_horizontal|center"
+                android:text="～這個活動的時間是5分鐘！～"
+                android:textColor="@color/RedColor"
+                android:textSize="@dimen/font_size_small"
+                android:textStyle="bold" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -45,9 +58,10 @@
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
                 android:layout_marginRight="@dimen/activity_horizontal_margin"
                 android:layout_marginTop="@dimen/activity_vertical_margin"
-                android:text="這個活動時間是五分鐘。"
+                android:gravity="center_vertical|center_horizontal|center"
+                android:text="請在指導語結束後，再按下「開始作答」鍵！"
                 android:textColor="@color/RedColor"
-                android:textSize="@dimen/font_size"
+                android:textSize="@dimen/font_size_small"
                 android:textStyle="bold" />
 
             <Button
@@ -59,9 +73,8 @@
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
                 android:layout_marginRight="@dimen/activity_horizontal_margin"
                 android:layout_marginTop="@dimen/activity_vertical_margin"
-                android:text="開始測驗"
+                android:text="開始作答"
                 android:textSize="@dimen/font_size" />
-
         </LinearLayout>
     </ScrollView>
 

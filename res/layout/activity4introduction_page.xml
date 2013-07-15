@@ -34,8 +34,21 @@
                 android:layout_marginRight="@dimen/activity_horizontal_margin"
                 android:layout_marginTop="@dimen/activity_vertical_margin"
                 android:layout_weight="0.00"
-                android:text="     「人」是個文字也是個圖形，在這個測驗裡是要你把「人」當成圖形而不是文字看待。下面總共有五十七個大小不盡相同的「人」形，看你在十分鐘之內能畫出多少的圖畫，人形必須是你所畫圖畫中的一部分，畫好之後請在每一幅圖畫不能畫線處寫出所畫圖形的名稱。記住，你所畫的圖畫不能是中文字。"
+                android:text="     「人」可以看成文字也可以看成一個形狀，在這個活動中要請你把「人」當成形狀而不是文字。活動開始後總共會有40個大小不盡相同的「人」形，請你發揮想像力讓「人」形成為你所畫圖畫中的一部份，並在畫好之後幫每一幅圖畫都想出一個名稱。請記住！你所畫的圖畫不能是中文字。"
                 android:textSize="@dimen/font_size" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:gravity="center_vertical|center_horizontal|center"
+                android:text="～這個活動的時間是10分鐘！～"
+                android:textColor="@color/RedColor"
+                android:textSize="@dimen/font_size_small"
+                android:textStyle="bold" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -45,9 +58,10 @@
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
                 android:layout_marginRight="@dimen/activity_horizontal_margin"
                 android:layout_marginTop="@dimen/activity_vertical_margin"
-                android:text="這個活動時間是十分鐘。"
+                android:gravity="center_vertical|center_horizontal|center"
+                android:text="請在指導語結束後，再按下「開始作答」鍵！"
                 android:textColor="@color/RedColor"
-                android:textSize="@dimen/font_size"
+                android:textSize="@dimen/font_size_small"
                 android:textStyle="bold" />
 
             <Button
@@ -57,11 +71,9 @@
                 android:layout_gravity="center"
                 android:layout_marginBottom="@dimen/activity_vertical_margin"
                 android:layout_marginTop="@dimen/activity_vertical_margin"
-                android:text="開始測驗"
+                android:text="開始作答"
                 android:textSize="@dimen/font_size" />
-
         </LinearLayout>
-
     </ScrollView>
 
 </LinearLayout>

@@ -16,7 +16,7 @@ import android.widget.TextView;
 
 public class Activity1Page extends Activity {
 
-	private EditText[] answerEditText_Collection = new EditText[45];
+	private EditText[] answerEditText_Collection = new EditText[30];
 
 	private Button nextActButton;
 
@@ -92,7 +92,7 @@ public class Activity1Page extends Activity {
 		// 設定對話框標題
 		MyAlertDialog.setTitle("活動一");
 		// 設定對話框內容
-		MyAlertDialog.setMessage("時間到  停止作答！！\n進入下一活動");
+		MyAlertDialog.setMessage("時間到  停止作答！\n進入下一活動");
 		// 設定不能被取消
 		MyAlertDialog.setCancelable(false);
 

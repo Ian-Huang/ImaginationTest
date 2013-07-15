@@ -133,7 +133,7 @@ public class Activity5Page extends Activity {
 			MyAlertDialog.setPositiveButton("確定", OkClick);
 			MyAlertDialog.setNegativeButton("取消", CancelClick);
 		} else {
-			MyAlertDialog.setMessage("未填寫完成");
+			MyAlertDialog.setMessage("想像力特質量表未填寫完成！");
 			MyAlertDialog.setNeutralButton("確定", CancelClick);
 		}
 

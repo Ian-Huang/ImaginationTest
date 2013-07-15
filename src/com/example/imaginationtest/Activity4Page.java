@@ -361,7 +361,7 @@ public class Activity4Page extends Activity {
 					Act4_EraserButton.setText("橡皮擦");
 					currentPaintType = PaintType.Black;
 				} else if (currentPaintType == PaintType.Black) {
-					Act4_EraserButton.setText("黑筆");
+					Act4_EraserButton.setText("畫筆");
 					currentPaintType = PaintType.Eraser;
 				}
 			}
@@ -533,7 +533,7 @@ public class Activity4Page extends Activity {
 		// 設定對話框標題
 		MyAlertDialog.setTitle("活動四");
 		// 設定對話框內容
-		MyAlertDialog.setMessage("時間到  停止作答！！");
+		MyAlertDialog.setMessage("時間到  停止作答！");
 		// 設定不能被取消
 		MyAlertDialog.setCancelable(false);
 

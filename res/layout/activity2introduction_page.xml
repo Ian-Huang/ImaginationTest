@@ -34,8 +34,21 @@
                 android:layout_marginRight="@dimen/activity_horizontal_margin"
                 android:layout_marginTop="@dimen/activity_vertical_margin"
                 android:layout_weight="0.00"
-                android:text="        假想這是一個真實發生的情境：「這時候正在下大雨，但是路上的行人們走在雨中，且沒有拿任何雨具（雨衣或雨傘）或遮蔽物，卻沒有淋溼。」是什麼原因，才會導致這樣的情形發生呢？請你儘量列出各種可能的原因，寫在下面的格子中；請你儘可能猜測各種原因，而不必擔心這個想法好不好。"
+                android:text="        假想這是一個真實發生的情境：「這時候正在下大雨，但是路上的行人們走在雨中，在沒有任何雨具（雨衣或雨傘）或遮蔽物的情況下，卻沒有淋溼。」到底是什麼原因，才會導致這樣的情形發生呢？請發揮想像力列舉各種可能的原因，而不必擔心這個想法好不好。"
                 android:textSize="@dimen/font_size" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:gravity="center_vertical|center_horizontal|center"
+                android:text="～這個活動的時間是5分鐘！～"
+                android:textColor="@color/RedColor"
+                android:textSize="@dimen/font_size_small"
+                android:textStyle="bold" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -45,9 +58,10 @@
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
                 android:layout_marginRight="@dimen/activity_horizontal_margin"
                 android:layout_marginTop="@dimen/activity_vertical_margin"
-                android:text="這個活動時間是五分鐘。"
+                android:gravity="center_vertical|center_horizontal|center"
+                android:text="請在指導語結束後，再按下「開始作答」鍵！"
                 android:textColor="@color/RedColor"
-                android:textSize="@dimen/font_size"
+                android:textSize="@dimen/font_size_small"
                 android:textStyle="bold" />
 
             <Button
@@ -57,11 +71,9 @@
                 android:layout_gravity="center"
                 android:layout_marginBottom="@dimen/activity_vertical_margin"
                 android:layout_marginTop="@dimen/activity_vertical_margin"
-                android:text="開始測驗"
+                android:text="開始作答"
                 android:textSize="@dimen/font_size" />
-
         </LinearLayout>
-
     </ScrollView>
 
 </LinearLayout>

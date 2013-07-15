@@ -353,7 +353,7 @@ public class Activity3Page2 extends Activity {
 		// 設定對話框標題
 		MyAlertDialog.setTitle("活動三");
 		// 設定對話框內容
-		MyAlertDialog.setMessage("時間到  停止作答！！\n進入下一活動");
+		MyAlertDialog.setMessage("時間到  停止作答！\n進入下一活動");
 		// 設定不能被取消
 		MyAlertDialog.setCancelable(false);
 		// Button觸發後的設定
@@ -400,7 +400,7 @@ public class Activity3Page2 extends Activity {
 		// 如果沒有定義標題，新給一個填入框
 		PictureName_editText = (EditText) findViewById(R.id.Act3_2PictureName_editText);
 		if (PictureName_editText.getText().toString().isEmpty() == true) {
-			MyAlertDialog.setMessage("時間到  停止作答！！\n進入下一活動 \n 請在下方輸入標題名稱：");
+			MyAlertDialog.setMessage("時間到  停止作答！\n進入下一活動 \n 請在下方輸入標題");
 			pictureName = new EditText(this);
 			MyAlertDialog.setView(pictureName);
 		}

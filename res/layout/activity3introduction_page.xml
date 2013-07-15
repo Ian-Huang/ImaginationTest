@@ -24,7 +24,6 @@
             android:layout_alignParentRight="true"
             android:text="下一頁"
             android:textSize="@dimen/font_size_title" />
-
     </RelativeLayout>
 
 </LinearLayout>
