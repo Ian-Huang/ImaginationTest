@@ -368,6 +368,11 @@ public class Activity4Page extends Activity {
 			public void onClick(View v) {
 
 				currentPaintType = PaintType.Eraser;
+				
+				
+				Act4_EraserButton.setEnabled(false);
+				Act4_PaintButton.setEnabled(true);
+				
 				/*
 				if (currentPaintType == PaintType.Eraser) {
 					Act4_EraserButton.setText("¾ó¥ÖÀ¿");
@@ -440,10 +445,16 @@ public class Activity4Page extends Activity {
 		this.Act4_PaintButton.setOnClickListener(new Button.OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				
+				Act4_EraserButton.setEnabled(true);
+				Act4_PaintButton.setEnabled(false);
+				
+				////////////////////////////////////////
+
 				currentPaintType = PaintType.Black;
 				paintTrigger ^= true;
 				if(paintTrigger)
-					currentStrokeWidth = 2.5F;				
+					currentStrokeWidth = 5F;				
 				else
 					currentStrokeWidth = 5F;
 				

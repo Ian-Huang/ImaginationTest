@@ -185,6 +185,11 @@ public class Activity3Page2 extends Activity {
 			@Override
 			public void onClick(View v) {
 				currentPaintType = PaintType.Black;
+				
+				blackPaintButton.setEnabled(false);
+				grayPaintButton.setEnabled(true);
+				eraserButton.setEnabled(true);
+				
 			}
 		});
 		// ----------------------
@@ -195,6 +200,10 @@ public class Activity3Page2 extends Activity {
 			@Override
 			public void onClick(View v) {
 				currentPaintType = PaintType.Gray;
+				
+				blackPaintButton.setEnabled(true);
+				grayPaintButton.setEnabled(false);
+				eraserButton.setEnabled(true);
 			}
 		});
 		// ----------------------
@@ -206,6 +215,10 @@ public class Activity3Page2 extends Activity {
 			@Override
 			public void onClick(View v) {
 				currentPaintType = PaintType.Eraser;
+				
+				blackPaintButton.setEnabled(true);
+				grayPaintButton.setEnabled(true);
+				eraserButton.setEnabled(false);
 			}
 		});
 		// ----------------------
