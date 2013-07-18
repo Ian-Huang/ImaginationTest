@@ -41,10 +41,12 @@ public class Activity4Page extends Activity {
 	class PaintData {
 		private Path paintPath;
 		private PaintType paintType;
+		private float paintSize;
 
-		PaintData(Path path, PaintType type) {
+		PaintData(Path path, PaintType type,float size) {
 			this.paintPath = path;
 			this.paintType = type;
+			this.paintSize = size;
 		}
 	}
 
@@ -55,6 +57,7 @@ public class Activity4Page extends Activity {
 	private ArrayList<PaintData>[] drawPaintDataList = new ArrayList[picMaxCount
 			* pageMaxCount];
 	private Path currentPath;
+	
 	// ------------------------------------
 
 	// ----畫筆初始化----
@@ -73,7 +76,7 @@ public class Activity4Page extends Activity {
 	private Button Act4_UndoButton;
 	private Button Act4_NextPageButton;
 	private Button Act4_PreviousPageButton;
-	private Button Act4_SaveFileButton;
+	private Button Act4_PaintButton;
 	private Button Act4_NextActivity;
 	// ------------------------------------
 
@@ -99,7 +102,7 @@ public class Activity4Page extends Activity {
 	private long Countdown_Time = 600; // 倒數計時總時間 ( 單位:秒)
 
 	// 總頁數
-	private static int pageMaxCount = 28;
+	private static int pageMaxCount = 20;
 	// 每頁圖片數
 	private static int picMaxCount = 2;
 	// 每頁的文字資訊
@@ -126,6 +129,13 @@ public class Activity4Page extends Activity {
 
 	private CountDownTimer timer;
 	private boolean isTimeFinish = false;
+	
+	//當前畫筆大小
+	private float currentStrokeWidth = 5F;
+	
+	
+	//筆畫按鈕的開關用於切換原本狀態
+	boolean paintTrigger = false;
 
 	private void paintInit() {
 
@@ -357,6 +367,8 @@ public class Activity4Page extends Activity {
 			@Override
 			public void onClick(View v) {
 
+				currentPaintType = PaintType.Eraser;
+				/*
 				if (currentPaintType == PaintType.Eraser) {
 					Act4_EraserButton.setText("橡皮擦");
 					currentPaintType = PaintType.Black;
@@ -364,6 +376,7 @@ public class Activity4Page extends Activity {
 					Act4_EraserButton.setText("畫筆");
 					currentPaintType = PaintType.Eraser;
 				}
+				*/
 			}
 		});
 		// ///////////////////////////////////////////////////////////////////////////
@@ -422,6 +435,22 @@ public class Activity4Page extends Activity {
 		});
 		// ///////////////////////////////////////////////////////////////////////////
 
+		// 畫筆Button回饋
+		this.Act4_PaintButton = (Button) findViewById(R.id.Act4_PaintButton);
+		this.Act4_PaintButton.setOnClickListener(new Button.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				currentPaintType = PaintType.Black;
+				paintTrigger ^= true;
+				if(paintTrigger)
+					currentStrokeWidth = 2.5F;				
+				else
+					currentStrokeWidth = 5F;
+				
+				BlackPaint.setStrokeWidth(currentStrokeWidth);
+			}
+		});
+		// ///////////////////////////////////////////////////////////////////////////
 	}
 
 	// 儲存圖片
@@ -477,7 +506,7 @@ public class Activity4Page extends Activity {
 			this.Act4_PreviousPageButton.setEnabled(false);
 		else
 			this.Act4_PreviousPageButton.setEnabled(true);
-		if (CurrentPage == 28)
+		if (CurrentPage == pageMaxCount)
 			this.Act4_NextPageButton.setEnabled(false);
 		else
 			this.Act4_NextPageButton.setEnabled(true);
@@ -606,6 +635,7 @@ public class Activity4Page extends Activity {
 				for (PaintData data : drawPaintDataList[CurrentPanel]) {
 					switch (data.paintType) {
 					case Black:
+						BlackPaint.setStrokeWidth(data.paintSize);
 						canvas.drawPath(data.paintPath, BlackPaint);
 						break;
 					case Eraser:
@@ -661,7 +691,7 @@ public class Activity4Page extends Activity {
 						currentPath.moveTo(event.getX(), event.getY());
 
 						PaintData pData = new PaintData(currentPath,
-								currentPaintType);
+								currentPaintType,currentStrokeWidth);
 						drawPaintDataList[CurrentClickPanel].add(pData);
 
 						return true;

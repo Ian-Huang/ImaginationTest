@@ -11,6 +11,14 @@
         android:orientation="horizontal" >
 
         <Button
+            android:id="@+id/Act4_PaintButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="畫筆"
+            android:textSize="@dimen/font_size_small" />
+
+        <Button
             android:id="@+id/Act4_EraserButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
