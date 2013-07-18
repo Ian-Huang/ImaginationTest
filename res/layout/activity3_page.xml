@@ -104,7 +104,7 @@
                 android:id="@+id/Act3_MoveButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="移動"
+                android:text="移動與縮放"
                 android:textSize="@dimen/font_size_small" />
 
             <Button

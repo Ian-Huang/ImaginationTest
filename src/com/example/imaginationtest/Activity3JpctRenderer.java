@@ -239,6 +239,20 @@ public class Activity3JpctRenderer implements Renderer {
 			deltaTranslatePositionX = 0;
 			deltaTranslatePositionY = 0;
 			// ---處理移動(Translate Position: X,Y)---end
+			
+			// ---處理放大縮小(Scale)---begin
+			if (deltaScale != 0) {
+				float currentScale = obj.getScale() + deltaScale;
+				if (currentScale <= 0.5f) {
+					obj.setScale(0.5f);
+				} else if (currentScale >= 1.5f) {
+					obj.setScale(1.5f);
+				} else {
+					obj.setScale(currentScale);
+				}
+				deltaScale = 0;
+			}
+			// ---處理放大縮小(Scale)---end
 			break;
 
 		case Rotate:
@@ -266,20 +280,6 @@ public class Activity3JpctRenderer implements Renderer {
 			// ---處理深度(Translate Depth: Z軸)---end
 			break;
 		}
-
-		// ---處理放大縮小(Scale)---begin
-		if (deltaScale != 0) {
-			float currentScale = obj.getScale() + deltaScale;
-			if (currentScale <= 0.5f) {
-				obj.setScale(0.5f);
-			} else if (currentScale >= 1.5f) {
-				obj.setScale(1.5f);
-			} else {
-				obj.setScale(currentScale);
-			}
-			deltaScale = 0;
-		}
-		// ---處理放大縮小(Scale)---end
 	}
 
 	// 處理讀取Asset資料夾內的模型
