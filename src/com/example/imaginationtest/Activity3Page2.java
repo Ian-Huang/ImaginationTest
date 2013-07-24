@@ -29,6 +29,7 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.threed.jpct.Logger;
 
@@ -521,6 +522,13 @@ public class Activity3Page2 extends Activity {
 				timerTextView.setText("剩餘時間    "
 						+ String.format("%02d", totalSec / 60) + "："
 						+ String.format("%02d", totalSec % 60));
+				
+				//剩餘一分鐘的Toast
+				if( totalSec / 60 == 1 && totalSec % 60==0)
+				{
+					Toast.makeText(getApplicationContext(), "剩下一分鐘，請記得填寫標題！",  Toast.LENGTH_SHORT).show();
+				}
+				
 			}
 		};
 		timer.start();
