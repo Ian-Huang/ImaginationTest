@@ -421,6 +421,9 @@ public class Activity3Page extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 
 		super.onCreate(savedInstanceState);
+		
+		this.timerTextView = (TextView) findViewById(R.id.Act3_Timer_textView);
+		
 		setContentView(R.layout.activity3_page);
 
 		ButtonInit();
