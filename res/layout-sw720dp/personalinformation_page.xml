@@ -192,7 +192,7 @@
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
                 android:layout_marginRight="@dimen/activity_horizontal_margin"
                 android:layout_marginTop="@dimen/activity_vertical_margin"
-                android:text="開始測驗"
+                android:text="進入活動"
                 android:textSize="@dimen/font_size" />
         </LinearLayout>
     </ScrollView>

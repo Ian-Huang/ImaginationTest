@@ -8,27 +8,14 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".HomePage" >
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="center" >
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:orientation="vertical" >
-
-            <ImageButton
-                android:id="@+id/HomePage_ImageView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:background="#FFFFFFFF"
-                android:scaleType="fitCenter"
-                android:src="@drawable/homepage_picture" />
-
-        </LinearLayout>
-    </ScrollView>
+    <ImageView
+        android:id="@+id/HomePage_ImageView"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_gravity="center"
+        android:background="#FFFFFFFF"
+        android:clickable="true"
+        android:scaleType="centerInside"
+        android:src="@drawable/homepage_picture" />
 
 </LinearLayout>

@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -21,7 +21,7 @@
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
                 android:layout_marginRight="@dimen/activity_horizontal_margin"
                 android:layout_marginTop="@dimen/activity_vertical_margin"
-                android:text="活動二"
+                android:text="活動三"
                 android:textSize="@dimen/font_size_title"
                 android:textStyle="bold" />
 
@@ -34,7 +34,11 @@
                 android:layout_marginRight="@dimen/activity_horizontal_margin"
                 android:layout_marginTop="@dimen/activity_vertical_margin"
                 android:layout_weight="0.00"
-                android:text="        假想這是一個真實發生的情境：「這時候正在下大雨，但是路上的行人們走在雨中，在沒有任何雨具（雨衣或雨傘）或遮蔽物的情況下，卻沒有淋溼。」到底是什麼原因，才會導致這樣的情形發生呢？請發揮想像力列舉各種可能的原因，而不必擔心這個想法好不好。"
+                android:text="        這裡有一些圖形，現在要請你發揮想像力想出一幅完整的圖畫或是一件新發明，讓它包含下列所有的圖形。
+你可以將這些圖形旋轉、放大縮小、調整深遠或是將幾個圖形組合成一個圖形，除了這些圖形之外，你可以加上其他線條或圖形，但是請注意：
+1.	這三個圖形都要用在圖畫中。
+2.	這三個圖形都只能各出現一次。
+請你盡量想出別人想不到的圖案、故事或發明，畫完之後幫它取一個名字或下一個標題，填在上方的標題輸入列中。同樣的，也請你想出一個特別的標題，讓圖畫變得更有意思。"
                 android:textSize="@dimen/font_size" />
 
             <TextView
@@ -45,7 +49,7 @@
                 android:layout_marginRight="@dimen/activity_horizontal_margin"
                 android:layout_marginTop="@dimen/activity_vertical_margin"
                 android:gravity="center_vertical|center_horizontal|center"
-                android:text="～這個活動的時間是5分鐘！～"
+                android:text="～這個活動的時間是10分鐘！～"
                 android:textColor="@color/RedColor"
                 android:textSize="@dimen/font_size_small"
                 android:textStyle="bold" />
@@ -65,7 +69,7 @@
                 android:textStyle="bold" />
 
             <Button
-                android:id="@+id/act2Introduction_StartTestButton"
+                android:id="@+id/act3Introduction2_StartTestButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
