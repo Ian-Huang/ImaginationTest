@@ -186,11 +186,11 @@ public class Activity3Page2 extends Activity {
 			@Override
 			public void onClick(View v) {
 				currentPaintType = PaintType.Black;
-				
+
 				blackPaintButton.setEnabled(false);
 				grayPaintButton.setEnabled(true);
 				eraserButton.setEnabled(true);
-				
+
 			}
 		});
 		// ----------------------
@@ -201,7 +201,7 @@ public class Activity3Page2 extends Activity {
 			@Override
 			public void onClick(View v) {
 				currentPaintType = PaintType.Gray;
-				
+
 				blackPaintButton.setEnabled(true);
 				grayPaintButton.setEnabled(false);
 				eraserButton.setEnabled(true);
@@ -216,7 +216,7 @@ public class Activity3Page2 extends Activity {
 			@Override
 			public void onClick(View v) {
 				currentPaintType = PaintType.Eraser;
-				
+
 				blackPaintButton.setEnabled(true);
 				grayPaintButton.setEnabled(true);
 				eraserButton.setEnabled(false);
@@ -522,13 +522,13 @@ public class Activity3Page2 extends Activity {
 				timerTextView.setText("剩餘時間    "
 						+ String.format("%02d", totalSec / 60) + "："
 						+ String.format("%02d", totalSec % 60));
-				
-				//剩餘一分鐘的Toast
-				if( totalSec / 60 == 1 && totalSec % 60==0)
-				{
-					Toast.makeText(getApplicationContext(), "剩下一分鐘，請記得填寫標題！",  Toast.LENGTH_SHORT).show();
+
+				// 剩餘一分鐘的Toast
+				if (totalSec / 60 == 1 && totalSec % 60 == 0) {
+					Toast.makeText(getApplicationContext(), "剩下一分鐘，請記得填寫標題！",
+							Toast.LENGTH_SHORT).show();
 				}
-				
+
 			}
 		};
 		timer.start();

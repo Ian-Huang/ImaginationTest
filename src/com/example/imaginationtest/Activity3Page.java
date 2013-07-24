@@ -26,9 +26,7 @@ import android.view.SurfaceView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.threed.jpct.Logger;
 
@@ -106,12 +104,11 @@ public class Activity3Page extends Activity {
 	DrawView drawView1;
 
 	public static Bitmap Activity3BitmapPaint;
-	
+
 	private TextView timerTextView;
 	private long Countdown_Time = 300; // 倒數計時總時間 ( 單位:秒)
 	private CountDownTimer timer;
 	private boolean isTimeFinish = false;
-
 
 	private void ButtonInit() {
 
@@ -421,12 +418,10 @@ public class Activity3Page extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 
 		super.onCreate(savedInstanceState);
-		
-		this.timerTextView = (TextView) findViewById(R.id.Act3_Timer_textView);
-		
+
 		setContentView(R.layout.activity3_page);
-		
-		this.StartCountDownTimer();
+
+		this.timerTextView = (TextView) findViewById(R.id.Act3_Timer_textView);
 
 		ButtonInit();
 		paintInit();
@@ -445,8 +440,10 @@ public class Activity3Page extends Activity {
 		drawView1 = new DrawView(this);
 		drawView1.setVisibility(View.INVISIBLE);
 		frameLayout.addView(drawView1);
+
+		this.StartCountDownTimer();
 	}
-	
+
 	// 計時器設定
 	void StartCountDownTimer() {
 
@@ -454,7 +451,6 @@ public class Activity3Page extends Activity {
 
 			@Override
 			public void onFinish() {
-
 				// 時間到後提示進入下一頁
 				if (!isTimeFinish) {
 					timerTextView.setText("剩餘時間    00：00");
@@ -474,7 +470,6 @@ public class Activity3Page extends Activity {
 		timer.start();
 		isTimeFinish = false;
 	}
-
 
 	// new!!
 	public class DrawView extends View {
