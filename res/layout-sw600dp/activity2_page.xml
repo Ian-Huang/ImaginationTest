@@ -43,7 +43,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
         android:layout_marginRight="@dimen/activity_horizontal_margin"
-        android:text="假想這是一個真實發生的情境：「這時候正在下大雨，但是路上的行人們走在雨中，在沒有任何雨具（雨衣或雨傘）或遮蔽物的情況下，卻沒有淋溼。」到底是什麼原因，才會導致這樣的情形發生呢？（5分鐘）"
+        android:text="假想這是一個真實發生的情境：「這時候正在下大雨，但是路上的行人們走在雨中，在沒有任何雨具（雨衣或雨傘）或遮蔽物的情況下，卻沒有淋溼。」到底是什麼原因，才會導致這樣的情形發生呢？"
         android:textSize="@dimen/font_size_small" />
 
     <ScrollView

@@ -355,7 +355,7 @@ public class Activity3Page extends Activity {
 		// 設定對話框標題
 		MyAlertDialog.setTitle("活動三");
 		// 設定對話框內容
-		MyAlertDialog.setMessage("練習結束！！\n進入正式測驗");
+		MyAlertDialog.setMessage("操作練習結束！\n進入正式測驗");
 		// 設定不能被取消
 		MyAlertDialog.setCancelable(false);
 		// Button觸發後的設定

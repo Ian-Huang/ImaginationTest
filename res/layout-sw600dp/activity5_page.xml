@@ -26,7 +26,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
         android:layout_marginRight="@dimen/activity_horizontal_margin"
-        android:text="1.這裡指的想像，指的是你有意或無意在腦海中所聽到、看到或感覺到的畫面、 圖像或影像。"
+        android:text="1.這裡的想像，指的是你有意或無意在腦海中所聽到、看到或感覺到的畫面、圖像或影像。"
         android:textSize="@dimen/font_size_small" />
 
     <TextView
@@ -35,7 +35,7 @@
         android:layout_marginBottom="@dimen/activity_vertical_margin"
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
         android:layout_marginRight="@dimen/activity_horizontal_margin"
-        android:text="2.分數為1分到6分，分數越高，代表題目的描述越符您的真實狀況，請您將符合您狀況的答案「點選」出來 。"
+        android:text="2.分數為1分到6分，分數越高，代表題目的描述越符合你的真實狀況，請你「點選」符合你真實狀況的答案。"
         android:textSize="@dimen/font_size_small" />
 
     <View
@@ -1023,9 +1023,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="請用手指向上拖移，下面還有喔！"
+            android:text="共有15個題目需要點選，請用手指向上拖曳。"
             android:textColor="@color/RedColor"
-            android:textSize="@dimen/font_size_small"
+            android:textSize="@dimen/font_size"
             android:textStyle="bold" />
     </LinearLayout>
 

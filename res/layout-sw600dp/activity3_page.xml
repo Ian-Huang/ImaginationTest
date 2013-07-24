@@ -16,7 +16,7 @@
             android:layout_gravity="center"
             android:layout_marginLeft="@dimen/activity_vertical_margin"
             android:layout_weight="0.15"
-            android:text="活動三操作說明"
+            android:text="五分鐘操作說明"
             android:textSize="@dimen/font_size_title" />
 
         <Button

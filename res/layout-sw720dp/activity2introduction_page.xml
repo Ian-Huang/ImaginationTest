@@ -46,7 +46,6 @@
                 android:layout_marginTop="@dimen/activity_vertical_margin"
                 android:gravity="center_vertical|center_horizontal|center"
                 android:text="～這個活動的時間是5分鐘！～"
-                android:textColor="@color/RedColor"
                 android:textSize="@dimen/font_size_small"
                 android:textStyle="bold" />
 
@@ -60,7 +59,6 @@
                 android:layout_marginTop="@dimen/activity_vertical_margin"
                 android:gravity="center_vertical|center_horizontal|center"
                 android:text="請在指導語結束後，再按下「開始作答」鍵！"
-                android:textColor="@color/RedColor"
                 android:textSize="@dimen/font_size_small"
                 android:textStyle="bold" />
 

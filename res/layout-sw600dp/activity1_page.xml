@@ -43,8 +43,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
         android:layout_marginRight="@dimen/activity_horizontal_margin"
-        android:text="假想你能夠直接跟這個世界上的各種動物溝通，你可能會碰到什麼樣的問題？ 
-(5分鐘)"
+        android:text="假想你能夠直接跟這個世界上的各種動物溝通，你可能會碰到什麼樣的問題？ "
         android:textSize="@dimen/font_size" />
 
     <ScrollView
