@@ -17,7 +17,17 @@
             android:layout_marginLeft="@dimen/activity_vertical_margin"
             android:layout_weight="0.15"
             android:text="五分鐘操作說明"
-            android:textSize="@dimen/font_size_title" />
+            android:textSize="@dimen/font_size_small" />
+
+        <TextView
+            android:id="@+id/Act3_Timer_textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_weight="0.2"
+            android:text="剩餘時間：5：00"
+            android:textSize="@dimen/font_size_small" />
 
         <Button
             android:id="@+id/Act3_StartTest"
