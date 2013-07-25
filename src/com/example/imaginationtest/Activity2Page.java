@@ -73,11 +73,12 @@ public class Activity2Page extends Activity {
 
 			@Override
 			public void onTick(long millisUntilFinished) {
-
-				long totalSec = millisUntilFinished / 1000;
-				timerTextView.setText("剩餘時間    "
-						+ String.format("%02d", totalSec / 60) + "："
-						+ String.format("%02d", totalSec % 60));
+				if (!isTimeFinish) {
+					long totalSec = millisUntilFinished / 1000;
+					timerTextView.setText("剩餘時間    "
+							+ String.format("%02d", totalSec / 60) + "："
+							+ String.format("%02d", totalSec % 60));
+				}
 			}
 		};
 		timer.start();

@@ -517,18 +517,18 @@ public class Activity3Page2 extends Activity {
 
 			@Override
 			public void onTick(long millisUntilFinished) {
+				if (!isTimeFinish) {
+					long totalSec = millisUntilFinished / 1000;
+					timerTextView.setText("剩餘時間    "
+							+ String.format("%02d", totalSec / 60) + "："
+							+ String.format("%02d", totalSec % 60));
 
-				long totalSec = millisUntilFinished / 1000;
-				timerTextView.setText("剩餘時間    "
-						+ String.format("%02d", totalSec / 60) + "："
-						+ String.format("%02d", totalSec % 60));
-
-				// 剩餘一分鐘的Toast
-				if (totalSec / 60 == 1 && totalSec % 60 == 0) {
-					Toast.makeText(getApplicationContext(), "剩下一分鐘，請記得填寫標題！",
-							Toast.LENGTH_SHORT).show();
+					// 剩餘一分鐘的Toast
+					if (totalSec / 60 == 1 && totalSec % 60 == 0) {
+						Toast.makeText(getApplicationContext(),
+								"剩下一分鐘，請記得填寫標題！", Toast.LENGTH_SHORT).show();
+					}
 				}
-
 			}
 		};
 		timer.start();
