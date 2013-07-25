@@ -72,7 +72,7 @@ public class Activity5Page extends Activity {
 		// 設定"填寫完成"Button Listener
 		this.finishButton.setOnClickListener(new Button.OnClickListener() {
 			@Override
-			public void onClick(View v) {
+			public void onClick(View v) {		
 				ShowMsgDialog();
 			}
 		});
@@ -90,35 +90,7 @@ public class Activity5Page extends Activity {
 		// Button觸發後的設定
 		DialogInterface.OnClickListener OkClick = new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int which) {
-
-				// ------PUT JSON DATA------
-				// 活動五答案的key Ac5Q1~Ac5Q15 value是1~6
-
-				try {
-					int i = 1;
-					for (RadioButton[] group : radioButtonCollection) {
-						int j = 1;
-						for (RadioButton button : group) {
-							if (button.isChecked()) {
-								break;
-							}
-							j++;
-						}
-						ParseJSON.PutJsonData("Ac5Q" + String.valueOf(i),
-								String.valueOf(j));
-						i++;
-					}
-					ParseJSON.JsonOutput(true);
-				} catch (JSONException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				// 確定觸發後...
-				Intent intent = new Intent();
-				intent.setClass(Activity5Page.this, EndPage.class);
-				startActivity(intent);
-				Activity5Page.this.finish();
-				// System.exit(0);
+				SetJSON_NewActivity();
 			}
 		};
 		DialogInterface.OnClickListener CancelClick = new DialogInterface.OnClickListener() {
@@ -129,9 +101,13 @@ public class Activity5Page extends Activity {
 
 		// 檢查資料是否齊全
 		if (this.CheckInformationComplete()) {
+			//設定JSON檔與進入新活動
+			SetJSON_NewActivity();
+			/*
 			MyAlertDialog.setMessage("確定完成，不再修改？");
 			MyAlertDialog.setPositiveButton("確定", OkClick);
 			MyAlertDialog.setNegativeButton("取消", CancelClick);
+			*/
 		} else {
 			MyAlertDialog.setMessage("想像力特質量表未填寫完成！");
 			MyAlertDialog.setNeutralButton("確定", CancelClick);
@@ -147,4 +123,37 @@ public class Activity5Page extends Activity {
 		}
 		return true;
 	}
+	
+	void SetJSON_NewActivity()
+	{
+		// ------PUT JSON DATA------
+		// 活動五答案的key Ac5Q1~Ac5Q15 value是1~6
+
+		try {
+			int i = 1;
+			for (RadioButton[] group : radioButtonCollection) {
+				int j = 1;
+				for (RadioButton button : group) {
+					if (button.isChecked()) {
+						break;
+					}
+					j++;
+				}
+				ParseJSON.PutJsonData("Ac5Q" + String.valueOf(i),
+						String.valueOf(j));
+				i++;
+			}
+			ParseJSON.JsonOutput(true);
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		// 確定觸發後...
+		Intent intent = new Intent();
+		intent.setClass(Activity5Page.this, EndPage.class);
+		startActivity(intent);
+		Activity5Page.this.finish();
+		// System.exit(0);
+	}
+	
 }

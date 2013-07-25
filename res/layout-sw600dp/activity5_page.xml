@@ -9,7 +9,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/activity_vertical_margin"
         android:layout_marginRight="@dimen/activity_vertical_margin"
-        android:text="伍、想像力特質"
+        android:text="　　　　　　想像力特質量表"
         android:textSize="@dimen/font_size" />
 
     <TextView
