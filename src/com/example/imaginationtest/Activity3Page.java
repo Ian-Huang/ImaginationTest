@@ -368,6 +368,8 @@ public class Activity3Page extends Activity {
 		// Button觸發後的設定
 		DialogInterface.OnClickListener OkClick = new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int which) {
+				isTimeFinish = true;
+				timer.cancel();
 				// 確定觸發後...
 				Intent intent = new Intent();
 				intent.setClass(Activity3Page.this,
